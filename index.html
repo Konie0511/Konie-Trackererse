@@ -604,6 +604,15 @@
   .area-picker-option{padding:8px 7px}
   .area-progress-input{width:52px !important;min-width:52px}
 }
+
+.area-progress-label{font-size:.58rem;font-weight:900;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.area-progress-arrow{font-size:.8rem;font-weight:900;color:var(--muted)}
+.area-progress-input{width:54px !important;min-width:54px}
+@media(max-width:760px){
+  .area-picker-option{align-items:center;flex-wrap:wrap;row-gap:5px;padding:8px 7px}
+  .area-progress-label{font-size:.55rem}
+  .area-progress-input{width:50px !important;min-width:50px}
+}
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script></head>
 <body>
@@ -1057,12 +1066,22 @@
   window.filterAreaPicker = filterAreaPicker;
 
   let areaProgressMap = {};
+  let areaGoalMap = {};
 
   function updateAreaProgress(area, value){
-    areaProgressMap[area] = Math.max(0, Math.min(100, Number(value) || 0));
-    syncAreaTextareaFromPicker();
+    const current = Math.max(0, Math.min(100, Number(value) || 0));
+    areaProgressMap[area] = current;
+    if(Number(areaGoalMap[area] ?? 100) < current) areaGoalMap[area] = current;
+    renderAreaPicker(getSelectedAreaNames());
   }
   window.updateAreaProgress = updateAreaProgress;
+
+  function updateAreaGoal(area, value){
+    const current = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
+    areaGoalMap[area] = Math.max(current, Math.min(100, Number(value) || 0));
+    renderAreaPicker(getSelectedAreaNames());
+  }
+  window.updateAreaGoal = updateAreaGoal;
 
   function getAreaProgressData(){
     return Object.fromEntries(
@@ -1073,8 +1092,21 @@
     );
   }
 
-  function renderAreaPicker(existingNames = null, existingProgress = null){
+  function getAreaGoalData(){
+    return Object.fromEntries(
+      getSelectedAreaNames().map(name => [
+        name,
+        Math.max(
+          Number(areaProgressMap[name] ?? 0) || 0,
+          Math.min(100, Number(areaGoalMap[name] ?? 100) || 100)
+        )
+      ])
+    );
+  }
+
+  function renderAreaPicker(existingNames = null, existingProgress = null, existingGoals = null){
     if(existingProgress && typeof existingProgress === 'object') areaProgressMap = {...existingProgress};
+    if(existingGoals && typeof existingGoals === 'object') areaGoalMap = {...existingGoals};
     const host = $("areaPicker");
     if(!host) return;
     const games = selectedGameValues();
@@ -1103,16 +1135,24 @@
           <div class="area-picker-list">`;
         areas.forEach(area => {
           const checked = wanted.has(area) ? " checked" : "";
-          const progress = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
+          const current = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
+          const goal = Math.max(current, Math.min(100, Number(areaGoalMap[area] ?? 100) || 100));
           const search = `${game} ${region} ${area}`;
+          const safeArea = escapeHTML(area).replace(/'/g,"&#039;");
           html += `<div class="area-picker-option" data-search="${escapeHTML(search)}">
             <label style="display:flex;align-items:center;gap:7px;min-width:0;flex:1;margin:0">
               <input type="checkbox" name="areaPicker" value="${escapeHTML(area)}"${checked} onchange="syncAreaTextareaFromPicker()">
               <span>${escapeHTML(area)}</span>
             </label>
+            <span class="area-progress-label">Current</span>
             <input class="area-progress-input" type="number" min="0" max="100" step="1"
-              value="${progress}" aria-label="${escapeHTML(area)} current progress"
-              onchange="updateAreaProgress('${escapeHTML(area).replace(/'/g,"&#039;")}',this.value)">
+              value="${current}" aria-label="${escapeHTML(area)} current progress"
+              onchange="updateAreaProgress('${safeArea}',this.value)">
+            <span class="area-progress-symbol">%</span>
+            <span class="area-progress-arrow">→</span>
+            <input class="area-progress-input" type="number" min="${current}" max="100" step="1"
+              value="${goal}" aria-label="${escapeHTML(area)} goal progress"
+              onchange="updateAreaGoal('${safeArea}',this.value)">
             <span class="area-progress-symbol">%</span>
           </div>`;
         });
@@ -1201,10 +1241,24 @@
   }
   window.updateSizeUI = updateSizeUI;
 
-  function automaticDeadline(){
-    const size = document.querySelector('input[name="size"]:checked').value;
-    const d = new Date();
+  function automaticDeadline(startDateString=null){
+    const d = startDateString
+      ? new Date(startDateString + "T12:00:00")
+      : new Date();
+
     d.setHours(12,0,0,0);
+
+    const workloadInput = $("clientWorkload")?.value?.trim() || "";
+    const workloadValue = workloadInput ? Number(workloadInput) : 0;
+    const workloadUnit = $("clientWorkloadUnit")?.value || "hours";
+
+    if(workloadUnit === "days" && workloadValue > 0){
+      // 14 estimated days = 14 calendar/work dates starting from the start date.
+      d.setDate(d.getDate() + Math.max(1, Math.ceil(workloadValue)) - 1);
+      return toDateString(d);
+    }
+
+    const size = document.querySelector('input[name="size"]:checked')?.value || "Small";
     d.setDate(d.getDate() + (size === "Small" ? 7 : 14));
     return toDateString(d);
   }
@@ -1221,7 +1275,7 @@
 
   function updateAutomaticDeadline(){
     $("automaticDeadlineHint").textContent =
-      `Automatic deadline: ${prettyDate(automaticDeadline())} (${document.querySelector('input[name="size"]:checked').value})`;
+      `Automatic deadline: ${prettyDate(automaticDeadline())} (based on estimated workload)`;
   }
   window.updateAutomaticDeadline = updateAutomaticDeadline;
 
@@ -1241,6 +1295,7 @@
     $("clientMustType").value = "auto";
     $("explorationArea").value = "";
     areaProgressMap = {};
+    areaGoalMap = {};
     $("eventName").value = "";
     $("pullCount").value = "";
     $("buildingTarget").value = "";
@@ -1566,34 +1621,42 @@
     });
   }
 
-  function pushNamedAreaRows(rows,{name,areaNames,dates,clientId,createdAt,workloadMinutes,person,areaProgress={} }){
+  function pushNamedAreaRows(rows,{name,areaNames,dates,clientId,createdAt,workloadMinutes,person,areaProgress={},areaGoals={} }){
     const list = parseAreaSelection(areaNames);
     if(!list.length || !dates.length) return;
 
-    // Each selected area is treated as a progressive goal.
-    // Example: Base Zone at 80% on Aug 28 -> 100% on Aug 29.
+    // Spread every area's remaining progress across the ENTIRE available
+    // schedule. Day 1 shows current/goal; the last workday reaches the goal.
     list.forEach(area=>{
       const startProgress = Math.max(0, Math.min(100, Number(areaProgress[area] ?? 0) || 0));
-      const count = Math.max(1, dates.length);
+      const goalProgress = Math.max(
+        startProgress,
+        Math.min(100, Number(areaGoals[area] ?? 100) || 100)
+      );
 
-      for(let i=0;i<count;i++){
-        const ratio = count === 1 ? 1 : i/(count-1);
-        const target = Math.round(startProgress + (100-startProgress)*ratio);
-        const previous = i > 0
-          ? Math.round(startProgress + (100-startProgress)*((i-1)/(count-1)))
-          : null;
+      if(startProgress >= goalProgress) return;
 
-        if(i === 0 && startProgress >= 100) continue;
-        if(previous !== null && target <= previous) continue;
+      const dayCount = dates.length;
+      for(let i=0;i<dayCount;i++){
+        const ratio = dayCount <= 1 ? 1 : i/(dayCount-1);
+        const currentForDay = Math.round(startProgress + (goalProgress-startProgress)*ratio);
+
+        // Day 1 displays the starting progress toward the goal.
+        // Following days only appear when the visible percentage advances.
+        if(i > 0){
+          const previousRatio = (i-1)/(dayCount-1);
+          const previousProgress = Math.round(startProgress + (goalProgress-startProgress)*previousRatio);
+          if(currentForDay <= previousProgress) continue;
+        }
 
         rows.push(makeTodoRow({
           name,
-          task:`${area}: ${target}%`,
+          task:`${area}: ${currentForDay}% / ${goalProgress}%`,
           assignee:person,
           clientId,
           createdAt,
           scheduledDate:dates[i],
-          personMinutes:workloadMinutes>0 ? workloadMinutes/Math.max(list.length,1) : null,
+          personMinutes:workloadMinutes>0 ? workloadMinutes/Math.max(dayCount,1) : null,
           splitRole:"progressive-area",
           category:"areas"
         }));
@@ -1606,6 +1669,8 @@
     explorationQuests=0, explorationDone=0,
     areas=0, areasDone=0,
     areaNames=[],
+    areaProgress={},
+    areaGoals={},
     questNames=[],
     eventNames=[],
     buildingTargets=[],
@@ -1657,11 +1722,32 @@
         if(namedAreas.length){
           const doneCount=Math.min(namedAreas.length, Math.max(0, Math.floor(Number(areasDone)||0)));
           const remainingNames=namedAreas.slice(doneCount);
-          const gelliCount=Math.ceil(remainingNames.length/2);
-          const gelliNames=remainingNames.slice(0,gelliCount);
-          const yannaNames=remainingNames.slice(gelliCount);
-          pushNamedAreaRows(rows,{name,areaNames:gelliNames,areaProgress,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
-          pushNamedAreaRows(rows,{name,areaNames:yannaNames,areaProgress,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
+
+          // Even count: split evenly.
+          // Odd count: split the unique items evenly and let the LAST item
+          // become shared 50/50. Example: Enk, Vida, Ekli ->
+          // Yanna: Enk + Ekli (50%), Gelli: Vida + Ekli (50%).
+          const isOdd=remainingNames.length % 2 === 1;
+          const sharedName=isOdd ? remainingNames[remainingNames.length-1] : null;
+          const uniqueNames=isOdd ? remainingNames.slice(0,-1) : remainingNames;
+          const half=uniqueNames.length/2;
+          const yannaNames=uniqueNames.slice(0,half);
+          const gelliNames=uniqueNames.slice(half);
+
+          pushNamedAreaRows(rows,{name,areaNames:gelliNames,areaProgress,areaGoals,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
+          pushNamedAreaRows(rows,{name,areaNames:yannaNames,areaProgress,areaGoals,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
+
+          if(sharedName){
+            const sharedProgress={...areaProgress};
+            const sharedGoals={...areaGoals};
+            // Both people get the same shared target, marked 50% responsibility.
+            pushNamedAreaRows(rows,{name,areaNames:[sharedName],areaProgress:sharedProgress,areaGoals:sharedGoals,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/4,person:"Gelli"});
+            pushNamedAreaRows(rows,{name,areaNames:[sharedName],areaProgress:sharedProgress,areaGoals:sharedGoals,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/4,person:"Yanna"});
+            rows.filter(r=>r.task && r.task.startsWith(sharedName + ":")).forEach(r=>{
+              r.task += " · 50%";
+              r.splitRole="shared-50-progressive";
+            });
+          }
         }else{
           const {first,second}=splitEvenly(areaTotal);
           pushCountRows(rows,{name,label:"Areas",total:first,category:"areas",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
@@ -1713,7 +1799,7 @@
       if(remaining.areas){
         if(namedAreas.length){
           const doneCount=Math.min(namedAreas.length, Math.max(0, Math.floor(Number(areasDone)||0)));
-          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),areaProgress,dates:pDates,clientId,createdAt,workloadMinutes,person:p});
+          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),areaProgress,areaGoals,dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }else{
           pushCountRows(rows,{name,label:"Areas",total:remaining.areas,category:"areas",dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }
@@ -1910,21 +1996,21 @@
     const workloadMinutes = workloadValue > 0
       ? (workloadUnit === "days" ? workloadValue * 8 * 60 : workloadValue * 60)
       : 0;
-    const deadline = $("clientDeadline").value || automaticDeadline();
+    const startDateString = toDateString(new Date());
+    const deadline = $("clientDeadline").value || automaticDeadline(startDateString);
 
     if(!name){
       alert("Please enter a client name.");
       return;
     }
 
-    const startDateString = toDateString(new Date());
     const id = db ? dbPush(dbRef("clients")).key : localId("client");
     const createdAt = Date.now();
 
     const client = {
       name, emailUser, password, additional,
       servers, games, taskTypes, questTypes,
-      explorationArea, areaNames, areaProgress, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
+      explorationArea, areaNames, areaProgress, areaGoals, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
       task, size, assignee, price,
       explorationQuests, explorationDone, areas, areasDone, quests, questsDone, events, eventsDone, currentStatus, extraTodo, mustType,
       workload: workloadMinutes,
@@ -1972,6 +2058,8 @@
       areas,
       areasDone,
       areaNames,
+      areaProgress,
+      areaGoals,
       questNames,
       eventNames,
       buildingTargets,
@@ -2054,7 +2142,7 @@
     $("clientDeadline").value = c.manuallyOverridden ? (c.deadline || "") : "";
     document.querySelector(`input[name="size"][value="${c.size || "Small"}"]`).checked = true;
     updateTaskConditionalFields();
-    renderAreaPicker(c.areaNames || [], c.areaProgress || {});
+    renderAreaPicker(c.areaNames || [], c.areaProgress || {}, c.areaGoals || {});
     updateSizeUI();
     const addBtn = document.querySelector('#addClientSection .primary');
     if(addBtn) addBtn.textContent = 'Save Changes';
@@ -2105,11 +2193,11 @@
     const workloadValue = workloadInput ? Number(workloadInput) : 0;
     const workloadUnit = $("clientWorkloadUnit").value;
     const workloadMinutes = workloadValue > 0 ? (workloadUnit === "days" ? workloadValue*8*60 : workloadValue*60) : 0;
-    const deadline = $("clientDeadline").value || old.deadline || automaticDeadline();
+    const deadline = $("clientDeadline").value || (!old.manuallyOverridden ? automaticDeadline(old.startDate || toDateString(new Date())) : (old.deadline || automaticDeadline(old.startDate || toDateString(new Date()))));
 
     const updated = {...old,
       name,emailUser,password,additional,servers,games,taskTypes,questTypes,
-      explorationArea,areaNames,areaProgress,questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
+      explorationArea,areaNames,areaProgress,areaGoals,questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
       explorationQuests,explorationDone,areas,areasDone,quests,questsDone,events,eventsDone,currentStatus,extraTodo,mustType,
       workload:workloadMinutes,workloadValue,workloadUnit,deadline,
       manuallyOverridden:Boolean($("clientDeadline").value),updatedAt:Date.now()
@@ -2144,6 +2232,8 @@
       areas,
       areasDone,
       areaNames,
+      areaProgress,
+      areaGoals,
       questNames,
       eventNames,
       buildingTargets,
