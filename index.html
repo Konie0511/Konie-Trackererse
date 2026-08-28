@@ -613,6 +613,86 @@
   .area-progress-label{font-size:.55rem}
   .area-progress-input{width:50px !important;min-width:50px}
 }
+
+/* Dark mode cleanup + larger progress controls */
+[data-theme="dark"] .area-picker-wrap{
+  background:#182733 !important;
+  border-color:#355266 !important;
+  color:#EAF3F7;
+}
+[data-theme="dark"] .area-picker-game{
+  background:#1E3141 !important;
+  border-color:#355266 !important;
+}
+[data-theme="dark"] .area-picker-region{
+  border-top-color:#355266 !important;
+}
+[data-theme="dark"] .area-picker-region-head strong,
+[data-theme="dark"] .area-picker-option,
+[data-theme="dark"] .area-picker-option span{
+  color:#EAF3F7 !important;
+}
+[data-theme="dark"] .area-picker-option:hover{
+  background:#284A60 !important;
+}
+[data-theme="dark"] .area-picker-search,
+[data-theme="dark"] .area-progress-input{
+  background:#10202D !important;
+  color:#F3F8FA !important;
+  border-color:#46677D !important;
+}
+[data-theme="dark"] .area-picker-search::placeholder{
+  color:#8FA7B7 !important;
+}
+[data-theme="dark"] .area-progress-label,
+[data-theme="dark"] .area-progress-symbol,
+[data-theme="dark"] .area-progress-arrow{
+  color:#AFC2CE !important;
+}
+.area-progress-input{
+  width:68px !important;
+  min-width:68px !important;
+  height:42px;
+  padding:7px 8px !important;
+  font-size:.85rem !important;
+  font-weight:950;
+}
+.area-progress-label{font-size:.65rem !important}
+.area-progress-arrow{font-size:1rem !important}
+.area-progress-symbol{font-size:.85rem !important}
+@media(max-width:760px){
+  .area-progress-input{
+    width:62px !important;
+    min-width:62px !important;
+    height:40px;
+  }
+}
+
+.client-actions .primary,
+.client-actions .secondary,
+.client-actions .danger-btn,
+.form-actions .primary,
+.form-actions .secondary{
+  min-height:44px;
+  touch-action:manipulation;
+}
+@media(max-width:760px){
+  .client-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:9px;
+  }
+  .client-actions button{
+    width:100%;
+  }
+  .form-actions{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .form-actions button{
+    width:100%;
+  }
+}
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script></head>
 <body>
@@ -1975,6 +2055,7 @@
     const explorationArea = $("explorationArea").value.trim();
     const areaNames = parseAreaNames(explorationArea);
     const areaProgress = getAreaProgressData();
+    const areaGoals = getAreaGoalData();
     const questNames = parseAreaNames($("questNames").value);
     const eventNames = parseAreaNames($("eventNames").value);
     const eventName = eventNames.join("\n");
@@ -2044,10 +2125,23 @@
       completed:false
     };
 
+    let savedRemotely = false;
     if(db){
-      await dbSet(dbRef(`clients/${id}`), client);
-      await dbSet(dbRef(`events/${id}`), event);
-    }else{
+      try{
+        await dbSet(dbRef(`clients/${id}`), client);
+        await dbSet(dbRef(`events/${id}`), event);
+        savedRemotely = true;
+      }catch(err){
+        console.error("Firebase add failed:", err);
+        db = null;
+        $("liveStatus").textContent = "● LOCAL FALLBACK";
+        $("liveStatus").classList.add("offline");
+        $("livePill").textContent = "LOCAL FALLBACK";
+        toast("Firebase write failed — saving this client locally.");
+      }
+    }
+
+    if(!savedRemotely){
       liveClients[id] = client;
       liveEvents[id] = event;
     }
@@ -2087,7 +2181,15 @@
 
     for(const t of taskRows){
       const tid = db ? dbPush(dbRef("todos")).key : localId("todo");
-      if(db) await dbSet(dbRef(`todos/${tid}`), t);
+      try{
+        if(db) await dbSet(dbRef(`todos/${tid}`), t);
+      }catch(err){
+        console.error("Firebase todo write failed:", err);
+        db = null;
+        $("liveStatus").textContent = "● LOCAL FALLBACK";
+        $("liveStatus").classList.add("offline");
+        $("livePill").textContent = "LOCAL FALLBACK";
+      }
       liveTodos[tid] = t;
     }
 
@@ -2384,11 +2486,21 @@
       renderStats();
 
       if(db){
-        await Promise.all([
-          dbRemove(dbRef(`clients/${id}`)),
-          dbRemove(dbRef(`events/${id}`)),
-          ...todoIds.map(tid => dbRemove(dbRef(`todos/${tid}`)))
-        ]);
+        try{
+          await Promise.all([
+            dbRemove(dbRef(`clients/${id}`)),
+            dbRemove(dbRef(`events/${id}`)),
+            ...todoIds.map(tid => dbRemove(dbRef(`todos/${tid}`)))
+          ]);
+        }catch(remoteErr){
+          console.error("Firebase delete failed:", remoteErr);
+          db = null;
+          $("liveStatus").textContent = "● LOCAL FALLBACK";
+          $("liveStatus").classList.add("offline");
+          $("livePill").textContent = "LOCAL FALLBACK";
+          toast("Removed locally; Firebase permission blocked remote deletion.");
+          return;
+        }
       }
       toast("Client deleted.");
     }catch(err){
