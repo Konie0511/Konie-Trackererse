@@ -1072,14 +1072,12 @@
     const current = Math.max(0, Math.min(100, Number(value) || 0));
     areaProgressMap[area] = current;
     if(Number(areaGoalMap[area] ?? 100) < current) areaGoalMap[area] = current;
-    renderAreaPicker(getSelectedAreaNames());
   }
   window.updateAreaProgress = updateAreaProgress;
 
   function updateAreaGoal(area, value){
     const current = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
     areaGoalMap[area] = Math.max(current, Math.min(100, Number(value) || 0));
-    renderAreaPicker(getSelectedAreaNames());
   }
   window.updateAreaGoal = updateAreaGoal;
 
@@ -1147,12 +1145,12 @@
             <span class="area-progress-label">Current</span>
             <input class="area-progress-input" type="number" min="0" max="100" step="1"
               value="${current}" aria-label="${escapeHTML(area)} current progress"
-              onchange="updateAreaProgress('${safeArea}',this.value)">
+              onkeydown="if(event.key==='Enter'){this.blur();}" onblur="updateAreaProgress('${safeArea}',this.value)">
             <span class="area-progress-symbol">%</span>
             <span class="area-progress-arrow">→</span>
             <input class="area-progress-input" type="number" min="${current}" max="100" step="1"
               value="${goal}" aria-label="${escapeHTML(area)} goal progress"
-              onchange="updateAreaGoal('${safeArea}',this.value)">
+              onkeydown="if(event.key==='Enter'){this.blur();}" onblur="updateAreaGoal('${safeArea}',this.value)">
             <span class="area-progress-symbol">%</span>
           </div>`;
         });
@@ -1166,6 +1164,16 @@
   }
 
   function updateGameAreaPicker(){
+    document.querySelectorAll(".area-progress-input").forEach(input=>{
+      const label = input.getAttribute("aria-label") || "";
+      const isGoal = / goal progress$/i.test(label);
+      const area = label.replace(/ (?:current|goal) progress$/i, "");
+      if(!area) return;
+      const value = Math.max(0, Math.min(100, Number(input.value) || 0));
+      if(isGoal) areaGoalMap[area] = value;
+      else areaProgressMap[area] = value;
+    });
+
     const games = selectedGameValues();
     const current = getSelectedAreaNames();
     const valid = current.filter(name =>
