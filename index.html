@@ -161,7 +161,7 @@
   .todo-edit-btn{margin-left:auto}
   .todo-section-label{display:inline-block;border-radius:8px;padding:3px 8px;font-size:.66rem;font-weight:950;margin-top:5px}
   .extra{background:var(--blue-light);color:var(--blue-dark)}
-  @media(max-width:900px){.todo-columns{grid-template-columns:1fr}}
+  @media(max-width:760px){.todo-columns{grid-template-columns:1fr;gap:20px}.todo-card{width:100%;padding:20px 16px 24px}.todo-columns .todo-card{border-radius:18px}}
   .person-title{font-size:1.7rem;font-weight:950;margin-bottom:4px}
   .person-title.gelli{color:var(--gelli)}
   .person-title.yanna{color:var(--yanna)}
@@ -575,6 +575,35 @@
     .area-picker-count{display:block;margin-top:5px}
   }
 
+
+/* Mobile / To-Do polish */
+.todo-card{width:100%}
+.todo-item{gap:12px;margin:7px 0;padding:9px 10px}
+.todo-client-group{margin:8px 0 12px}
+@media(max-width:760px){
+  .todo-columns{display:grid;grid-template-columns:1fr;gap:20px}
+  .todo-card{width:100%;padding:20px 14px 24px}
+  .todo-item{gap:11px;padding:10px 9px}
+  .todo-text{font-size:.92rem;overflow-wrap:anywhere}
+  .todo-controls{width:100%;margin-left:0;margin-top:4px}
+  .todo-controls select{width:100%;min-width:0}
+  .todo-edit-btn{flex:0 0 auto}
+}
+
+.area-progress-input{
+  width:58px !important;
+  min-width:58px;
+  padding:5px 6px !important;
+  text-align:center;
+  border-radius:8px !important;
+  font-size:.72rem;
+  font-weight:900;
+}
+.area-progress-symbol{font-size:.72rem;font-weight:900;color:var(--muted)}
+@media(max-width:760px){
+  .area-picker-option{padding:8px 7px}
+  .area-progress-input{width:52px !important;min-width:52px}
+}
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script></head>
 <body>
@@ -1027,7 +1056,25 @@
   }
   window.filterAreaPicker = filterAreaPicker;
 
-  function renderAreaPicker(existingNames = null){
+  let areaProgressMap = {};
+
+  function updateAreaProgress(area, value){
+    areaProgressMap[area] = Math.max(0, Math.min(100, Number(value) || 0));
+    syncAreaTextareaFromPicker();
+  }
+  window.updateAreaProgress = updateAreaProgress;
+
+  function getAreaProgressData(){
+    return Object.fromEntries(
+      getSelectedAreaNames().map(name => [
+        name,
+        Math.max(0, Math.min(100, Number(areaProgressMap[name] ?? 0) || 0))
+      ])
+    );
+  }
+
+  function renderAreaPicker(existingNames = null, existingProgress = null){
+    if(existingProgress && typeof existingProgress === 'object') areaProgressMap = {...existingProgress};
     const host = $("areaPicker");
     if(!host) return;
     const games = selectedGameValues();
@@ -1056,11 +1103,18 @@
           <div class="area-picker-list">`;
         areas.forEach(area => {
           const checked = wanted.has(area) ? " checked" : "";
+          const progress = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
           const search = `${game} ${region} ${area}`;
-          html += `<label class="area-picker-option" data-search="${escapeHTML(search)}">
-            <input type="checkbox" name="areaPicker" value="${escapeHTML(area)}"${checked} onchange="syncAreaTextareaFromPicker()">
-            <span>${escapeHTML(area)}</span>
-          </label>`;
+          html += `<div class="area-picker-option" data-search="${escapeHTML(search)}">
+            <label style="display:flex;align-items:center;gap:7px;min-width:0;flex:1;margin:0">
+              <input type="checkbox" name="areaPicker" value="${escapeHTML(area)}"${checked} onchange="syncAreaTextareaFromPicker()">
+              <span>${escapeHTML(area)}</span>
+            </label>
+            <input class="area-progress-input" type="number" min="0" max="100" step="1"
+              value="${progress}" aria-label="${escapeHTML(area)} current progress"
+              onchange="updateAreaProgress('${escapeHTML(area).replace(/'/g,"&#039;")}',this.value)">
+            <span class="area-progress-symbol">%</span>
+          </div>`;
         });
         html += `</div></div>`;
       });
@@ -1186,6 +1240,7 @@
     $("clientExtraTodo").value = "";
     $("clientMustType").value = "auto";
     $("explorationArea").value = "";
+    areaProgressMap = {};
     $("eventName").value = "";
     $("pullCount").value = "";
     $("buildingTarget").value = "";
@@ -1511,28 +1566,40 @@
     });
   }
 
-  function pushNamedAreaRows(rows,{name,areaNames,dates,clientId,createdAt,workloadMinutes,person}){
+  function pushNamedAreaRows(rows,{name,areaNames,dates,clientId,createdAt,workloadMinutes,person,areaProgress={} }){
     const list = parseAreaSelection(areaNames);
     if(!list.length || !dates.length) return;
-    // Each selected exploration area gets its OWN checkbox. Spread them across
-    // the available days, never putting more than 3 area goals on one day.
-    const perDay = Math.max(1, Math.min(3, Math.ceil(list.length / dates.length)));
-    list.forEach((area,idx)=>{
-      const dateIndex = Math.min(dates.length - 1, Math.floor(idx / perDay));
-      rows.push(makeTodoRow({
-        name,
-        task:area,
-        assignee:person,
-        clientId,
-        createdAt,
-        scheduledDate:dates[dateIndex],
-        personMinutes:workloadMinutes>0 ? workloadMinutes/Math.max(list.length,1) : null,
-        splitRole:"named-area",
-        category:"areas"
-      }));
+
+    // Each selected area is treated as a progressive goal.
+    // Example: Base Zone at 80% on Aug 28 -> 100% on Aug 29.
+    list.forEach(area=>{
+      const startProgress = Math.max(0, Math.min(100, Number(areaProgress[area] ?? 0) || 0));
+      const count = Math.max(1, dates.length);
+
+      for(let i=0;i<count;i++){
+        const ratio = count === 1 ? 1 : i/(count-1);
+        const target = Math.round(startProgress + (100-startProgress)*ratio);
+        const previous = i > 0
+          ? Math.round(startProgress + (100-startProgress)*((i-1)/(count-1)))
+          : null;
+
+        if(i === 0 && startProgress >= 100) continue;
+        if(previous !== null && target <= previous) continue;
+
+        rows.push(makeTodoRow({
+          name,
+          task:`${area}: ${target}%`,
+          assignee:person,
+          clientId,
+          createdAt,
+          scheduledDate:dates[i],
+          personMinutes:workloadMinutes>0 ? workloadMinutes/Math.max(list.length,1) : null,
+          splitRole:"progressive-area",
+          category:"areas"
+        }));
+      }
     });
   }
-
 
   function scheduleClientTasks({
     name, items, assignee, taskTypes, questTypes, pullCount,
@@ -1593,8 +1660,8 @@
           const gelliCount=Math.ceil(remainingNames.length/2);
           const gelliNames=remainingNames.slice(0,gelliCount);
           const yannaNames=remainingNames.slice(gelliCount);
-          pushNamedAreaRows(rows,{name,areaNames:gelliNames,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
-          pushNamedAreaRows(rows,{name,areaNames:yannaNames,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
+          pushNamedAreaRows(rows,{name,areaNames:gelliNames,areaProgress,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
+          pushNamedAreaRows(rows,{name,areaNames:yannaNames,areaProgress,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
         }else{
           const {first,second}=splitEvenly(areaTotal);
           pushCountRows(rows,{name,label:"Areas",total:first,category:"areas",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
@@ -1646,7 +1713,7 @@
       if(remaining.areas){
         if(namedAreas.length){
           const doneCount=Math.min(namedAreas.length, Math.max(0, Math.floor(Number(areasDone)||0)));
-          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),dates:pDates,clientId,createdAt,workloadMinutes,person:p});
+          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),areaProgress,dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }else{
           pushCountRows(rows,{name,label:"Areas",total:remaining.areas,category:"areas",dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }
@@ -1738,38 +1805,14 @@
     const desiredMustCategory=mustCategoryMap[mustType] || null;
     const desiredMustLabel=mustType && mustType!=="auto" ? mustType : null;
 
+    // Only mark real scheduled work as MUST. Empty days stay empty.
     for(const person of people){
       const personDates=buildScheduleDates(startDateString,deadline,person);
       for(const d of personDates){
         const ds=toDateString(d);
         const dayRows=rows.filter(r=>r.assignee===person && r.scheduledDate===ds && r.category!=="extra");
-
-        if(dayRows.length===0){
-          const label=desiredMustLabel || "Daily Progress";
-          const mustRow=makeTodoRow({
-            name,
-            task:desiredMustLabel ? `${desiredMustLabel}: continue today's goal` : `${label}: complete today's assigned work`,
-            assignee:person,
-            clientId,
-            createdAt,
-            scheduledDate:d,
-            category:desiredMustCategory || "general",
-            splitRole:"daily-must-anchor"
-          });
-          mustRow.priority="MUST";
-          rows.push(mustRow);
-        }
-
-        const updatedDayRows=rows.filter(r=>r.assignee===person && r.scheduledDate===ds && r.category!=="extra");
-        let chosen=updatedDayRows.find(r=>desiredMustCategory && r.category===desiredMustCategory);
-        if(!chosen) chosen=updatedDayRows.find(r=>r.splitRole!=="daily-optional-goal");
-        if(chosen){
-          chosen.priority="MUST";
-          if(desiredMustLabel && chosen.splitRole!=="daily-must-anchor" && chosen.task){
-            // Keep the actual task text intact; the selected category controls its MUST placement/name.
-          }
-        }
-
+        const chosen=dayRows.find(r=>desiredMustCategory && r.category===desiredMustCategory) || dayRows[0];
+        if(chosen) chosen.priority="MUST";
       }
     }
 
@@ -1837,6 +1880,7 @@
     const questTypes = getCheckedValues("questType");
     const explorationArea = $("explorationArea").value.trim();
     const areaNames = parseAreaNames(explorationArea);
+    const areaProgress = getAreaProgressData();
     const questNames = parseAreaNames($("questNames").value);
     const eventNames = parseAreaNames($("eventNames").value);
     const eventName = eventNames.join("\n");
@@ -1880,7 +1924,7 @@
     const client = {
       name, emailUser, password, additional,
       servers, games, taskTypes, questTypes,
-      explorationArea, areaNames, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
+      explorationArea, areaNames, areaProgress, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
       task, size, assignee, price,
       explorationQuests, explorationDone, areas, areasDone, quests, questsDone, events, eventsDone, currentStatus, extraTodo, mustType,
       workload: workloadMinutes,
@@ -2010,7 +2054,7 @@
     $("clientDeadline").value = c.manuallyOverridden ? (c.deadline || "") : "";
     document.querySelector(`input[name="size"][value="${c.size || "Small"}"]`).checked = true;
     updateTaskConditionalFields();
-    renderAreaPicker(c.areaNames || []);
+    renderAreaPicker(c.areaNames || [], c.areaProgress || {});
     updateSizeUI();
     const addBtn = document.querySelector('#addClientSection .primary');
     if(addBtn) addBtn.textContent = 'Save Changes';
@@ -2033,6 +2077,7 @@
     const taskTypes = getCheckedValues("taskType"), questTypes = getCheckedValues("questType");
     const explorationArea = $("explorationArea").value.trim();
     const areaNames = parseAreaNames(explorationArea);
+    const areaProgress = getAreaProgressData();
     const questNames = parseAreaNames($("questNames").value);
     const eventNames = parseAreaNames($("eventNames").value);
     const eventName = eventNames.join("\n");
@@ -2064,7 +2109,7 @@
 
     const updated = {...old,
       name,emailUser,password,additional,servers,games,taskTypes,questTypes,
-      explorationArea,areaNames,questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
+      explorationArea,areaNames,areaProgress,questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
       explorationQuests,explorationDone,areas,areasDone,quests,questsDone,events,eventsDone,currentStatus,extraTodo,mustType,
       workload:workloadMinutes,workloadValue,workloadUnit,deadline,
       manuallyOverridden:Boolean($("clientDeadline").value),updatedAt:Date.now()
@@ -2428,7 +2473,7 @@
       (a[1].manualOrder??a[1].createdAt??0)-(b[1].manualOrder??b[1].createdAt??0)
     ));
 
-    const dates=allTodoDates().filter(date=>{
+    const dates=Object.keys(byDate).sort().filter(date=>{
       const day=byDate[date] || [];
       return day.some(([_,t])=>!t.done);
     });
