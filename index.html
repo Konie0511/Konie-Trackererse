@@ -1033,6 +1033,112 @@
   [data-theme="dark"] .area-band-btn.active{background:#5D84A8;border-color:#5D84A8;color:#fff}
   @media(max-width:760px){.area-band-buttons{width:100%}.area-band-btn{flex:1}}
 
+
+/* ===== FINAL COZY COTTAGECORE / NIGHT PASS ===== */
+.area-picker-wrap{
+  padding:24px !important;
+  border:2px solid rgba(102,163,191,.28) !important;
+  border-radius:20px !important;
+  background:linear-gradient(145deg,#FFFDF6,#EFF6ED) !important;
+}
+.area-picker-search{
+  min-height:50px !important;
+  font-size:.94rem !important;
+  border-width:2px !important;
+  margin-bottom:14px !important;
+}
+.area-picker{
+  min-height:460px;
+  max-height:650px !important;
+  gap:14px !important;
+  padding:8px 10px 10px 4px !important;
+  scrollbar-width:auto;
+  scrollbar-color:#76945F #DCE7D6;
+}
+.area-picker::-webkit-scrollbar{width:14px}
+.area-picker::-webkit-scrollbar-track{background:#DCE7D6;border:1px solid #C3D1BD;border-radius:999px}
+.area-picker::-webkit-scrollbar-thumb{background:linear-gradient(#90AD78,#678353);border:3px solid #DCE7D6;border-radius:999px;min-height:60px}
+.area-picker::-webkit-scrollbar-thumb:hover{background:#587344}
+.area-picker-game{padding:18px !important;border:2px solid rgba(81,138,97,.20) !important;border-radius:18px !important;background:#FBFCF6 !important}
+.area-picker-game-title{font-size:1rem !important;margin-bottom:12px !important}
+.area-picker-region{padding:12px 0 7px !important}
+.area-picker-region-head{margin-bottom:8px !important}
+.area-picker-region-head strong{font-size:.82rem !important;letter-spacing:.05em}
+.area-picker-list{gap:9px 12px !important}
+.area-picker-option{
+  min-height:66px;
+  padding:10px 11px !important;
+  border:1px solid transparent;
+  border-radius:12px;
+  background:rgba(247,251,243,.86);
+}
+.area-picker-option:hover{background:#E7F0DE !important;border-color:#B4C6A6 !important}
+.area-picker-option label{font-size:.86rem !important}
+.area-band-buttons{display:flex;gap:6px;align-items:center;flex:0 0 auto}
+.area-band-btn{min-height:38px;padding:7px 11px !important;border:1.5px solid #B49B61 !important;border-radius:10px !important;background:#FFF8E5 !important;color:#5F4B2C !important;font-size:.68rem !important;font-weight:950 !important;transition:.15s ease}
+.area-band-btn:hover{transform:translateY(-1px);border-color:#8F7544 !important}
+.area-band-btn.active{background:#5E7E50 !important;color:#FFFDF6 !important;border-color:#5E7E50 !important;box-shadow:0 2px 0 #405B36}
+.area-picker.searching .area-picker-game-title,.area-picker.searching .area-picker-region-head{display:none !important}
+.area-picker.searching .area-picker-game,.area-picker.searching .area-picker-region{border:0 !important;padding:0 !important;background:transparent !important}
+.area-picker.searching .area-picker-list{grid-template-columns:1fr !important;gap:8px !important}
+.area-picker.searching .area-picker-option{background:#F7FBEF}
+
+/* Warm, woodsy dark mode */
+[data-theme="dark"]{
+  --surface:#29231D !important;
+  --surface-2:#352E26 !important;
+  --cream:#352D24 !important;
+  --text:#F5EBDD !important;
+  --muted:#B7AA95 !important;
+  --border:#5B4D3D !important;
+  --blue-dark:#9EBA85 !important;
+  --blue-mid:#A4C0C7 !important;
+  --blue-light:#40513A !important;
+  --gelli:#B79BCD !important;
+  --yanna:#9EBA85 !important;
+  --danger:#E5968B !important;
+  --must-bg:#4C302E !important;
+  --must-text:#FFD3CC !important;
+  --optional-bg:#4C3E27 !important;
+  --optional-text:#FFE6AB !important;
+  --extra-bg:#43354A !important;
+  --extra-text:#E9D7F3 !important;
+  --shadow:0 20px 50px rgba(0,0,0,.36) !important;
+}
+[data-theme="dark"] body{background:radial-gradient(800px 520px at 8% 0%,rgba(158,186,133,.10),transparent 63%),radial-gradient(760px 500px at 95% 15%,rgba(164,192,199,.07),transparent 66%),linear-gradient(145deg,#17130F 0%,#211C17 48%,#182018 100%) !important}
+[data-theme="dark"] .topbar{background:rgba(31,27,22,.97) !important;border-color:#5B4D3D !important}
+[data-theme="dark"] .card,[data-theme="dark"] .client,[data-theme="dark"] .day,[data-theme="dark"] .secondary,[data-theme="dark"] .choice,[data-theme="dark"] .completed-toggle,[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea{background:#29231D !important;color:#F5EBDD !important;border-color:#5B4D3D !important}
+[data-theme="dark"] .menu-card,[data-theme="dark"] .client-choice-card{background:linear-gradient(145deg,#302A23,#25211B) !important;border-color:#5B4D3D !important}
+[data-theme="dark"] .menu-card:hover{border-color:#8BA674 !important}
+[data-theme="dark"] .hero{background:linear-gradient(125deg,#344B38 0%,#4D654D 52%,#3B555A 100%) !important}
+[data-theme="dark"] .stat{background:#332C23 !important;border-color:#5B4D3D !important}
+[data-theme="dark"] .strict-client-group{background:#26211B !important;border-color:#5B4D3D !important}
+[data-theme="dark"] .strict-item{background:#322B23 !important;border-color:#655644 !important}
+[data-theme="dark"] .todo-item{background:#322B23 !important}
+[data-theme="dark"] .todo-item:hover{background:#3D4936 !important}
+[data-theme="dark"] .area-picker-wrap{background:linear-gradient(145deg,#211C17,#2A251E) !important;border-color:#695B49 !important}
+[data-theme="dark"] .area-picker-game{background:#30291F !important;border-color:#695B49 !important}
+[data-theme="dark"] .area-picker-option{background:#393127 !important;border-color:transparent !important}
+[data-theme="dark"] .area-picker-option:hover{background:#46553D !important;border-color:#748B62 !important}
+[data-theme="dark"] .area-picker-search,[data-theme="dark"] .area-progress-input{background:#1B1713 !important;color:#F5EBDD !important;border-color:#695B49 !important}
+[data-theme="dark"] .area-picker{scrollbar-color:#819C68 #2D362A}
+[data-theme="dark"] .area-picker::-webkit-scrollbar-track{background:#2D362A;border-color:#485541}
+[data-theme="dark"] .area-picker::-webkit-scrollbar-thumb{background:linear-gradient(#91AF77,#617B50);border-color:#2D362A}
+[data-theme="dark"] .area-band-btn{background:#43392D !important;color:#F5EBDD !important;border-color:#806C43 !important}
+[data-theme="dark"] .area-band-btn.active{background:#688957 !important;color:#FFFDF7 !important;border-color:#769A63 !important}
+[data-theme="dark"] .area-picker.searching .area-picker-option{background:#342E25 !important}
+[data-theme="dark"] .weekday{background:#4B5D45 !important;color:#F7EFE0 !important}
+[data-theme="dark"] .day.today{background:#354733 !important;outline-color:#A7C28B !important}
+[data-theme="dark"] .event.gelli{background:#765F83 !important}
+[data-theme="dark"] .event.yanna{background:#5A7B51 !important}
+[data-theme="dark"] .event.other{background:#56736B !important}
+[data-theme="dark"] .event.work{background:#796B4F !important}
+[data-theme="dark"] .event.completed-event{background:#668E59 !important}
+[data-theme="dark"] .event.blocker{background:#6D6652 !important}
+[data-theme="dark"] .copy-btn,[data-theme="dark"] .restore-btn{background:#40513A !important;color:#F5EBDD !important;border-color:#657B57 !important}
+[data-theme="dark"] .danger-btn{background:#4C302E !important;color:#FFD3CC !important}
+[data-theme="dark"] .firebase-setup-notice{background:#403522;color:#FFE4A8;border-color:#7F673D}
+
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script><style id="kon-final-readability-fixes">
 /* Final requested palette/readability lock */
@@ -2169,7 +2275,7 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
         <span class="theme-dot" aria-hidden="true"></span>
         <span id="themeLabel">Dark mode</span>
       </button>
-      <div id="liveStatus" class="live-status offline">● LOCAL / SETUP</div>
+      <div id="liveStatus" class="live-status offline">● CONNECTING…</div>
     </div>
   </nav>
 
@@ -2182,6 +2288,7 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   <div id="fileProtocolNotice" class="file-protocol-notice" hidden>
     <strong>Firebase needs a web address.</strong> This file is opened with <code>file://</code>. Use the included <code>start-konie-tracker.bat</code> to open it at <code>http://localhost</code> so Anonymous Auth and Firebase writes can work.
   </div>
+  <div id="firebaseSetupNotice" class="firebase-setup-notice" role="status"></div>
 
   <div class="main-column">
   <main>
@@ -2773,8 +2880,12 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   function firebaseErrorDetails(err,context="Firebase sync"){
     const code=String(err?.code||"").toLowerCase();
     const raw=String(err?.message||err||"").toLowerCase();
+    if(code.includes("unauthorized-domain")||raw.includes("unauthorized domain")){
+      const host=location.hostname||"your GitHub Pages hostname";
+      return {label:"DOMAIN NOT AUTHORIZED",message:`Firebase rejected this website domain (${host}). Add ${host} under Authentication → Settings → Authorized domains, then reload.`};
+    }
     if(code.includes("operation-not-allowed")||code.includes("configuration-not-found")||raw.includes("operation-not-allowed")){
-      return {label:"AUTH SETUP NEEDED",message:"Anonymous Authentication is not enabled in the new Firebase project. Open Firebase Console → Authentication → Sign-in method → Anonymous, then enable it."};
+      return {label:"AUTH SETUP NEEDED",message:"Anonymous Authentication is not enabled. Enable Authentication → Sign-in method → Anonymous, then reload."};
     }
     if(code.includes("permission-denied")||raw.includes("permission_denied")||raw.includes("permission denied")){
       return {label:"RULES BLOCKED",message:"Firebase connected, but Realtime Database Rules rejected access. Allow authenticated users to read and write the database."};
@@ -2832,14 +2943,13 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   let firebaseConnected = false;
 
   async function requireFirebase(action="save this change"){
-    // Firebase remains the source of truth. We only require the SDK/database
-    // objects to exist; Realtime Database itself queues writes while briefly
-    // disconnected and later sends them when the connection returns.
-    if(firebaseInitialized && db && dbUpdate) return true;
-    if(!firebaseBootPromise) firebaseBootPromise = initFirebase();
-    try{ await Promise.race([firebaseBootPromise, new Promise(resolve=>setTimeout(resolve,15000))]); }catch(e){}
-    if(firebaseInitialized && db && dbUpdate) return true;
-    const reason = window.__konFirebaseAuthProblem || window.__konFirebaseProblem || "Firebase could not initialize.";
+    if(firebaseInitialized && db && dbUpdate && firebaseAuthUser) return true;
+    if(!firebaseBootPromise) firebaseBootPromise=initFirebase();
+    try{ await Promise.race([firebaseBootPromise,new Promise(resolve=>setTimeout(resolve,15000))]); }catch(e){}
+    if(firebaseInitialized && db && dbUpdate && firebaseAuthUser) return true;
+    const reason=window.__konFirebaseAuthProblem||window.__konFirebaseProblem||"Firebase authentication is not ready.";
+    const box=$("firebaseSetupNotice");
+    if(box){box.innerHTML=`<strong>Firebase is blocking this save.</strong><br>${escapeHTML(reason)}`;box.classList.add("show");}
     toast(`${action} blocked: ${reason}`);
     return false;
   }
@@ -2847,24 +2957,19 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   async function writeFirebasePatch(patch,action="save this change"){
     const safePatch=firebasePatchForWrite(patch||{});
     if(!Object.keys(safePatch).length) return true;
-    // Once Firebase is initialized, always write through Firebase. Realtime
-    // Database's SDK queues writes while the network is temporarily offline.
-    if(firebaseInitialized && db && dbUpdate){
-      try{
-        await dbUpdate(dbRef(""),safePatch);
-        return true;
-      }catch(err){
-        console.warn("Firebase save failed:",err);
-        const detail=reportFirebaseError(err,"Shared Firebase save");
-        toast(`${action} failed: ${detail.label}. ${detail.message}`);
-        return false;
-      }
+    if(!(await requireFirebase(action))) return false;
+    try{
+      await dbUpdate(dbRef(""),safePatch);
+      return true;
+    }catch(err){
+      console.error("Firebase save failed:",err);
+      const detail=reportFirebaseError(err,"Shared Firebase save");
+      const box=$("firebaseSetupNotice");
+      if(box){box.innerHTML=`<strong>${escapeHTML(detail.label)}</strong><br>${escapeHTML(detail.message)}`;box.classList.add("show");}
+      toast(`${action} failed: ${detail.label}.`);
+      return false;
     }
-    const reason = window.__konFirebaseAuthProblem || window.__konFirebaseProblem || "Firebase is not initialized.";
-    toast(`${action} failed: ${reason}`);
-    return false;
   }
-
 
   function getCheckedValues(name){
     return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
@@ -2916,8 +3021,9 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
         regionEl.querySelectorAll(".area-picker-option").forEach(opt=>{
           const area=(opt.dataset.search||"").toLowerCase();
           const progressHit=true;
-          const searchHit=!q || area.includes(q) || regionName.includes(q) || gameName.includes(q);
-          const hit=progressHit && searchHit;
+          const areaHit=!q || area.includes(q);
+          const contextHit=!q || regionName===q || gameName===q;
+          const hit=progressHit && (areaHit || (!area.includes(q) && contextHit && !q));
           opt.style.display=hit?"":"none";
           if(hit) regionVisible=true;
         });
@@ -2968,6 +3074,8 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   function setAreaBandFromButton(area, band, button){
     setAreaBand(area, band, false);
     const option = button?.closest('.area-picker-option');
+    const checkbox = option?.querySelector('input[name="areaPicker"]');
+    if(checkbox) checkbox.checked=true;
     if(option){
       option.dataset.band = band;
       option.dataset.progress = String(areaProgressMap[area] || 0);
@@ -5374,127 +5482,57 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
   }
 
   async function initFirebase(){
-    // Firebase is ALWAYS the source of truth. LocalStorage is only a display
-    // cache used when Firebase genuinely cannot be reached.
     setSyncStatus("connecting");
-
-    const missing = firebaseConfig.apiKey.startsWith("PASTE_");
-    if(missing){
-      firebaseInitialized=false;
-      const err=new Error("Firebase Web App configuration is missing.");
-      err.code="firebase/config-missing";
-      const detail=reportFirebaseError(err,"Firebase startup");
-      loadLocal(); renderTodos(); renderClients(); renderCalendar();
-      toast(detail.message);
-      return false;
-    }
-
+    window.__konFirebaseAuthProblem="";
+    window.__konFirebaseProblem="";
+    const setupBox=$("firebaseSetupNotice");
+    if(setupBox) setupBox.classList.remove("show");
     try{
       if(!window.firebase) throw new Error("Firebase SDK did not load.");
+      if(firebaseConfig.apiKey.startsWith("PASTE_")) throw Object.assign(new Error("Firebase Web App configuration is missing."),{code:"firebase/config-missing"});
       if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
       const database=firebase.database();
-      // Explicitly force the Realtime Database client online. Firebase remains
-      // authoritative; its SDK handles temporary network loss and queues writes.
-      try{ database.goOnline(); }catch(e){ console.warn("Firebase goOnline failed:",e); }
-      dbRef = path => database.ref(path);
-      dbSet = (reference,value) => reference.set(value);
-      dbPush = reference => reference.push();
-      dbRemove = reference => reference.remove();
-      dbUpdate = (reference,value) => reference.update(value);
-      db = database;
+      database.goOnline();
+      dbRef=path=>database.ref(path);
+      dbSet=(reference,value)=>reference.set(value);
+      dbPush=reference=>reference.push();
+      dbRemove=reference=>reference.remove();
+      dbUpdate=(reference,value)=>reference.update(value);
+      db=database;
 
+      const auth=firebase.auth();
+      try{auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);}catch(e){}
+      let user=auth.currentUser;
+      if(!user) user=(await auth.signInAnonymously()).user;
+      firebaseAuthUser=user;
       firebaseInitialized=true;
-      firebaseReady=false;
+      firebaseReady=true;
       firebaseConnected=false;
+      window.__konFirebaseDebug={projectId:firebaseConfig.projectId,databaseURL:firebaseConfig.databaseURL,initialized:true,authenticated:true,connected:false,host:location.hostname};
 
-      // Connection status comes from Firebase itself, not from a guessed state.
       dbRef(".info/connected").on("value",snap=>{
-        firebaseConnected = snap.val() === true;
-        if(window.__konFirebaseDebug) window.__konFirebaseDebug.connected=firebaseConnected;
-        if(firebaseConnected){
-          firebaseReady=true;
-          setSyncStatus("live");
-          renderTodos();
-        }else if(firebaseInitialized){
-          firebaseReady=true;
-          setSyncStatus("offline");
-        }
+        firebaseConnected=snap.val()===true;
+        window.__konFirebaseDebug.connected=firebaseConnected;
+        setSyncStatus(firebaseConnected?"live":"connecting");
       },err=>reportFirebaseListenerError(err,"Firebase connection status"));
 
-      // Anonymous auth is preferred, but it must NOT prevent the database from
-      // working when the hosting domain has not yet been added to Auth settings.
-      try{
-        const auth=firebase.auth();
-        try{ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(persistenceErr){}
-        const authSession=await auth.signInAnonymously();
-        firebaseAuthUser=authSession.user;
-        window.__konFirebaseAuthProblem="";
-      }catch(authErr){
-        firebaseAuthUser=null;
-        const detail=firebaseErrorDetails(authErr,"Firebase Authentication");
-        window.__konFirebaseAuthProblem=detail.message;
-        if(location.protocol === "file:" && (String(authErr?.code||"").includes("unauthorized-domain") || String(authErr?.message||"").toLowerCase().includes("domain"))){
-          window.__konFirebaseAuthProblem="This file is opened with file://. Firebase Anonymous Auth requires a web origin such as http://localhost or a hosted domain. Open this tracker through the included local server instead.";
-          setSyncStatus("error");
-        }
-        console.warn("Firebase Authentication unavailable:",authErr);
-      }
+      dbRef("clients").on("value",snap=>{liveClients=firebaseValueFromRead(snap.val()||{});persistLocal();renderClients();renderStats();renderTodos();},err=>reportFirebaseListenerError(err,"Client sync listener"));
+      dbRef("todos").on("value",snap=>{liveTodos=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderStats();renderTodos();},err=>reportFirebaseListenerError(err,"Task sync listener"));
+      dbRef("events").on("value",snap=>{liveEvents=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();},err=>reportFirebaseListenerError(err,"Calendar event sync listener"));
+      dbRef("calendarBlocks").on("value",snap=>{liveCalendarBlocks=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();},err=>reportFirebaseListenerError(err,"Calendar block sync listener"));
+      dbRef("dailyDispatch").on("value",snap=>{liveDailyDispatch=firebaseValueFromRead(snap.val()||{});persistLocal();renderTodos();},err=>reportFirebaseListenerError(err,"Daily queue sync listener"));
 
-      window.__konFirebaseDebug={
-        projectId:firebaseConfig.projectId,
-        databaseURL:firebaseConfig.databaseURL,
-        initialized:firebaseInitialized,
-        authenticated:Boolean(firebaseAuthUser),
-        connected:firebaseConnected,
-        rulesRequiredAuth:true
-      };
-
-      dbRef("clients").on("value",snap=>{
-        liveClients=firebaseValueFromRead(snap.val()||{});
-        persistLocal();renderClients();renderStats();renderTodos();
-      },err=>{reportFirebaseListenerError(err,"Client sync listener");renderTodos();});
-
-      dbRef("todos").on("value",snap=>{
-        liveTodos=firebaseValueFromRead(snap.val()||{});
-        persistLocal();renderCalendar();renderStats();renderTodos();
-      },err=>{reportFirebaseListenerError(err,"Task sync listener");renderTodos();});
-
-      dbRef("events").on("value",snap=>{
-        liveEvents=firebaseValueFromRead(snap.val()||{});
-        persistLocal();renderCalendar();
-      },err=>{reportFirebaseListenerError(err,"Calendar event sync listener");});
-
-      dbRef("calendarBlocks").on("value",snap=>{
-        liveCalendarBlocks=firebaseValueFromRead(snap.val()||{});
-        persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();
-      },err=>{reportFirebaseListenerError(err,"Calendar block sync listener");});
-
-      dbRef("dailyDispatch").on("value",snap=>{
-        liveDailyDispatch=firebaseValueFromRead(snap.val()||{});
-        persistLocal();renderTodos();
-      },err=>{reportFirebaseListenerError(err,"Daily queue sync listener");renderTodos();});
-
-      // Give the SDK a moment to establish .info/connected. Do not mark this
-      // as an error merely because the connection starts in false/unknown state.
-      setTimeout(()=>{
-        if(firebaseConnected){
-          setSyncStatus("live");
-          toast("Connected — Firebase is the shared source of truth.");
-        }
-      },1200);
-
+      toast("Firebase authenticated — shared saves are ready.");
       return true;
     }catch(err){
-      firebaseReady=false;firebaseConnected=false;firebaseInitialized=false;
-      db=null;dbUpdate=null;firebaseAuthUser=null;
-      const detail=reportFirebaseError(err,"Firebase startup");
-      // Cache is display-only while Firebase is unavailable.
-      loadLocal(); renderTodos(); renderClients(); renderCalendar();
-      toast(detail.message);
-      setTimeout(()=>{
-        if(!firebaseInitialized){ firebaseBootPromise=null; initFirebase(); }
-      },15000);
+      firebaseInitialized=false;firebaseReady=false;firebaseConnected=false;db=null;dbUpdate=null;firebaseAuthUser=null;
+      const detail=firebaseErrorDetails(err,"Firebase Authentication");
+      window.__konFirebaseAuthProblem=detail.message;
+      setSyncStatus("error");
+      if(setupBox){setupBox.innerHTML=`<strong>${escapeHTML(detail.label)}</strong><br>${escapeHTML(detail.message)}`;setupBox.classList.add("show");}
+      console.error("Firebase startup:",err);
+      loadLocal();renderTodos();renderClients();renderCalendar();
       return false;
     }
   }
