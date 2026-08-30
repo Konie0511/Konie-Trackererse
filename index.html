@@ -1033,112 +1033,6 @@
   [data-theme="dark"] .area-band-btn.active{background:#5D84A8;border-color:#5D84A8;color:#fff}
   @media(max-width:760px){.area-band-buttons{width:100%}.area-band-btn{flex:1}}
 
-
-/* ===== FINAL COZY COTTAGECORE / NIGHT PASS ===== */
-.area-picker-wrap{
-  padding:24px !important;
-  border:2px solid rgba(102,163,191,.28) !important;
-  border-radius:20px !important;
-  background:linear-gradient(145deg,#FFFDF6,#EFF6ED) !important;
-}
-.area-picker-search{
-  min-height:50px !important;
-  font-size:.94rem !important;
-  border-width:2px !important;
-  margin-bottom:14px !important;
-}
-.area-picker{
-  min-height:460px;
-  max-height:650px !important;
-  gap:14px !important;
-  padding:8px 10px 10px 4px !important;
-  scrollbar-width:auto;
-  scrollbar-color:#76945F #DCE7D6;
-}
-.area-picker::-webkit-scrollbar{width:14px}
-.area-picker::-webkit-scrollbar-track{background:#DCE7D6;border:1px solid #C3D1BD;border-radius:999px}
-.area-picker::-webkit-scrollbar-thumb{background:linear-gradient(#90AD78,#678353);border:3px solid #DCE7D6;border-radius:999px;min-height:60px}
-.area-picker::-webkit-scrollbar-thumb:hover{background:#587344}
-.area-picker-game{padding:18px !important;border:2px solid rgba(81,138,97,.20) !important;border-radius:18px !important;background:#FBFCF6 !important}
-.area-picker-game-title{font-size:1rem !important;margin-bottom:12px !important}
-.area-picker-region{padding:12px 0 7px !important}
-.area-picker-region-head{margin-bottom:8px !important}
-.area-picker-region-head strong{font-size:.82rem !important;letter-spacing:.05em}
-.area-picker-list{gap:9px 12px !important}
-.area-picker-option{
-  min-height:66px;
-  padding:10px 11px !important;
-  border:1px solid transparent;
-  border-radius:12px;
-  background:rgba(247,251,243,.86);
-}
-.area-picker-option:hover{background:#E7F0DE !important;border-color:#B4C6A6 !important}
-.area-picker-option label{font-size:.86rem !important}
-.area-band-buttons{display:flex;gap:6px;align-items:center;flex:0 0 auto}
-.area-band-btn{min-height:38px;padding:7px 11px !important;border:1.5px solid #B49B61 !important;border-radius:10px !important;background:#FFF8E5 !important;color:#5F4B2C !important;font-size:.68rem !important;font-weight:950 !important;transition:.15s ease}
-.area-band-btn:hover{transform:translateY(-1px);border-color:#8F7544 !important}
-.area-band-btn.active{background:#5E7E50 !important;color:#FFFDF6 !important;border-color:#5E7E50 !important;box-shadow:0 2px 0 #405B36}
-.area-picker.searching .area-picker-game-title,.area-picker.searching .area-picker-region-head{display:none !important}
-.area-picker.searching .area-picker-game,.area-picker.searching .area-picker-region{border:0 !important;padding:0 !important;background:transparent !important}
-.area-picker.searching .area-picker-list{grid-template-columns:1fr !important;gap:8px !important}
-.area-picker.searching .area-picker-option{background:#F7FBEF}
-
-/* Warm, woodsy dark mode */
-[data-theme="dark"]{
-  --surface:#29231D !important;
-  --surface-2:#352E26 !important;
-  --cream:#352D24 !important;
-  --text:#F5EBDD !important;
-  --muted:#B7AA95 !important;
-  --border:#5B4D3D !important;
-  --blue-dark:#9EBA85 !important;
-  --blue-mid:#A4C0C7 !important;
-  --blue-light:#40513A !important;
-  --gelli:#B79BCD !important;
-  --yanna:#9EBA85 !important;
-  --danger:#E5968B !important;
-  --must-bg:#4C302E !important;
-  --must-text:#FFD3CC !important;
-  --optional-bg:#4C3E27 !important;
-  --optional-text:#FFE6AB !important;
-  --extra-bg:#43354A !important;
-  --extra-text:#E9D7F3 !important;
-  --shadow:0 20px 50px rgba(0,0,0,.36) !important;
-}
-[data-theme="dark"] body{background:radial-gradient(800px 520px at 8% 0%,rgba(158,186,133,.10),transparent 63%),radial-gradient(760px 500px at 95% 15%,rgba(164,192,199,.07),transparent 66%),linear-gradient(145deg,#17130F 0%,#211C17 48%,#182018 100%) !important}
-[data-theme="dark"] .topbar{background:rgba(31,27,22,.97) !important;border-color:#5B4D3D !important}
-[data-theme="dark"] .card,[data-theme="dark"] .client,[data-theme="dark"] .day,[data-theme="dark"] .secondary,[data-theme="dark"] .choice,[data-theme="dark"] .completed-toggle,[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea{background:#29231D !important;color:#F5EBDD !important;border-color:#5B4D3D !important}
-[data-theme="dark"] .menu-card,[data-theme="dark"] .client-choice-card{background:linear-gradient(145deg,#302A23,#25211B) !important;border-color:#5B4D3D !important}
-[data-theme="dark"] .menu-card:hover{border-color:#8BA674 !important}
-[data-theme="dark"] .hero{background:linear-gradient(125deg,#344B38 0%,#4D654D 52%,#3B555A 100%) !important}
-[data-theme="dark"] .stat{background:#332C23 !important;border-color:#5B4D3D !important}
-[data-theme="dark"] .strict-client-group{background:#26211B !important;border-color:#5B4D3D !important}
-[data-theme="dark"] .strict-item{background:#322B23 !important;border-color:#655644 !important}
-[data-theme="dark"] .todo-item{background:#322B23 !important}
-[data-theme="dark"] .todo-item:hover{background:#3D4936 !important}
-[data-theme="dark"] .area-picker-wrap{background:linear-gradient(145deg,#211C17,#2A251E) !important;border-color:#695B49 !important}
-[data-theme="dark"] .area-picker-game{background:#30291F !important;border-color:#695B49 !important}
-[data-theme="dark"] .area-picker-option{background:#393127 !important;border-color:transparent !important}
-[data-theme="dark"] .area-picker-option:hover{background:#46553D !important;border-color:#748B62 !important}
-[data-theme="dark"] .area-picker-search,[data-theme="dark"] .area-progress-input{background:#1B1713 !important;color:#F5EBDD !important;border-color:#695B49 !important}
-[data-theme="dark"] .area-picker{scrollbar-color:#819C68 #2D362A}
-[data-theme="dark"] .area-picker::-webkit-scrollbar-track{background:#2D362A;border-color:#485541}
-[data-theme="dark"] .area-picker::-webkit-scrollbar-thumb{background:linear-gradient(#91AF77,#617B50);border-color:#2D362A}
-[data-theme="dark"] .area-band-btn{background:#43392D !important;color:#F5EBDD !important;border-color:#806C43 !important}
-[data-theme="dark"] .area-band-btn.active{background:#688957 !important;color:#FFFDF7 !important;border-color:#769A63 !important}
-[data-theme="dark"] .area-picker.searching .area-picker-option{background:#342E25 !important}
-[data-theme="dark"] .weekday{background:#4B5D45 !important;color:#F7EFE0 !important}
-[data-theme="dark"] .day.today{background:#354733 !important;outline-color:#A7C28B !important}
-[data-theme="dark"] .event.gelli{background:#765F83 !important}
-[data-theme="dark"] .event.yanna{background:#5A7B51 !important}
-[data-theme="dark"] .event.other{background:#56736B !important}
-[data-theme="dark"] .event.work{background:#796B4F !important}
-[data-theme="dark"] .event.completed-event{background:#668E59 !important}
-[data-theme="dark"] .event.blocker{background:#6D6652 !important}
-[data-theme="dark"] .copy-btn,[data-theme="dark"] .restore-btn{background:#40513A !important;color:#F5EBDD !important;border-color:#657B57 !important}
-[data-theme="dark"] .danger-btn{background:#4C302E !important;color:#FFD3CC !important}
-[data-theme="dark"] .firebase-setup-notice{background:#403522;color:#FFE4A8;border-color:#7F673D}
-
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script><style id="kon-final-readability-fixes">
 /* Final requested palette/readability lock */
@@ -1663,7 +1557,7 @@ h1,h2,h3,.brand-mini,.person-title,.client-name,.month-label,.menu-copy strong{
     #C89455 !important;
   box-shadow:0 7px 0 #4E321E,0 16px 28px rgba(59,42,28,.20);
 }
-.home-menu:before{content:"QUEST  BOARD" !important;color:#6D4828 !important;opacity:.10 !important;font-size:clamp(4.5rem,12vw,9rem) !important}
+.home-menu:before{content:"K O N I E" !important;color:#6D4828 !important;opacity:.10 !important;font-size:clamp(4.5rem,12vw,9rem) !important}
 .home-menu:after{display:none !important}
 .home-decor i{border-radius:1px !important;background:#F4D778 !important;box-shadow:3px 3px 0 rgba(78,50,30,.45) !important}
 .home-decor span{border:2px dashed rgba(89,57,31,.22) !important;border-radius:3px !important}
@@ -2258,6 +2152,80 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
 }
 </style>
 
+
+<style id="kon-final-user-polish-v2">
+[data-theme="dark"]{
+  --surface:#202A20!important;--surface-2:#2B382C!important;--cream:#344331!important;
+  --text:#FFF7DF!important;--muted:#D8CFB4!important;--border:#6B805F!important;
+  --blue-dark:#B8D993!important;--blue-mid:#9FC47D!important;--blue-light:#41563B!important;
+  --gelli:#D9BFE9!important;--gelli-light:#4A3952!important;--yanna:#B9DB9D!important;--yanna-light:#30472E!important;
+  --danger:#FF9B91!important;--must-bg:#553335!important;--must-text:#FFE0D9!important;
+  --optional-bg:#574727!important;--optional-text:#FFE9B5!important;--extra-bg:#493D53!important;--extra-text:#F1E3F7!important;
+}
+[data-theme="dark"] body{background:radial-gradient(900px 500px at 8% 0%,rgba(163,202,143,.13),transparent 62%),radial-gradient(750px 500px at 92% 10%,rgba(213,181,230,.09),transparent 64%),linear-gradient(145deg,#111811 0%,#192119 52%,#131913 100%)!important;color:#FFF7DF!important}
+[data-theme="dark"] .topbar,[data-theme="dark"] .card,[data-theme="dark"] .client,[data-theme="dark"] .day,[data-theme="dark"] .menu-card,[data-theme="dark"] .strict-client-group,[data-theme="dark"] .client-choice-card,[data-theme="dark"] .calendar-block,[data-theme="dark"] .stat,[data-theme="dark"] .completed-toggle,[data-theme="dark"] .app-dialog{background:#222C22!important;color:#FFF7DF!important;border-color:#607557!important}
+[data-theme="dark"] label,[data-theme="dark"] .client-name,[data-theme="dark"] .strict-client-name,[data-theme="dark"] .strict-item-title,[data-theme="dark"] .card h3,[data-theme="dark"] .section-head h2,[data-theme="dark"] .section-head h3,[data-theme="dark"] .person-title,[data-theme="dark"] .stat strong,[data-theme="dark"] .menu-copy strong{color:#FFF7DF!important}
+[data-theme="dark"] .hint,[data-theme="dark"] .client-meta,[data-theme="dark"] .strict-item-sub,[data-theme="dark"] .day-title,[data-theme="dark"] .date,[data-theme="dark"] .empty,[data-theme="dark"] .menu-copy em,[data-theme="dark"] .menu-copy small,[data-theme="dark"] .home-menu-heading p{color:#D8CFB4!important}
+[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea,[data-theme="dark"] .choice,[data-theme="dark"] .secondary,[data-theme="dark"] .area-picker-search{background:#182119!important;color:#FFF7DF!important;border-color:#6B805F!important}
+[data-theme="dark"] input::placeholder,[data-theme="dark"] textarea::placeholder,[data-theme="dark"] .area-picker-search::placeholder{color:#AFA991!important;opacity:1!important}
+[data-theme="dark"] .check-option{background:#29372B!important;color:#FFF7DF!important;border-color:#667B5F!important}
+[data-theme="dark"] .area-picker-wrap{background:#202A20!important;border:3px solid #6D825F!important;box-shadow:0 10px 0 rgba(5,10,6,.35),0 18px 44px rgba(0,0,0,.30)!important}
+[data-theme="dark"] .area-picker-game{background:#2B382C!important;border-color:#647B5D!important}
+[data-theme="dark"] .area-picker-region{background:#303C30!important;border-top-color:#596C53!important}
+[data-theme="dark"] .area-picker-option{background:#354230!important;color:#FFF7DF!important;border-color:#4E614A!important}
+[data-theme="dark"] .area-picker-option label span{color:#FFF7DF!important}
+[data-theme="dark"] .area-picker-option:hover{background:#43533D!important;border-color:#86A675!important}
+[data-theme="dark"] .area-band-btn{background:#313D30!important;color:#FFF7DF!important;border-color:#6C805F!important}
+[data-theme="dark"] .area-band-btn.active{background:#75975E!important;color:#10160F!important;border-color:#A9C990!important}
+[data-theme="dark"] .area-picker-hint{background:#303B2E!important;color:#EEE7D4!important;border-color:#718663!important}
+[data-theme="dark"] .area-picker-controls .area-picker-action,[data-theme="dark"] .area-region-toggle{background:#374832!important;color:#FFF7DF!important;border-color:#718663!important}
+[data-theme="dark"] .todo-item,[data-theme="dark"] .strict-item,[data-theme="dark"] .completed-item{background:#29352A!important;color:#FFF7DF!important;border-color:#5B7054!important}
+[data-theme="dark"] .strict-lock,[data-theme="dark"] .optional-gate,[data-theme="dark"] .queue-summary div{background:#303B2F!important;color:#E9E1CA!important;border-color:#6A7D5F!important}
+[data-theme="dark"] .weekday{background:#4D6845!important;color:#FFF7DF!important;border-color:#30402C!important}
+[data-theme="dark"] .day.today{background:#35472F!important;outline-color:#B7D88F!important}
+.area-picker-wrap{width:100%!important;max-width:none!important;padding:26px!important;border:3px solid #BBA77E!important;border-radius:12px!important;background:#F2E4C6!important;box-shadow:0 8px 0 #765738,0 18px 36px rgba(68,44,27,.15)!important}
+.area-picker{min-height:430px!important;max-height:640px!important;padding:10px 14px 12px 4px!important;gap:14px!important;overflow-y:auto!important;scrollbar-width:auto!important;scrollbar-color:#6F8B60 #D8C7A5!important}
+.area-picker::-webkit-scrollbar{width:20px!important}.area-picker::-webkit-scrollbar-track{background:#D8C7A5!important;border:2px solid #A99066!important;border-radius:10px!important}.area-picker::-webkit-scrollbar-thumb{background:#6F8B60!important;border:3px solid #D8C7A5!important;border-radius:10px!important;min-height:70px!important}.area-picker::-webkit-scrollbar-thumb:hover{background:#516D48!important}
+.area-picker-game{background:#FFF7DF!important;border:2px solid #B9A577!important;border-radius:11px!important;padding:18px!important;box-shadow:3px 3px 0 rgba(93,69,43,.10)!important}.area-picker-region{background:#FFF9EA!important;border-radius:8px!important;padding:10px 8px 8px!important}.area-picker-option{background:#FFFDF4!important;border:1px solid #DED1B3!important;border-radius:8px!important;padding:10px!important;min-height:52px!important}.area-picker-option label span{font-size:.9rem!important;color:#433A2B!important}.area-picker-search{height:50px!important;font-size:.95rem!important;border:3px solid #BBA77E!important;background:#FFF9EA!important}.area-band-btn{min-width:100px!important;min-height:42px!important;font-size:.72rem!important}.area-picker.searching .area-picker-option{min-height:60px!important;padding:12px 14px!important;background:#FFF9EA!important}.area-picker.searching .area-picker-list{gap:8px!important}
+.home-menu:before{content:"K O N I E"!important;color:#6D8F60!important;opacity:.085!important}.home-menu-heading{position:relative!important;z-index:4!important;width:min(760px,94%)!important;margin:0 auto 10px!important;padding:18px 22px!important;background:rgba(255,248,226,.96)!important;border:3px solid #BBA77E!important;border-radius:10px!important;box-shadow:4px 4px 0 rgba(92,66,40,.13)!important;text-align:center!important}.home-menu-heading h2{color:#405C39!important;margin:5px 0 6px!important}.home-menu-heading p{color:#655A49!important}
+[data-theme="dark"] .home-menu-heading{background:#293429!important;border-color:#667B5E!important;box-shadow:4px 4px 0 rgba(0,0,0,.25)!important}.home-menu-heading small{background:#384733!important;color:#DDE7C9!important;border-color:#687B5F!important}.home-menu-heading h2{color:#D9E9C6!important}.home-menu-heading p{color:#CFC8AF!important}
+[data-theme="dark"] #addClientSection.edit-client-modal{background:rgba(8,13,8,.78)!important}[data-theme="dark"] #addClientSection.edit-client-modal>.section-head{background:#222C22!important;color:#FFF7DF!important;border-color:#607557!important}[data-theme="dark"] #clientView .card{background:#232E24!important;color:#FFF7DF!important}[data-theme="dark"] #clientView .field>label{color:#E5ECCF!important}
+@media(max-width:760px){.area-picker-wrap{padding:18px!important}.area-picker{min-height:360px!important;max-height:58vh!important;padding-right:10px!important}.area-picker::-webkit-scrollbar{width:18px!important}.area-picker-option{grid-template-columns:1fr!important;min-height:68px!important}.area-band-buttons{width:100%!important}.area-band-btn{flex:1!important;min-width:0!important}.home-menu-heading{width:100%!important}}
+
+
+/* FINAL DARK DASHBOARD HERO OVERRIDE */
+[data-theme="dark"] .hero{
+  background:linear-gradient(145deg,#263B2B 0%,#314B34 48%,#3B5137 100%) !important;
+  border:2px solid #50684A !important;
+  box-shadow:0 14px 35px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,243,210,.08) !important;
+  color:#F3E8C8 !important;
+}
+[data-theme="dark"] .hero .live-pill{
+  background:#1B2B1E !important;
+  color:#E8DDBE !important;
+  border:2px solid #536A4B !important;
+  box-shadow:0 4px 0 #4A3425,inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+[data-theme="dark"] .hero h1{
+  color:#F4E9C7 !important;
+  text-shadow:2px 2px 0 #4A3827 !important;
+}
+[data-theme="dark"] .hero p{
+  color:#D7CDB0 !important;
+  opacity:1 !important;
+  text-shadow:1px 1px 0 #253227 !important;
+}
+[data-theme="dark"] .hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 20% 25%,rgba(184,207,148,.08),transparent 35%),radial-gradient(circle at 85% 70%,rgba(220,190,120,.07),transparent 32%);
+  pointer-events:none;
+}
+[data-theme="dark"] .hero > *{position:relative;z-index:1;}
+
+</style>
+
 </head>
 <body>
 
@@ -2275,7 +2243,7 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
         <span class="theme-dot" aria-hidden="true"></span>
         <span id="themeLabel">Dark mode</span>
       </button>
-      <div id="liveStatus" class="live-status offline">● CONNECTING…</div>
+      <div id="liveStatus" class="live-status offline">● LOCAL / SETUP</div>
     </div>
   </nav>
 
@@ -2288,7 +2256,6 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   <div id="fileProtocolNotice" class="file-protocol-notice" hidden>
     <strong>Firebase needs a web address.</strong> This file is opened with <code>file://</code>. Use the included <code>start-konie-tracker.bat</code> to open it at <code>http://localhost</code> so Anonymous Auth and Firebase writes can work.
   </div>
-  <div id="firebaseSetupNotice" class="firebase-setup-notice" role="status"></div>
 
   <div class="main-column">
   <main>
@@ -2645,13 +2612,14 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   */
 
   const firebaseConfig = {
-    apiKey: "AIzaSyCW_L_Xl5FzazYQviH5QZYQfBtnkgMwqr0",
-    authDomain: "konietracker.firebaseapp.com",
-    databaseURL: "https://konietracker-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "konietracker",
-    storageBucket: "konietracker.firebasestorage.app",
-    messagingSenderId: "206917336552",
-    appId: "1:206917336552:web:64df8c1d5e29e71bf9785d"
+    apiKey: "AIzaSyAQGIVO1vsqSrcZnx8YYAug4_ekB_IM6Fs",
+    authDomain: "konietrackerplease.firebaseapp.com",
+    databaseURL: "https://konietrackerplease-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "konietrackerplease",
+    storageBucket: "konietrackerplease.firebasestorage.app",
+    messagingSenderId: "217567800755",
+    appId: "1:217567800755:web:dc8b1c1725d6ca552aefc6",
+    measurementId: "G-J6MF1XFF8V"
   };
 
   let db = null;
@@ -2754,11 +2722,10 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   window.showAppDialog=showAppDialog;
 
   function setSyncStatus(mode){
-    const states={connecting:["● CONNECTING FIREBASE","CONNECTING TO SHARED SAVE",true],live:["● LIVE SYNC","● CO-OP SAVE ONLINE",false],offline:["● FIREBASE OFFLINE · RETRYING","FIREBASE TEMPORARILY OFFLINE",true],error:["● FIREBASE ERROR","FIREBASE SAVE ERROR",true]};
+    const states={connecting:["● CONNECTING","FIREBASE CONNECTING",true],live:["● LIVE SYNC","FIREBASE SAVE ONLINE",false],offline:["● FIREBASE OFFLINE","FIREBASE RECONNECTING",true],error:["● FIREBASE ERROR","FIREBASE ERROR",true]};
     const normalized=states[mode]?mode:"connecting";
     const next=states[normalized];
     firebaseConnectionState=normalized;
-    firebaseReady=normalized==="live";
     document.documentElement.dataset.firebaseState=normalized;
 
     if(normalized==="live"){
@@ -2880,12 +2847,8 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   function firebaseErrorDetails(err,context="Firebase sync"){
     const code=String(err?.code||"").toLowerCase();
     const raw=String(err?.message||err||"").toLowerCase();
-    if(code.includes("unauthorized-domain")||raw.includes("unauthorized domain")){
-      const host=location.hostname||"your GitHub Pages hostname";
-      return {label:"DOMAIN NOT AUTHORIZED",message:`Firebase rejected this website domain (${host}). Add ${host} under Authentication → Settings → Authorized domains, then reload.`};
-    }
     if(code.includes("operation-not-allowed")||code.includes("configuration-not-found")||raw.includes("operation-not-allowed")){
-      return {label:"AUTH SETUP NEEDED",message:"Anonymous Authentication is not enabled. Enable Authentication → Sign-in method → Anonymous, then reload."};
+      return {label:"AUTH SETUP NEEDED",message:"Anonymous Authentication is not enabled in the new Firebase project. Open Firebase Console → Authentication → Sign-in method → Anonymous, then enable it."};
     }
     if(code.includes("permission-denied")||raw.includes("permission_denied")||raw.includes("permission denied")){
       return {label:"RULES BLOCKED",message:"Firebase connected, but Realtime Database Rules rejected access. Allow authenticated users to read and write the database."};
@@ -2903,7 +2866,7 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
       return {label:"DATA ERROR",message:"One of the client or task fields used a value Firebase cannot store. This tracker version now cleans those values automatically; reload it once and try the save again."};
     }
     const errorCode=err?.code?` Error code: ${String(err.code)}.`:"";
-    return {label:"SYNC ERROR",message:`${context} failed.${errorCode} Reload the tracker and try again. If it repeats, check Anonymous Authentication and Realtime Database Rules in the “konietracker” project.`};
+    return {label:"SYNC ERROR",message:`${context} failed.${errorCode} Reload the tracker and try again. If it repeats, check Anonymous Authentication and Realtime Database Rules in the “konietrackerplease” project.`};
   }
 
   function reportFirebaseListenerError(err,context="Firebase read"){
@@ -2945,11 +2908,11 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   async function requireFirebase(action="save this change"){
     if(firebaseInitialized && db && dbUpdate && firebaseAuthUser) return true;
     if(!firebaseBootPromise) firebaseBootPromise=initFirebase();
-    try{ await Promise.race([firebaseBootPromise,new Promise(resolve=>setTimeout(resolve,15000))]); }catch(e){}
+    try{
+      await Promise.race([firebaseBootPromise,new Promise(resolve=>setTimeout(resolve,15000))]);
+    }catch(e){}
     if(firebaseInitialized && db && dbUpdate && firebaseAuthUser) return true;
     const reason=window.__konFirebaseAuthProblem||window.__konFirebaseProblem||"Firebase authentication is not ready.";
-    const box=$("firebaseSetupNotice");
-    if(box){box.innerHTML=`<strong>Firebase is blocking this save.</strong><br>${escapeHTML(reason)}`;box.classList.add("show");}
     toast(`${action} blocked: ${reason}`);
     return false;
   }
@@ -2964,12 +2927,11 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
     }catch(err){
       console.error("Firebase save failed:",err);
       const detail=reportFirebaseError(err,"Shared Firebase save");
-      const box=$("firebaseSetupNotice");
-      if(box){box.innerHTML=`<strong>${escapeHTML(detail.label)}</strong><br>${escapeHTML(detail.message)}`;box.classList.add("show");}
-      toast(`${action} failed: ${detail.label}.`);
+      toast(`${action} failed: ${detail.label}. ${detail.message}`);
       return false;
     }
   }
+
 
   function getCheckedValues(name){
     return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
@@ -3021,9 +2983,8 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
         regionEl.querySelectorAll(".area-picker-option").forEach(opt=>{
           const area=(opt.dataset.search||"").toLowerCase();
           const progressHit=true;
-          const areaHit=!q || area.includes(q);
-          const contextHit=!q || regionName===q || gameName===q;
-          const hit=progressHit && (areaHit || (!area.includes(q) && contextHit && !q));
+          const searchHit=!q || area.includes(q);
+          const hit=progressHit && searchHit;
           opt.style.display=hit?"":"none";
           if(hit) regionVisible=true;
         });
@@ -3072,10 +3033,10 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
   }
   window.setAreaBand=setAreaBand;
   function setAreaBandFromButton(area, band, button){
+    const checkbox=button?.closest('.area-picker-option')?.querySelector('input[name="areaPicker"]');
+    if(checkbox) checkbox.checked=true;
     setAreaBand(area, band, false);
     const option = button?.closest('.area-picker-option');
-    const checkbox = option?.querySelector('input[name="areaPicker"]');
-    if(checkbox) checkbox.checked=true;
     if(option){
       option.dataset.band = band;
       option.dataset.progress = String(areaProgressMap[area] || 0);
@@ -5483,17 +5444,17 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
 
   async function initFirebase(){
     setSyncStatus("connecting");
-    window.__konFirebaseAuthProblem="";
-    window.__konFirebaseProblem="";
-    const setupBox=$("firebaseSetupNotice");
-    if(setupBox) setupBox.classList.remove("show");
+    if(firebaseInitialized && firebaseAuthUser && db && dbUpdate) return true;
+    if(!window.firebase){
+      const err=new Error("Firebase SDK did not load.");
+      err.code="firebase/sdk-missing";
+      reportFirebaseError(err,"Firebase startup");
+      return false;
+    }
     try{
-      if(!window.firebase) throw new Error("Firebase SDK did not load.");
-      if(firebaseConfig.apiKey.startsWith("PASTE_")) throw Object.assign(new Error("Firebase Web App configuration is missing."),{code:"firebase/config-missing"});
       if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-
       const database=firebase.database();
-      database.goOnline();
+      try{database.goOnline();}catch(e){console.warn("Firebase goOnline failed",e);}
       dbRef=path=>database.ref(path);
       dbSet=(reference,value)=>reference.set(value);
       dbPush=reference=>reference.push();
@@ -5503,36 +5464,63 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
 
       const auth=firebase.auth();
       try{auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);}catch(e){}
-      let user=auth.currentUser;
-      if(!user) user=(await auth.signInAnonymously()).user;
-      firebaseAuthUser=user;
+      try{
+        firebaseAuthUser=auth.currentUser || (await auth.signInAnonymously()).user;
+        window.__konFirebaseAuthProblem="";
+      }catch(authErr){
+        firebaseAuthUser=null;
+        firebaseInitialized=false;
+        firebaseReady=false;
+        const detail=firebaseErrorDetails(authErr,"Firebase Authentication");
+        window.__konFirebaseAuthProblem=detail.message;
+        firebaseBootPromise=null;
+        setSyncStatus("error");
+        const status=$("liveStatus"),pill=$("livePill");
+        if(status){status.textContent=`● ${detail.label}`;status.title=detail.message;}
+        if(pill) pill.textContent=detail.label;
+        console.error("Firebase Authentication failed:",authErr);
+        return false;
+      }
+
       firebaseInitialized=true;
       firebaseReady=true;
       firebaseConnected=false;
-      window.__konFirebaseDebug={projectId:firebaseConfig.projectId,databaseURL:firebaseConfig.databaseURL,initialized:true,authenticated:true,connected:false,host:location.hostname};
+      window.__konFirebaseDebug={projectId:firebaseConfig.projectId,databaseURL:firebaseConfig.databaseURL,initialized:true,authenticated:true,connected:false,host:location.host,protocol:location.protocol,rulesRequiredAuth:true};
 
       dbRef(".info/connected").on("value",snap=>{
         firebaseConnected=snap.val()===true;
-        window.__konFirebaseDebug.connected=firebaseConnected;
-        setSyncStatus(firebaseConnected?"live":"connecting");
-      },err=>reportFirebaseListenerError(err,"Firebase connection status"));
+        if(window.__konFirebaseDebug) window.__konFirebaseDebug.connected=firebaseConnected;
+        setSyncStatus(firebaseConnected?"live":"offline");
+        renderTodos();
+      },err=>console.warn("Firebase connection listener:",err));
 
-      dbRef("clients").on("value",snap=>{liveClients=firebaseValueFromRead(snap.val()||{});persistLocal();renderClients();renderStats();renderTodos();},err=>reportFirebaseListenerError(err,"Client sync listener"));
-      dbRef("todos").on("value",snap=>{liveTodos=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderStats();renderTodos();},err=>reportFirebaseListenerError(err,"Task sync listener"));
-      dbRef("events").on("value",snap=>{liveEvents=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();},err=>reportFirebaseListenerError(err,"Calendar event sync listener"));
-      dbRef("calendarBlocks").on("value",snap=>{liveCalendarBlocks=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();},err=>reportFirebaseListenerError(err,"Calendar block sync listener"));
-      dbRef("dailyDispatch").on("value",snap=>{liveDailyDispatch=firebaseValueFromRead(snap.val()||{});persistLocal();renderTodos();},err=>reportFirebaseListenerError(err,"Daily queue sync listener"));
+      dbRef("clients").on("value",snap=>{
+        liveClients=firebaseValueFromRead(snap.val()||{});persistLocal();renderClients();renderStats();renderTodos();
+      },err=>reportFirebaseListenerError(err,"Client sync listener"));
+      dbRef("todos").on("value",snap=>{
+        liveTodos=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderStats();renderTodos();
+      },err=>reportFirebaseListenerError(err,"Task sync listener"));
+      dbRef("events").on("value",snap=>{
+        liveEvents=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();
+      },err=>reportFirebaseListenerError(err,"Calendar event sync listener"));
+      dbRef("calendarBlocks").on("value",snap=>{
+        liveCalendarBlocks=firebaseValueFromRead(snap.val()||{});persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();
+      },err=>reportFirebaseListenerError(err,"Calendar block sync listener"));
+      dbRef("dailyDispatch").on("value",snap=>{
+        liveDailyDispatch=firebaseValueFromRead(snap.val()||{});persistLocal();renderTodos();
+      },err=>reportFirebaseListenerError(err,"Daily queue sync listener"));
 
-      toast("Firebase authenticated — shared saves are ready.");
+      setSyncStatus(firebaseConnected?"live":"connecting");
+      renderClients();renderCalendar();renderTodos();renderStats();
+      toast("Firebase connected — shared data is authoritative.");
       return true;
     }catch(err){
-      firebaseInitialized=false;firebaseReady=false;firebaseConnected=false;db=null;dbUpdate=null;firebaseAuthUser=null;
-      const detail=firebaseErrorDetails(err,"Firebase Authentication");
-      window.__konFirebaseAuthProblem=detail.message;
-      setSyncStatus("error");
-      if(setupBox){setupBox.innerHTML=`<strong>${escapeHTML(detail.label)}</strong><br>${escapeHTML(detail.message)}`;setupBox.classList.add("show");}
-      console.error("Firebase startup:",err);
+      firebaseReady=false;firebaseConnected=false;firebaseInitialized=false;db=null;dbUpdate=null;firebaseAuthUser=null;
+      const detail=reportFirebaseError(err,"Firebase startup");
+      window.__konFirebaseProblem=detail.message;
       loadLocal();renderTodos();renderClients();renderCalendar();
+      toast(detail.message);
+      setTimeout(()=>{if(!firebaseInitialized){firebaseBootPromise=null;initFirebase();}},15000);
       return false;
     }
   }
@@ -5560,7 +5548,7 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
   // still waits for Firebase because Firebase is the authoritative data source.
   updateSizeUI();
   firebaseBootPromise = initFirebase();
-  purgeExpiredCompletedTodos();
+  if(firebaseInitialized && firebaseAuthUser) purgeExpiredCompletedTodos();
   setInterval(purgeExpiredCompletedTodos, 60 * 60 * 1000);
 </script>
 
