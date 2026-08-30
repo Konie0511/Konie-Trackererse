@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>!Kon's Piloting Services</title>
+<title>Konie Quest Tracker</title>
 <style>
   :root{
     --blue-dark:#3368A0;
@@ -1008,6 +1008,31 @@
   [data-theme="dark"] .strict-item{background:#111C27}
   [data-theme="dark"] .strict-lock{background:#263B4A;color:#B9CBD6}
 
+
+/* v10 functional UI refinements */
+.quest-type-grid{margin-top:4px}
+.area-picker-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 10px;padding:8px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.45)}
+.area-picker-control-group{display:flex;gap:6px;flex-wrap:wrap}
+.area-picker-action{border:1px solid var(--border);background:var(--blue-light);color:var(--text);border-radius:7px;padding:6px 9px;font-size:.68rem;font-weight:900}
+.area-picker-filter{display:flex;align-items:center;gap:6px;margin:0;font-size:.66rem;font-weight:900;color:var(--muted)}
+.area-picker-filter select{width:auto;min-width:120px;padding:6px 8px;font-size:.68rem}
+.app-shell.compact-view .hero{margin-top:14px !important;padding:16px 18px 18px !important;border-radius:14px !important}
+.app-shell.compact-view .hero-kicker{margin-bottom:6px;padding:4px 8px;font-size:.56rem}
+.app-shell.compact-view .hero h1{font-size:clamp(1.5rem,3.6vw,2.7rem) !important}
+.app-shell.compact-view .hero p{margin-top:5px !important;font-size:.56rem !important}
+.app-shell.compact-view .live-pill{margin-top:7px;padding:4px 8px;font-size:.52rem}
+.app-shell.compact-view .view{margin-top:12px !important}
+@media(max-width:760px){.area-picker-control-group{width:100%}.area-picker-action{flex:1}.area-picker-filter{width:100%;justify-content:space-between}.area-picker-filter select{flex:1}.app-shell.compact-view .hero{margin-top:10px !important;padding:12px 12px 14px !important}.app-shell.compact-view .hero h1{font-size:1.5rem !important}.app-shell.compact-view .hero p{font-size:.48rem !important}}
+
+  .area-band-buttons{display:flex;gap:5px;flex:0 0 auto}
+  .area-band-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:7px 9px;font-size:.67rem;font-weight:950;white-space:nowrap}
+  .area-band-btn:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+  .area-band-btn.active{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff}
+  [data-theme="dark"] .area-band-btn{background:#111C27;color:#F3F7FA;border-color:#355064}
+  [data-theme="dark"] .area-band-btn:hover{background:#20394B}
+  [data-theme="dark"] .area-band-btn.active{background:#5D84A8;border-color:#5D84A8;color:#fff}
+  @media(max-width:760px){.area-band-buttons{width:100%}.area-band-btn{flex:1}}
+
 </style>
 <script defer="" data-domain="konietracker.tiiny.site" src="https://analytics.tiiny.net/js/plausible.js"></script><style id="kon-final-readability-fixes">
 /* Final requested palette/readability lock */
@@ -1229,6 +1254,904 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 [data-theme="dark"] .day.today{background:#3C3A2B !important;outline-color:#AA945A !important}
 [data-theme="dark"] .copy-btn,[data-theme="dark"] .area-region-toggle{background:#3C503D !important;color:#ECF1E4 !important;border-color:#60725B !important}
 </style>
+
+<style id="kon-workspace-navigation-v4">
+/* Compact cottagecore workspace navigation. */
+.home-menu{
+  display:block !important;
+  min-height:0 !important;
+  padding:34px 0 44px !important;
+  overflow:visible !important;
+}
+.home-menu:before{
+  top:56% !important;
+  font-size:clamp(6rem,15vw,12rem) !important;
+  opacity:.055 !important;
+}
+.home-menu-heading{
+  position:relative;
+  z-index:3;
+  margin:0 0 17px;
+  padding:0 4px;
+}
+.home-menu-heading small{
+  display:block;
+  margin-bottom:5px;
+  color:#718067;
+  font-size:.68rem;
+  font-weight:950;
+  letter-spacing:.16em;
+}
+.home-menu-heading h2{
+  margin:0;
+  color:#314434;
+  font-size:clamp(1.45rem,3vw,2rem);
+  letter-spacing:-.02em;
+}
+.home-menu-heading p{margin:5px 0 0;color:#74806D;font-size:.84rem}
+.home-actions-grid{
+  position:relative;
+  z-index:3;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.home-menu .menu-card{
+  width:100% !important;
+  min-height:126px !important;
+  display:grid !important;
+  grid-template-columns:54px minmax(0,1fr) 25px;
+  align-items:center;
+  gap:15px;
+  padding:20px !important;
+  border:1px solid #CBD4BA !important;
+  border-left-width:4px !important;
+  border-radius:19px !important;
+  text-align:left;
+  font-size:1rem !important;
+  box-shadow:0 8px 22px rgba(57,74,48,.08) !important;
+  overflow:hidden;
+}
+.home-menu .menu-card.menu-todo{border-left-color:#6F8B63 !important}
+.home-menu .menu-card.menu-clients{border-left-color:#9A786E !important}
+.home-menu .menu-card.menu-calendar{border-left-color:#A78B4D !important}
+.home-menu .menu-card span{margin:0;color:inherit;font-size:inherit}
+.menu-card .menu-icon{
+  width:54px;
+  height:54px;
+  display:grid !important;
+  place-items:center;
+  border-radius:17px;
+  background:#E2E9D4;
+  color:#587253 !important;
+}
+.menu-card.menu-clients .menu-icon{background:#EFE2DD;color:#87685F !important}
+.menu-card.menu-calendar .menu-icon{background:#F0E7CF;color:#8C743E !important}
+.menu-card .menu-icon svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.menu-card .menu-copy{display:block !important;min-width:0}
+.menu-card .menu-copy small{
+  display:block;
+  margin-bottom:3px;
+  color:#7B8874;
+  font-size:.61rem;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+.menu-card .menu-copy strong{
+  display:block;
+  color:#304334;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.28rem;
+  line-height:1.1;
+}
+.menu-card .menu-copy em{display:block;margin-top:5px;color:#778172;font-size:.72rem;font-style:normal;font-weight:750;line-height:1.25}
+.menu-card .menu-arrow{
+  display:grid !important;
+  place-items:center;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#EFF2E7;
+  color:#60725B !important;
+  transition:transform .18s ease,background .18s ease;
+}
+.home-menu .menu-card:hover{transform:translateY(-3px) !important;background:#FFFDF7 !important;box-shadow:0 14px 30px rgba(57,74,48,.13) !important}
+.home-menu .menu-card:hover .menu-arrow{transform:translateX(2px);background:#DDE6D0}
+.home-menu .menu-card:focus-visible{outline:3px solid rgba(120,144,107,.28);outline-offset:3px}
+
+/* Smaller, calmer in-app dialogs. */
+.app-dialog{
+  width:min(430px,100%) !important;
+  padding:22px !important;
+  border-radius:24px !important;
+  border-top:5px solid #78906B !important;
+  box-shadow:0 24px 70px rgba(30,48,34,.28) !important;
+}
+.app-dialog.danger{border-top-color:#A45D4F !important}
+.app-dialog-icon{width:40px !important;height:40px !important;border-radius:14px !important;margin-bottom:13px !important}
+.app-dialog h3{font-size:1.3rem !important;color:#304334 !important}
+.app-dialog p{margin-top:6px !important;padding:13px 14px;border:1px solid #D8DDCB;border-radius:14px;background:#F7F4EA;color:#687562 !important;font-size:.86rem !important}
+.app-dialog-actions{padding-top:2px;margin-top:16px !important;border-top:0}
+.app-dialog-actions button{min-width:96px !important}
+
+[data-theme="dark"] .home-menu-heading h2,[data-theme="dark"] .menu-card .menu-copy strong{color:#F2ECDD !important}
+[data-theme="dark"] .home-menu-heading p,[data-theme="dark"] .menu-card .menu-copy em,[data-theme="dark"] .menu-card .menu-copy small{color:#B7C2AB !important}
+[data-theme="dark"] .menu-card .menu-icon,[data-theme="dark"] .menu-card .menu-arrow{background:#344637 !important;color:#B9CBA6 !important}
+[data-theme="dark"] .menu-card.menu-clients .menu-icon{background:#493B39 !important;color:#D3B0A7 !important}
+[data-theme="dark"] .menu-card.menu-calendar .menu-icon{background:#49432F !important;color:#D8C27C !important}
+[data-theme="dark"] .app-dialog h3{color:#F2ECDD !important}
+[data-theme="dark"] .app-dialog p{background:#29362B !important;color:#BEC8B7 !important;border-color:#53654F !important}
+
+@media(max-width:860px){.home-actions-grid{grid-template-columns:1fr}.home-menu .menu-card{min-height:108px !important}}
+@media(max-width:520px){
+  .home-menu{padding:25px 0 34px !important}
+  .home-menu-heading{padding:0 2px}
+  .home-menu .menu-card{grid-template-columns:47px minmax(0,1fr) 24px;gap:12px;min-height:98px !important;padding:16px !important}
+  .menu-card .menu-icon{width:47px;height:47px;border-radius:15px}
+  .menu-card .menu-icon svg{width:24px;height:24px}
+  .app-dialog{padding:18px !important;border-radius:20px !important}
+}
+</style>
+
+<style id="kon-cozy-pixel-farm-v5">
+/* Original cozy pixel-farm game treatment. No external or copied game assets. */
+:root{
+  --game-ink:#3B2A1C;
+  --game-wood:#8A5A32;
+  --game-wood-dark:#50321F;
+  --game-wood-light:#B87943;
+  --game-paper:#FFF0BD;
+  --game-paper-light:#FFF9DD;
+  --game-gold:#E4AE4D;
+  --game-grass:#6E994D;
+  --game-grass-dark:#45673B;
+  --game-sky:#9BCDD2;
+  --game-shadow:0 5px 0 #4D3523,0 11px 24px rgba(59,42,28,.18);
+  --text:#3B2A1C;
+  --muted:#766047;
+  --border:#9B744B;
+  --surface:#FFF8D9;
+  --surface-2:#F5E7B8;
+  --blue-dark:#4F733E;
+  --blue-mid:#79A154;
+  --blue-light:#D7E6AE;
+  --cream:#F6E8B7;
+  --shadow:var(--game-shadow);
+  --shadow-soft:0 4px 0 #7B5737,0 8px 18px rgba(59,42,28,.12);
+}
+body{
+  font-family:"Trebuchet MS",Verdana,system-ui,sans-serif !important;
+  background:
+    linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,0)),
+    repeating-linear-gradient(90deg,rgba(61,99,54,.07) 0 2px,transparent 2px 34px),
+    linear-gradient(180deg,#9BCDD2 0 185px,#D5E4A7 185px 52%,#8EB665 100%) !important;
+  background-attachment:fixed !important;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:auto 0 0;
+  height:34vh;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.35;
+  background:
+    linear-gradient(45deg,rgba(69,103,59,.26) 25%,transparent 25%) 0 0/26px 26px,
+    linear-gradient(-45deg,rgba(69,103,59,.20) 25%,transparent 25%) 0 0/26px 26px;
+}
+.app-shell{max-width:1320px !important;padding:18px 22px 42px !important}
+h1,h2,h3,.brand-mini,.person-title,.client-name,.month-label,.menu-copy strong{
+  font-family:"Courier New",ui-monospace,monospace !important;
+  font-weight:950 !important;
+}
+
+/* Game HUD */
+.topbar{
+  background:#F8E8AF !important;
+  border:3px solid var(--game-wood-dark) !important;
+  border-radius:7px !important;
+  box-shadow:0 4px 0 #4D3523,0 9px 20px rgba(59,42,28,.14) !important;
+  padding:10px 14px !important;
+}
+.brand-mini{color:#4A3824 !important;font-size:.88rem;letter-spacing:.06em !important;text-shadow:1px 1px 0 #FFF4C9}
+.nav-btn,.small-btn,.theme-toggle{
+  border:2px solid #795333 !important;
+  border-radius:5px !important;
+  background:#FFF0BD !important;
+  color:#4A3824 !important;
+  box-shadow:0 3px 0 #795333 !important;
+  font-family:"Courier New",ui-monospace,monospace !important;
+  font-weight:950 !important;
+}
+.nav-btn:hover,.small-btn:hover,.theme-toggle:hover{background:#FFE292 !important;transform:translateY(-1px)}
+.nav-btn:active,.small-btn:active,.theme-toggle:active{transform:translateY(2px);box-shadow:0 1px 0 #795333 !important}
+.live-status{
+  padding:7px 9px;
+  border:2px solid #41613A;
+  border-radius:5px;
+  background:#D9E8AD;
+  color:#365432 !important;
+  font-family:"Courier New",ui-monospace,monospace !important;
+  box-shadow:0 3px 0 #41613A;
+}
+.live-status.offline{border-color:#884F3F;background:#F5C7A7;color:#7B3F32 !important;box-shadow:0 3px 0 #884F3F}
+
+/* Wooden title sign */
+.hero{
+  margin-top:34px !important;
+  padding:34px 24px 38px !important;
+  border:4px solid #4A2F1D !important;
+  border-radius:8px !important;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,223,153,.07) 0 3px,transparent 3px 34px),
+    repeating-linear-gradient(90deg,transparent 0 32%,rgba(75,43,24,.22) 32% 32.4%,transparent 32.4% 66%,rgba(75,43,24,.20) 66% 66.4%,transparent 66.4%),
+    linear-gradient(180deg,#A96F3D 0%,#87552E 52%,#754827 100%) !important;
+  box-shadow:0 7px 0 #3F291A,0 18px 34px rgba(56,34,20,.26) !important;
+  overflow:hidden;
+}
+.hero:before{
+  content:"" !important;
+  position:absolute !important;
+  inset:12px !important;
+  width:auto !important;
+  height:auto !important;
+  border:2px dashed rgba(255,229,164,.34);
+  border-radius:4px;
+  background:none !important;
+  pointer-events:none;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:9px;
+  background:repeating-linear-gradient(90deg,#638947 0 14px,#7CA85A 14px 28px);
+}
+.hero-kicker{
+  position:relative;
+  z-index:1;
+  display:inline-block;
+  margin-bottom:12px;
+  padding:6px 10px;
+  border:2px solid #4D3523;
+  border-radius:4px;
+  background:#F4CF72;
+  color:#50321F;
+  box-shadow:0 3px 0 #4D3523;
+  font-family:"Courier New",ui-monospace,monospace;
+  font-size:.68rem;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+.hero h1{
+  position:relative;
+  z-index:1;
+  color:#FFF0B6 !important;
+  font-size:clamp(2rem,5.4vw,4.2rem) !important;
+  letter-spacing:-.045em !important;
+  text-shadow:3px 3px 0 #4B2D1B,0 5px 0 rgba(58,35,20,.30) !important;
+}
+.hero p{position:relative;z-index:1;color:#FFE6A2 !important;letter-spacing:clamp(.13em,.7vw,.34em) !important;font-size:clamp(.62rem,1.5vw,.82rem);font-family:"Courier New",ui-monospace,monospace;font-weight:950 !important}
+.live-pill{
+  position:relative;
+  z-index:1;
+  border:2px solid #385633 !important;
+  border-radius:4px !important;
+  background:#7FA35D !important;
+  color:#FFF8D8;
+  box-shadow:0 3px 0 #385633;
+  font-family:"Courier New",ui-monospace,monospace;
+  text-shadow:1px 1px 0 #385633;
+}
+
+/* Pinned quest board */
+.view{max-width:1160px !important;margin-top:28px !important}
+.home-menu{
+  padding:26px !important;
+  border:4px solid #4E321E;
+  border-radius:7px;
+  background:
+    radial-gradient(circle at 16px 16px,#614124 0 3px,#D6A760 4px 6px,transparent 7px),
+    radial-gradient(circle at calc(100% - 16px) 16px,#614124 0 3px,#D6A760 4px 6px,transparent 7px),
+    linear-gradient(135deg,rgba(255,244,193,.10),transparent 35%),
+    #C89455 !important;
+  box-shadow:0 7px 0 #4E321E,0 16px 28px rgba(59,42,28,.20);
+}
+.home-menu:before{content:"QUEST  BOARD" !important;color:#6D4828 !important;opacity:.10 !important;font-size:clamp(4.5rem,12vw,9rem) !important}
+.home-menu:after{display:none !important}
+.home-decor i{border-radius:1px !important;background:#F4D778 !important;box-shadow:3px 3px 0 rgba(78,50,30,.45) !important}
+.home-decor span{border:2px dashed rgba(89,57,31,.22) !important;border-radius:3px !important}
+.home-menu-heading{margin-bottom:20px !important}
+.home-menu-heading small{
+  display:inline-block !important;
+  padding:4px 8px;
+  border:2px solid #5A3B24;
+  border-radius:3px;
+  background:#E8BB65;
+  color:#533720 !important;
+  box-shadow:0 3px 0 #5A3B24;
+  font-family:"Courier New",ui-monospace,monospace;
+}
+.home-menu-heading h2{margin-top:12px !important;color:#4B321F !important;text-shadow:1px 1px 0 #F3CE85}
+.home-menu-heading p{color:#5C422B !important;font-weight:800}
+.home-actions-grid{gap:18px !important}
+.home-menu .menu-card{
+  min-height:132px !important;
+  border:3px solid #654328 !important;
+  border-left-width:3px !important;
+  border-radius:5px !important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.45),transparent 42%),
+    #FFF0BD !important;
+  box-shadow:0 5px 0 #654328,0 10px 14px rgba(65,42,24,.18) !important;
+}
+.home-menu .menu-card:before{
+  content:"";
+  position:absolute;
+  top:8px;left:50%;
+  width:9px;height:9px;
+  transform:translateX(-50%);
+  border:2px solid #744B29;
+  border-radius:50%;
+  background:#E5B84E;
+  box-shadow:1px 2px 0 rgba(75,47,26,.35);
+}
+.home-menu .menu-card:hover{transform:translateY(-3px) rotate(-.25deg) !important;background:#FFF8D9 !important;box-shadow:0 8px 0 #654328,0 14px 20px rgba(65,42,24,.18) !important}
+.home-menu .menu-card:active{transform:translateY(3px) !important;box-shadow:0 2px 0 #654328 !important}
+.menu-card .menu-icon{border:2px solid #5F472C !important;border-radius:4px !important;background:#BCD686 !important;color:#405D36 !important;box-shadow:0 3px 0 #5F472C}
+.menu-card.menu-clients .menu-icon{background:#DFB4A3 !important;color:#714A41 !important}
+.menu-card.menu-calendar .menu-icon{background:#F0CD73 !important;color:#755B27 !important}
+.menu-card .menu-icon svg{shape-rendering:crispEdges;stroke-width:2.2}
+.menu-card .menu-copy small{color:#80613F !important;font-family:"Courier New",ui-monospace,monospace}
+.menu-card .menu-copy strong{color:#3F2D1D !important;font-size:1.22rem !important;text-shadow:1px 1px 0 #FFF8D9}
+.menu-card .menu-copy em{color:#70583D !important}
+.menu-card .menu-arrow{border:2px solid #69492E !important;border-radius:3px !important;background:#E8BB65 !important;color:#563A23 !important;box-shadow:0 2px 0 #69492E}
+
+/* Game panels, forms, and quest items */
+.section-head h2{color:#3E2C1D;text-shadow:1px 1px 0 #FFF0BD}
+.card,.client,.day,.strict-client-group,.client-choice-card,.area-picker-game,.calendar-block,.stat{
+  border:3px solid #765033 !important;
+  border-radius:6px !important;
+  background:#FFF6D0 !important;
+  box-shadow:0 4px 0 #765033,0 9px 18px rgba(59,42,28,.13) !important;
+}
+.card{padding:20px !important}
+.todo-card.gelli{border-top:6px solid #8C6780 !important}.todo-card.yanna{border-top:6px solid #5F884D !important}
+.person-title{padding-bottom:10px;border-bottom:3px dashed #B28C5D;text-shadow:1px 1px 0 #FFF8DA}
+.strict-client-group{background:#FAEFC3 !important}
+.strict-client-head{border-bottom:2px dashed #A47B4D;padding-bottom:9px}
+.strict-item,.todo-item,.completed-item{
+  border:2px solid #B28A59 !important;
+  border-radius:4px !important;
+  background:#FFFBE7 !important;
+  box-shadow:0 2px 0 #B28A59;
+}
+.strict-item:hover,.todo-item:hover{border-color:#62824A !important;background:#F3F2C4 !important;transform:translateY(-1px)}
+.strict-item.complete{background:#DDEAB3 !important;border-color:#6E8D53 !important;box-shadow:0 2px 0 #6E8D53}
+.strict-item.optional-item{background:#F9E5A5 !important;border-color:#B18B3F !important;box-shadow:0 2px 0 #B18B3F}
+.queue-summary div{border:2px solid #8C6A43 !important;border-radius:4px !important;background:#F0D996 !important;box-shadow:0 2px 0 #8C6A43}
+.queue-summary strong{font-family:"Courier New",ui-monospace,monospace;color:#3F2D1D}
+.optional-gate,.sync-warning{border-width:2px !important;border-radius:4px !important;box-shadow:0 2px 0 currentColor}
+.tag,.todo-section-label,.strict-state,.completed-badge{border-radius:3px !important;font-family:"Courier New",ui-monospace,monospace;letter-spacing:.03em}
+.strict-lock{border:2px dashed #9A7A4D !important;border-radius:4px !important;background:#EEE3B4 !important}
+
+input,select,textarea,.choice,.secondary,.completed-toggle,.credential-box,.copy-btn,.client-filter-tab{
+  border:2px solid #806044 !important;
+  border-radius:4px !important;
+  background:#FFFBE7 !important;
+  color:#3B2A1C !important;
+  box-shadow:0 2px 0 #806044 !important;
+}
+input:focus,select:focus,textarea:focus{border-color:#52713E !important;box-shadow:0 2px 0 #52713E,0 0 0 3px rgba(110,153,77,.24) !important}
+.primary,.back{
+  border:2px solid #365331 !important;
+  border-radius:4px !important;
+  background:#6F984E !important;
+  color:#FFF9DB !important;
+  box-shadow:0 4px 0 #365331 !important;
+  font-family:"Courier New",ui-monospace,monospace;
+}
+.secondary,.copy-btn,.client-filter-tab{font-family:"Courier New",ui-monospace,monospace;font-weight:950}
+.primary:hover,.back:hover{background:#82AA5C !important;transform:translateY(-1px)}
+.primary:active,.back:active,.secondary:active,.danger-btn:active{transform:translateY(2px);box-shadow:0 1px 0 currentColor !important}
+.danger-btn{
+  border:2px solid #783C31 !important;
+  border-radius:4px !important;
+  background:#D77A5F !important;
+  color:#FFF4D2 !important;
+  box-shadow:0 3px 0 #783C31 !important;
+  font-family:"Courier New",ui-monospace,monospace;
+}
+.choice.selected,.client-filter-tab.active{background:#668A4D !important;border-color:#365331 !important;color:#FFF9DB !important;box-shadow:0 3px 0 #365331 !important}
+input[type="checkbox"],input[type="radio"]{accent-color:#5E8747 !important}
+
+/* Calendar and stat HUD */
+.calendar-wrap{border:3px solid #654328 !important;border-radius:6px !important;background:#C89455 !important;padding:8px !important;box-shadow:0 5px 0 #654328}
+.weekday{border:2px solid #304A2D !important;border-radius:3px !important;background:#587A44 !important;color:#FFF4C7 !important;font-family:"Courier New",ui-monospace,monospace;text-shadow:1px 1px 0 #304A2D}
+.day{min-height:126px !important;padding:8px !important;border-width:2px !important;box-shadow:0 2px 0 #765033 !important}
+.day.today{outline:4px solid #E2AD46 !important;background:#FFF0B6 !important}
+.event{border:1px solid rgba(55,39,25,.45);border-radius:3px !important;box-shadow:0 2px 0 rgba(55,39,25,.35);font-family:"Courier New",ui-monospace,monospace}
+.stat{background:#F8E6AB !important;padding:14px !important;box-shadow:0 3px 0 #765033 !important}
+.stat strong{font-family:"Courier New",ui-monospace,monospace;color:#3C2A1C}
+
+/* Parchment pop-up */
+.app-dialog-backdrop,#addClientSection.edit-client-modal{background:rgba(30,39,27,.62) !important;backdrop-filter:blur(3px) !important}
+.app-dialog{
+  border:4px solid #563720 !important;
+  border-top:4px solid #563720 !important;
+  border-radius:6px !important;
+  background:#FFF0BD !important;
+  box-shadow:0 7px 0 #3D281A,0 22px 55px rgba(38,26,16,.42) !important;
+}
+.app-dialog:before{content:"QUEST NOTICE";display:block;margin:-8px 0 14px;padding-bottom:8px;border-bottom:3px dashed #B38A55;color:#795333;font-family:"Courier New",ui-monospace,monospace;font-size:.68rem;font-weight:950;letter-spacing:.13em}
+.app-dialog-icon{border:2px solid #68442B !important;border-radius:4px !important;background:#E9C25F !important;color:#4B311E !important;box-shadow:0 3px 0 #68442B}
+.app-dialog.danger .app-dialog-icon{background:#D97C61 !important;color:#FFF2CE !important}
+.app-dialog h3{color:#3E2B1C !important;text-shadow:1px 1px 0 #FFF8D9}
+.app-dialog p{border:2px solid #A47B4D !important;border-radius:4px !important;background:#FFF8D9 !important;color:#664E34 !important;box-shadow:inset 0 0 0 2px rgba(232,187,101,.20)}
+
+/* Night-farm mode */
+[data-theme="dark"]{
+  --text:#F9EBC1;--muted:#C7B58A;--border:#8A6845;--surface:#3A3428;--surface-2:#45402E;
+  --blue-dark:#9CBD72;--blue-mid:#82A35D;--blue-light:#42583B;--cream:#393326;
+}
+[data-theme="dark"] body{background:linear-gradient(180deg,#263A48 0 190px,#314734 190px 56%,#243B2A 100%) !important;color:#F9EBC1 !important}
+[data-theme="dark"] .topbar{background:#493622 !important;border-color:#23180F !important;box-shadow:0 4px 0 #23180F !important}
+[data-theme="dark"] .brand-mini{color:#FFE7A2 !important;text-shadow:1px 1px 0 #25180F}
+[data-theme="dark"] .nav-btn,[data-theme="dark"] .small-btn,[data-theme="dark"] .theme-toggle{background:#65472C !important;color:#FFF0BD !important;border-color:#291C12 !important;box-shadow:0 3px 0 #291C12 !important}
+[data-theme="dark"] .home-menu{background:#76502F !important;border-color:#291C12 !important;box-shadow:0 7px 0 #291C12 !important}
+[data-theme="dark"] .home-menu-heading h2{color:#FFE8A8 !important;text-shadow:1px 1px 0 #2D1D12}
+[data-theme="dark"] .home-menu-heading p{color:#E0C78F !important}
+[data-theme="dark"] .home-menu .menu-card,[data-theme="dark"] .card,[data-theme="dark"] .client,[data-theme="dark"] .day,[data-theme="dark"] .strict-client-group,[data-theme="dark"] .client-choice-card,[data-theme="dark"] .area-picker-game,[data-theme="dark"] .calendar-block,[data-theme="dark"] .stat,[data-theme="dark"] .app-dialog{
+  background:#41382A !important;color:#F9EBC1 !important;border-color:#98714A !important;box-shadow:0 4px 0 #24180F,0 8px 18px rgba(0,0,0,.22) !important;
+}
+[data-theme="dark"] .menu-card .menu-copy strong,[data-theme="dark"] .section-head h2,[data-theme="dark"] .app-dialog h3,[data-theme="dark"] .stat strong{color:#FFE8A8 !important;text-shadow:1px 1px 0 #24180F}
+[data-theme="dark"] .menu-card .menu-copy em,[data-theme="dark"] .menu-card .menu-copy small{color:#D0BC8F !important}
+[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea,[data-theme="dark"] .choice,[data-theme="dark"] .secondary,[data-theme="dark"] .completed-toggle,[data-theme="dark"] .credential-box,[data-theme="dark"] .copy-btn,[data-theme="dark"] .client-filter-tab,[data-theme="dark"] .strict-item,[data-theme="dark"] .todo-item,[data-theme="dark"] .completed-item,[data-theme="dark"] .app-dialog p{
+  background:#514735 !important;color:#F9EBC1 !important;border-color:#9B784F !important;
+}
+[data-theme="dark"] .queue-summary div,[data-theme="dark"] .optional-gate,[data-theme="dark"] .strict-lock{background:#564B34 !important;border-color:#9B784F !important}
+[data-theme="dark"] .day.today{background:#5C5137 !important;outline-color:#D7A848 !important}
+
+@media(max-width:860px){
+  .app-shell{padding:12px 12px 34px !important}
+  .topbar{position:relative !important;top:0 !important;grid-template-columns:1fr auto !important}
+  .nav-actions{grid-column:1/-1 !important;grid-row:2;justify-content:stretch !important}.nav-actions button{flex:1}
+  .topbar-status{grid-column:2 !important;grid-row:1;flex-wrap:wrap;justify-content:flex-end}
+  .hero{margin-top:18px !important;padding:28px 15px 32px !important}
+  .home-menu{padding:18px !important}
+  .home-actions-grid{gap:14px !important}
+}
+@media(max-width:520px){
+  .topbar-status .theme-toggle span:last-child{display:none}
+  .live-status{font-size:.62rem;padding:6px}
+  .hero p{line-height:1.7}
+  .home-menu .menu-card{min-height:105px !important}
+  .section-head{align-items:flex-start !important}.section-head>div:last-child{justify-content:flex-start}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;animation:none !important;transition:none !important}}
+</style>
+
+<style id="konie-firebase-area-polish">
+
+/* User-requested: percentages belong in the To-Do, not the area picker. */
+.area-picker .area-progress-wrap,.area-picker .area-progress-meta,.area-picker .area-progress-label,.area-picker .area-progress-arrow,.area-picker .area-progress-symbol,.area-picker .area-progress-input{display:none !important}
+
+/* v11 area starting-state controls */
+.area-picker-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:9px}
+.area-picker-control-group{display:flex;gap:5px;flex-wrap:wrap}
+.area-picker-action{border:1px solid var(--border);background:var(--blue-light);color:var(--text);border-radius:8px;padding:5px 8px;font-size:.68rem;font-weight:900}
+.area-picker-action:hover{border-color:var(--blue-mid)}
+.area-picker-filter{display:flex;align-items:center;gap:5px;margin-left:auto;font-size:.68rem;font-weight:900;color:var(--muted)}
+.area-picker-filter select{width:auto;padding:5px 7px;font-size:.68rem}
+.area-picker-hint{font-size:.68rem;color:var(--muted);margin:0 0 10px;padding:7px 9px;border:1px dashed var(--border);border-radius:9px;background:var(--surface-2)}
+.area-band-select{width:auto;min-width:112px;padding:5px 6px !important;border-radius:8px !important;font-size:.62rem !important;font-weight:900}
+@media(max-width:760px){.area-picker-controls{align-items:stretch}.area-picker-filter{margin-left:0}.area-band-select{min-width:118px}.area-picker-option{gap:6px}}
+[data-theme="dark"] .area-picker-action{background:#284A60;color:#F3F7FA;border-color:#45657A}
+[data-theme="dark"] .area-picker-hint{background:#172636;color:#AFC0CB}
+
+
+
+/* v12: compact banner outside the dashboard */
+.app-shell.compact-view .hero{margin-top:18px;padding:20px 18px;border-radius:18px;box-shadow:0 10px 24px rgba(51,104,160,.14)}
+.app-shell.compact-view .hero h1{font-size:clamp(1.8rem,4vw,3rem)}
+.app-shell.compact-view .hero p{margin-top:7px;font-size:.84rem}
+.app-shell.compact-view .live-pill{margin-top:8px;padding:5px 9px;font-size:.65rem}
+@media(max-width:760px){.app-shell.compact-view .hero{margin-top:10px;padding:16px 14px}.app-shell.compact-view .hero h1{font-size:2rem}.app-shell.compact-view .hero p{font-size:.78rem}}
+
+
+
+/* COTTAGECORE / PIXEL FARM REFRESH — keeps the existing blue/sage identity but makes the UI feel handmade and game-like. */
+:root{
+  --cottage-cream:#F4EBD8;
+  --cottage-paper:#FFF9EC;
+  --cottage-green:#6F8F68;
+  --cottage-green-dark:#4E6B4A;
+  --cottage-brown:#8A6A4A;
+  --cottage-brown-dark:#654B35;
+  --cottage-line:#CDBB9D;
+  --cottage-shadow:4px 4px 0 rgba(101,75,53,.16);
+}
+body{
+  background-color:#E9E1C9;
+  background-image:
+    linear-gradient(rgba(111,143,104,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(111,143,104,.06) 1px,transparent 1px),
+    radial-gradient(circle at 15% 15%,rgba(255,255,255,.72),transparent 30%),
+    linear-gradient(135deg,#E9E1C9,#F5EEDC 55%,#DCE6D5);
+  background-size:12px 12px,12px 12px,auto,auto;
+  color:#4B473D;
+  image-rendering:auto;
+}
+.app-shell{max-width:1280px;padding:18px}
+.topbar,.card,.client,.day,.menu-card,.completed-toggle,.calendar-block,.strict-client-group{
+  border:2px solid var(--cottage-line)!important;
+  border-radius:12px!important;
+  box-shadow:var(--cottage-shadow)!important;
+  background:var(--cottage-paper)!important;
+}
+.topbar{border-color:#AFC29E!important;background:#F8F2E4!important}
+.hero{
+  background:
+    linear-gradient(180deg,rgba(111,143,104,.96),rgba(78,107,74,.96))!important;
+  border:3px solid #536F4E!important;
+  border-radius:12px!important;
+  box-shadow:5px 5px 0 rgba(70,83,58,.22)!important;
+}
+.hero h1{font-family:"Courier New",monospace;letter-spacing:.06em;text-shadow:2px 2px 0 rgba(47,67,42,.3)}
+.hero p,.hint,.client-meta,.strict-item-sub{color:#716752}
+.menu-card{color:#4C493F!important;position:relative}
+.menu-card:before,.card h3:before,.section-head h2:before{
+  color:var(--cottage-green);font-family:"Courier New",monospace;font-weight:900
+}
+.menu-card:hover{transform:translate(-2px,-2px)!important;border-color:#8FAA80!important;box-shadow:6px 6px 0 rgba(101,75,53,.18)!important}
+.primary,.back{background:var(--cottage-green-dark)!important;border:2px solid #40583E!important;box-shadow:2px 2px 0 rgba(64,88,62,.25);border-radius:9px!important}
+.secondary,.small-btn,.nav-btn,.area-picker-action,.area-region-toggle,.restore-btn{
+  background:#EFE5CF!important;border:2px solid #C7B693!important;color:#564A3A!important;border-radius:9px!important
+}
+.primary:hover,.back:hover,.secondary:hover,.area-picker-action:hover,.area-region-toggle:hover,.restore-btn:hover{transform:translate(-1px,-1px)}
+input,select,textarea{background:#FFFCF3!important;border:2px solid #D2C2A3!important;border-radius:9px!important;color:#514A3E!important}
+input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shadow:0 0 0 3px rgba(134,161,122,.18)!important}
+.todo-card.gelli{border-top:7px solid #8A6FC2!important;background:#FCF8F0!important}
+.todo-card.yanna{border-top:7px solid #718E67!important;background:#FCF8F0!important}
+.person-title{font-family:"Courier New",monospace;font-size:1.35rem!important;letter-spacing:.12em!important;color:var(--cottage-brown-dark)!important}
+.todo-item,.strict-item,.completed-item{border:2px solid #DDCFB7!important;background:#FFFDF6!important;border-radius:8px!important}
+.todo-item:hover,.strict-item:hover{background:#F0E9D8!important}
+.todo-section-label.must{background:#F0D7CF!important;color:#7E463D!important;border:2px solid #D7A99E!important}
+.todo-section-label.optional{background:#E8D6A8!important;color:#76531C!important;border:2px solid #D1B46E!important}
+.todo-section-label.extra{background:#E3D8EF!important;color:#644A7F!important;border:2px solid #B8A4D1!important}
+.strict-state,.tag{border:2px solid #CDBB9D!important}
+.strict-lock{background:#EFE8D8!important;border:1px dashed #CDBB9D!important}
+.area-picker-wrap{background:#F6EEDC!important}
+.area-picker-game{background:#FFF9EA!important;border:2px solid #CCBE9F!important;box-shadow:2px 2px 0 rgba(101,75,53,.08)}
+.area-picker-region{border-top:2px dotted #D6C7A9!important}
+.area-picker-option{border-radius:7px}
+.area-picker-option:hover{background:#E8F0E2!important}
+.area-band-select{background:#F0E8D4!important}
+.calendar .weekday{background:#607C59!important;border:2px solid #4B6745!important}
+.day{background:#FFF9EC!important}
+.day.today{outline:3px solid #91A982!important;background:#EEF5E7!important}
+.event{border:2px solid rgba(60,60,40,.18);font-family:"Courier New",monospace;font-size:.64rem}
+.stats-grid .stat{background:#F2E8D1!important;border:2px solid #CDBB9D!important;box-shadow:2px 2px 0 rgba(101,75,53,.10)}
+.toast{background:#4E6B4A!important;border:2px solid #40583E!important;box-shadow:4px 4px 0 rgba(64,88,62,.2)!important;border-radius:8px!important}
+/* soft pixel corners */
+.card:before,.client:before,.todo-card:before,.menu-card:before,.day:before{content:"";position:absolute;pointer-events:none}
+[data-theme="dark"] body{background:#253229!important;background-image:linear-gradient(rgba(143,175,128,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(143,175,128,.045) 1px,transparent 1px)!important;background-size:12px 12px}
+[data-theme="dark"] .card,[data-theme="dark"] .client,[data-theme="dark"] .day,[data-theme="dark"] .menu-card,[data-theme="dark"] .topbar,[data-theme="dark"] .completed-toggle,[data-theme="dark"] .strict-client-group{background:#28352B!important;border-color:#53684C!important;color:#E9E5D5!important}
+[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea,[data-theme="dark"] .secondary,[data-theme="dark"] .area-picker-action,[data-theme="dark"] .area-region-toggle,[data-theme="dark"] .restore-btn{background:#222D25!important;color:#E9E5D5!important;border-color:#596E54!important}
+[data-theme="dark"] .todo-item,[data-theme="dark"] .strict-item,[data-theme="dark"] .completed-item{background:#2B382E!important;border-color:#4D614B!important}
+@media(max-width:900px){.topbar{box-shadow:3px 3px 0 rgba(101,75,53,.14)!important}.hero{border-width:2px!important}}
+
+
+/* Firebase / area-picker repair polish */
+.area-picker-controls{display:flex;justify-content:flex-start;align-items:center;gap:10px;margin-bottom:12px}
+.area-picker-control-group{display:flex;gap:7px;flex-wrap:wrap}
+.area-picker-action{min-height:38px;padding:8px 12px!important;font-size:.72rem!important}
+.area-picker-hint{display:flex;align-items:center;gap:7px;margin:0 0 12px!important;padding:9px 11px!important;border:2px dashed #CDBB9D!important;background:#FFF8E7!important;color:#6F6554!important;font-size:.72rem!important;line-height:1.4}
+.area-picker-hint:before{content:'✦';font-size:.8rem;color:#6F8F68}
+.area-picker{gap:10px!important;max-height:500px!important;padding-right:3px!important}
+.area-picker-game{padding:15px!important;border:2px solid #CDBB9D!important;border-radius:13px!important;background:linear-gradient(180deg,#FFF9EA,#F9F0DC)!important}
+.area-picker-game-title{font-size:1rem!important;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px!important;color:#526C4D!important}
+.area-picker-region{padding:9px 0 6px!important;border-top:2px dotted #D5C6A7!important}
+.area-picker-region-head{margin-bottom:6px!important}
+.area-picker-region-head strong{font-size:.74rem!important;letter-spacing:.08em;text-transform:uppercase;color:#77664C!important}
+.area-picker-option{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:10px!important;align-items:center!important;padding:9px!important;border:1px solid transparent!important;background:rgba(255,255,255,.36)!important;transition:.14s ease}
+.area-picker-option:hover{background:#EEF4E7!important;border-color:#C8D8BE!important;transform:translateX(1px)}
+.area-picker-option label{min-width:0!important}
+.area-picker-option input{width:18px!important;height:18px!important}
+.area-picker-option label span{font-size:.82rem!important;font-weight:850!important}
+.area-band-buttons{display:flex!important;gap:5px!important;flex:0 0 auto!important}
+.area-band-btn{min-width:84px!important;padding:7px 9px!important;border:2px solid #CDBB9D!important;border-radius:8px!important;background:#F7EFD9!important;color:#5E503D!important;font-size:.68rem!important;font-weight:950!important;box-shadow:1px 1px 0 rgba(101,75,53,.08)!important}
+.area-band-btn:hover{background:#E8F0E2!important;border-color:#9BB18F!important}
+.area-band-btn.active{background:#607C59!important;border-color:#4B6745!important;color:#FFFDF5!important;box-shadow:2px 2px 0 rgba(75,103,69,.18)!important}
+.area-picker.searching .area-picker-game{display:contents!important}
+.area-picker.searching .area-picker-region{display:contents!important}
+.area-picker.searching .area-picker-game-title,.area-picker.searching .area-picker-region-head{display:none!important}
+.area-picker.searching .area-picker-option{margin:4px 0;padding:10px 12px!important;border:2px solid #D7C9AC!important;border-radius:10px!important;background:#FFF9EA!important}
+.area-picker.searching .area-picker-list{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin-bottom:8px}
+.area-picker-search{margin-bottom:10px!important;height:44px!important;font-size:.86rem!important}
+.area-picker-search::placeholder{color:#9B907D}
+.area-picker-search:focus{box-shadow:0 0 0 3px rgba(111,143,104,.17)!important}
+/* Make the form feel like a little quest ledger instead of a plain form. */
+#clientView .card{background:linear-gradient(180deg,#FFF9EC 0%,#F7EEDB 100%)!important}
+#clientView .field>label{color:#5D6F50!important;letter-spacing:.04em}
+#clientView .check-option{background:#FFF9EA!important;border:2px solid #D7C8AB!important;border-radius:10px!important;transition:.14s ease}
+#clientView .check-option:hover{transform:translateY(-1px);border-color:#A9BC9D!important;background:#F0F5EA!important}
+#clientView .check-option:has(input:checked){background:#E7EFDF!important;border-color:#8EA680!important;box-shadow:2px 2px 0 rgba(101,75,53,.08)!important}
+#clientView .choice{background:#FFF9EA!important;border:2px solid #D0BE9C!important}
+#clientView .choice.selected{background:#607C59!important;border-color:#4B6745!important;color:#fff!important}
+#saveClientButton{min-width:150px;box-shadow:3px 3px 0 rgba(64,88,62,.18)!important}
+.section-head h2,.section-head h3{font-family:"Courier New",monospace!important;letter-spacing:.03em}
+/* dashboard has more life, but keeps the green / parchment palette */
+.home-menu{position:relative!important}
+.home-menu-heading small{display:inline-block;padding:5px 9px;border:2px solid #CDBB9D;border-radius:999px;background:#F4E7C9;color:#6D644F;font-weight:950;letter-spacing:.12em}
+.home-menu-heading h2{font-family:"Courier New",monospace!important;color:#4E6B4A!important}
+.home-menu-heading p{color:#746C5C!important}
+.menu-card{overflow:hidden!important}
+.menu-card span{filter:drop-shadow(2px 2px 0 rgba(101,75,53,.10))}
+.menu-card:nth-of-type(2){transform:translateY(4px)}
+.menu-card:nth-of-type(2):hover{transform:translateY(1px)!important}
+.menu-card:nth-of-type(3){transform:translateY(8px)}
+.menu-card:nth-of-type(3):hover{transform:translateY(5px)!important}
+@media(max-width:900px){.menu-card:nth-of-type(2),.menu-card:nth-of-type(3){transform:none}.menu-card:nth-of-type(2):hover,.menu-card:nth-of-type(3):hover{transform:translate(-2px,-2px)!important}}
+@media(max-width:760px){.area-picker-option{grid-template-columns:1fr!important}.area-band-buttons{width:100%!important}.area-band-btn{flex:1!important}.area-picker.searching .area-picker-list{grid-template-columns:1fr!important}}
+
+</style>
+<style id="file-protocol-notice-style">
+.file-protocol-notice{margin:12px auto 0;max-width:1180px;padding:11px 14px;border:2px solid #CDBB9D;border-radius:10px;background:#FFF5D9;color:#6A5740;box-shadow:2px 2px 0 rgba(101,75,53,.08);font-size:.78rem;line-height:1.45}
+.file-protocol-notice code{padding:2px 5px;border-radius:5px;background:#F0E3C2;font-family:"Courier New",monospace;font-weight:900}
+[data-theme="dark"] .file-protocol-notice{background:#342E22;color:#E9E5D5;border-color:#5B684E}
+[data-theme="dark"] .file-protocol-notice code{background:#252C23}
+</style>
+
+<style id="konie-dark-palette-final">
+/* Final dark palette — cozy night-garden / cottagecore */
+[data-theme="dark"]{
+  --surface:#24281F !important;
+  --surface-2:#2D3328 !important;
+  --cream:#343A2D !important;
+  --text:#F5F0DF !important;
+  --muted:#B8B59F !important;
+  --border:#58624F !important;
+  --blue-dark:#A6C995 !important;
+  --blue-mid:#BDD8A8 !important;
+  --blue-light:#41503A !important;
+  --gelli:#C5A8D8 !important;
+  --gelli-light:#3B3044 !important;
+  --yanna:#A9CF91 !important;
+  --yanna-light:#2D422C !important;
+  --danger:#E98982 !important;
+  --must-bg:#4B3032 !important;
+  --must-text:#FFD0CA !important;
+  --optional-bg:#4B3E25 !important;
+  --optional-text:#FFE4AB !important;
+  --extra-bg:#41354A !important;
+  --extra-text:#E7D5F1 !important;
+  --shadow:0 20px 50px rgba(0,0,0,.36) !important;
+  color-scheme:dark;
+}
+
+[data-theme="dark"] body{
+  background:
+    radial-gradient(900px 500px at 8% 0%,rgba(166,201,149,.12),transparent 64%),
+    radial-gradient(760px 500px at 92% 8%,rgba(197,168,216,.09),transparent 66%),
+    radial-gradient(700px 460px at 50% 100%,rgba(217,181,119,.06),transparent 72%),
+    linear-gradient(140deg,#121812 0%,#1A2119 48%,#171E17 100%) !important;
+  color:var(--text) !important;
+}
+
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .card,
+[data-theme="dark"] .menu-card,
+[data-theme="dark"] .client,
+[data-theme="dark"] .day,
+[data-theme="dark"] .secondary,
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea,
+[data-theme="dark"] .choice,
+[data-theme="dark"] .completed-toggle{
+  background:#24281F !important;
+  color:var(--text) !important;
+  border-color:#58624F !important;
+}
+
+[data-theme="dark"] .topbar{
+  background:rgba(31,37,29,.95) !important;
+  border-color:#526149 !important;
+  box-shadow:0 14px 34px rgba(0,0,0,.30) !important;
+}
+
+[data-theme="dark"] .hero{
+  background:
+    linear-gradient(120deg,#29412D 0%,#466543 58%,#5A5840 130%) !important;
+  box-shadow:0 18px 42px rgba(0,0,0,.28) !important;
+}
+
+[data-theme="dark"] .menu-card{
+  background:linear-gradient(145deg,#252A21 0%,#20251F 100%) !important;
+  box-shadow:0 18px 38px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+[data-theme="dark"] .menu-card:hover,
+[data-theme="dark"] .nav-btn:hover,
+[data-theme="dark"] .small-btn:hover{
+  background:#30382C !important;
+}
+
+[data-theme="dark"] .menu-card:nth-of-type(1){border-top-color:#A9CF91 !important}
+[data-theme="dark"] .menu-card:nth-of-type(2){border-top-color:#C5A8D8 !important}
+[data-theme="dark"] .menu-card:nth-of-type(3){border-top-color:#D9BA75 !important}
+
+[data-theme="dark"] .primary,
+[data-theme="dark"] .back{
+  background:#6F915F !important;
+  color:#10160F !important;
+}
+[data-theme="dark"] .primary:hover,
+[data-theme="dark"] .back:hover{
+  background:#82A86F !important;
+}
+
+[data-theme="dark"] .theme-toggle{
+  background:#30372A !important;
+  border-color:#607055 !important;
+  color:#F5F0DF !important;
+}
+[data-theme="dark"] .theme-dot{
+  background:linear-gradient(135deg,#F4D58A 0 50%,#6D8D60 50% 100%) !important;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.12) !important;
+}
+
+[data-theme="dark"] .live-status{color:#A9CF91 !important}
+[data-theme="dark"] .live-status.offline{color:#E98982 !important}
+[data-theme="dark"] .live-pill{background:rgba(255,255,255,.10) !important}
+
+[data-theme="dark"] .strict-client-group,
+[data-theme="dark"] .area-picker-game,
+[data-theme="dark"] .calendar-block,
+[data-theme="dark"] .check-option{
+  background:#2A3126 !important;
+  border-color:#58624F !important;
+}
+
+[data-theme="dark"] .strict-item{
+  background:#242A21 !important;
+  border-color:#56614E !important;
+}
+[data-theme="dark"] .strict-state{
+  background:#3A4235 !important;
+  color:#DADBCB !important;
+}
+[data-theme="dark"] .strict-state.must{
+  background:#4B3032 !important;
+  color:#FFD0CA !important;
+}
+[data-theme="dark"] .strict-state.optional{
+  background:#4B3E25 !important;
+  color:#FFE4AB !important;
+}
+[data-theme="dark"] .strict-lock,
+[data-theme="dark"] .optional-gate{
+  background:#31382D !important;
+  color:#BABEAB !important;
+}
+
+[data-theme="dark"] .todo-item{
+  background:rgba(45,51,40,.72) !important;
+}
+[data-theme="dark"] .todo-item:hover{background:#35402F !important}
+[data-theme="dark"] .todo-section-label.must,
+[data-theme="dark"] .tag.must{
+  background:#4B3032 !important;
+  color:#FFD0CA !important;
+}
+[data-theme="dark"] .todo-section-label.optional,
+[data-theme="dark"] .tag.optional{
+  background:#4B3E25 !important;
+  color:#FFE4AB !important;
+}
+[data-theme="dark"] .todo-section-label.extra,
+[data-theme="dark"] .tag.extra{
+  background:#41354A !important;
+  color:#E7D5F1 !important;
+}
+[data-theme="dark"] .todo-section-label.next{
+  background:#303A32 !important;
+  color:#C5CEBC !important;
+}
+
+[data-theme="dark"] .area-picker-wrap{
+  background:#24281F !important;
+  border-color:#58624F !important;
+}
+[data-theme="dark"] .area-picker-game{
+  background:#2A3126 !important;
+}
+[data-theme="dark"] .area-picker-region{
+  border-top-color:#4E5948 !important;
+}
+[data-theme="dark"] .area-picker-option:hover{
+  background:#36422F !important;
+}
+[data-theme="dark"] .area-region-toggle,
+[data-theme="dark"] .area-picker-action{
+  background:#3B4834 !important;
+  color:#F5F0DF !important;
+  border-color:#607055 !important;
+}
+[data-theme="dark"] .area-picker-search,
+[data-theme="dark"] .area-progress-input{
+  background:#1A2118 !important;
+  color:#F5F0DF !important;
+  border-color:#5B6750 !important;
+}
+[data-theme="dark"] .area-range::-webkit-slider-runnable-track{
+  background:linear-gradient(90deg,#789E69,#42503D) !important;
+  border-color:#5A674E !important;
+}
+[data-theme="dark"] .area-range::-webkit-slider-thumb{
+  background:#A9CF91 !important;
+  border-color:#1E271C !important;
+}
+
+[data-theme="dark"] .client-choice-card{
+  background:linear-gradient(145deg,#283025,#20261F) !important;
+}
+[data-theme="dark"] .client-choice-card span{color:#A9CF91 !important}
+
+[data-theme="dark"] .stat{
+  background:#2B3227 !important;
+  border-color:#59634F !important;
+}
+[data-theme="dark"] .stat span{color:#A9CF91 !important}
+
+[data-theme="dark"] .weekday{
+  background:#40503A !important;
+  color:#F5F0DF !important;
+}
+[data-theme="dark"] .day.today{
+  outline-color:#A9CF91 !important;
+  background:#2F3A2C !important;
+}
+[data-theme="dark"] .event.gelli{background:#765B88 !important}
+[data-theme="dark"] .event.yanna{background:#53754F !important}
+[data-theme="dark"] .event.other{background:#526B5A !important}
+[data-theme="dark"] .event.work{background:#6B6652 !important}
+[data-theme="dark"] .event.completed-event{background:#62885A !important}
+[data-theme="dark"] .event.blocker{background:#605D50 !important}
+
+[data-theme="dark"] .danger-btn{
+  background:#4B3032 !important;
+  color:#FFD0CA !important;
+}
+[data-theme="dark"] .copy-btn{
+  background:#3B4834 !important;
+  color:#F5F0DF !important;
+  border-color:#607055 !important;
+}
+[data-theme="dark"] .restore-btn{
+  background:#3B4834 !important;
+  color:#F5F0DF !important;
+}
+
+[data-theme="dark"] .home-menu:before{
+  color:#A9CF91 !important;
+  opacity:.08 !important;
+}
+[data-theme="dark"] .home-menu:after{
+  background:radial-gradient(circle,#4A5A40 0%,rgba(63,81,55,.30) 40%,transparent 72%) !important;
+  opacity:.45 !important;
+}
+[data-theme="dark"] .home-decor i{background:#A9CF91 !important}
+[data-theme="dark"] .home-decor span{border-color:#53634C !important}
+
+[data-theme="dark"] .sync-warning{
+  background:#4B3E25 !important;
+  color:#FFE4AB !important;
+  border-color:#75613A !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -1236,7 +2159,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 <div class="app-shell page-content">
 
   <nav class="topbar">
-    <div class="brand-mini">!KON'S</div>
+    <div class="brand-mini">!KON'S QUEST LOG</div>
     <div class="nav-actions">
       <button class="nav-btn" onclick="goHome()">Home</button>
       <button class="nav-btn" onclick="openSearch()">Search</button>
@@ -1251,10 +2174,14 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   </nav>
 
   <header class="hero">
+    <div class="hero-kicker">CO-OP PILOTING TRACKER</div>
     <h1>!Kon's Piloting Services</h1>
-    <p>K O N I E</p>
-    <div id="livePill" class="live-pill">LOCAL MODE</div>
+    <p>Q U E S T S&nbsp;&nbsp;•&nbsp;&nbsp;C L I E N T S&nbsp;&nbsp;•&nbsp;&nbsp;D E A D L I N E S</p>
+    <div id="livePill" class="live-pill">CONNECTING TO FIREBASE…</div>
   </header>
+  <div id="fileProtocolNotice" class="file-protocol-notice" hidden>
+    <strong>Firebase needs a web address.</strong> This file is opened with <code>file://</code>. Use the included <code>start-konie-tracker.bat</code> to open it at <code>http://localhost</code> so Anonymous Auth and Firebase writes can work.
+  </div>
 
   <div class="main-column">
   <main>
@@ -1262,15 +2189,34 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       <div class="home-menu">
     <div class="home-decor" aria-hidden="true">
       <i></i><i></i><i></i><i></i><span></span><span></span>
-    </div>
-        <button class="menu-card" onclick="showView('todoView')"><span>✓</span>To-Do</button>
-        <button class="menu-card" onclick="showView('clientView')"><span>♙</span>Client Info</button>
-        <button class="menu-card" onclick="showView('calendarView')"><span>▦</span>Calendar</button>
+        </div>
+        <div class="home-menu-heading">
+          <small>DAILY QUEST BOARD</small>
+          <h2>Choose your next stop</h2>
+          <p>Open today’s quests, the client journal, or your shared village calendar.</p>
+        </div>
+        <div class="home-actions-grid">
+          <button class="menu-card menu-todo" onclick="showView('todoView')">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.2 1.2L7 4.8M3.5 12l1.2 1.2L7 10.8M3.5 18l1.2 1.2L7 16.8"/></svg></span>
+            <span class="menu-copy"><small>01 · TO-DO</small><strong>Quest Board</strong><em>MUST quests and unlocked extras</em></span>
+            <span class="menu-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="menu-card menu-clients" onclick="showView('clientView')">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 20c.5-4 2.7-6 6.5-6s6 2 6.5 6"/><path d="M18.5 5.5h2M19.5 4.5v2"/></svg></span>
+            <span class="menu-copy"><small>02 · COMMISSIONS</small><strong>Client Journal</strong><em>Accounts, progress, and details</em></span>
+            <span class="menu-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="menu-card menu-calendar" onclick="showView('calendarView')">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h2M11 14h2M15 14h2M7 18h2M11 18h2"/></svg></span>
+            <span class="menu-copy"><small>03 · SHARED PLAN</small><strong>Village Calendar</strong><em>Deadlines, blocks, and workload</em></span>
+            <span class="menu-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
     </section>
 
     <section id="todoView" class="view">
-      <div class="section-head"><div><h2>To-Do</h2><div id="dispatchDate" class="dispatch-date-line"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="danger-btn" onclick="deleteCheckedTodos()">Delete All Checked</button><button class="back" onclick="goHome()">← Home</button></div></div>
+      <div class="section-head"><div><h2>Quest Board</h2><div id="dispatchDate" class="dispatch-date-line"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="danger-btn" onclick="deleteCheckedTodos()">Delete All Checked</button><button class="back" onclick="goHome()">← Home</button></div></div>
 
       <div class="todo-columns">
         <div class="card todo-card gelli">
@@ -1285,7 +2231,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     </section>
 
     <section id="clientView" class="view">
-      <div class="section-head"><h2>Client Info</h2><button class="back" onclick="goHome()">← Home</button></div>
+      <div class="section-head"><h2>Client Journal</h2><button class="back" onclick="goHome()">← Home</button></div>
 
       <div id="clientChoiceView" class="client-choice-view">
         <div class="card">
@@ -1374,7 +2320,14 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
               <textarea id="explorationArea" style="display:none"></textarea>
             </div>
             <div id="questFields" class="conditional-fields">
-              <label for="questNames">Quest Names</label>
+              <label>Quest Type</label>
+              <div class="check-grid quest-type-grid">
+                <label class="check-option"><input type="checkbox" name="questType" value="Main / Story Quest"> Main / Story</label>
+                <label class="check-option"><input type="checkbox" name="questType" value="Side / World Quest"> Side / World</label>
+                <label class="check-option"><input type="checkbox" name="questType" value="Character / Companion Quest"> Character / Companion</label>
+                <label class="check-option"><input type="checkbox" name="questType" value="Event Quest"> Event Quest</label>
+              </div>
+              <label for="questNames" style="margin-top:12px">Quest Names</label>
               <textarea id="questNames" placeholder="One quest per line&#10;The Quest Name&#10;Another Quest"></textarea>
               <div class="hint">One quest per line. Pick the quest types above only when you want that category recorded too.</div>
             </div>
@@ -1463,7 +2416,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
         </div>
 
         <div class="form-actions">
-          <button type="button" class="primary" id="saveClientButton" onclick="window.submitClientForm()">Add Client</button>
+          <button type="button" class="primary" id="saveClientButton" onclick="window.submitClientForm(); return false;">Add Client</button>
           <button type="button" class="secondary" id="clientEditorCancelButton" onclick="cancelClientEditor()">Reset</button>
         </div>
       </div>
@@ -1486,7 +2439,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 
     <section id="calendarView" class="view">
       <div class="section-head">
-        <h2>Calendar</h2>
+        <h2>Village Calendar</h2>
         <div style="display:flex;gap:8px">
           <div class="calendar-nav">
             <button class="secondary" onclick="changeMonth(-1)">‹</button>
@@ -1567,7 +2520,10 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 
 
 
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script>
   /*
     ============================================================
     FIREBASE SETUP
@@ -1597,16 +2553,19 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   let dbPush = null;
   let dbRemove = null;
   let dbUpdate = null;
+  let firebaseAuthUser = null;
   let liveClients = {};
   let liveTodos = {};
   let liveEvents = {};
   let liveCalendarBlocks = {};
   let liveDailyDispatch = {};
   let firebaseReady = false;
+  let firebaseConnectionState = "connecting";
   let editingClientId = null;
   let clientFilter = "ongoing";
   let monthCursor = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
+  // LocalStorage is display cache only. Firebase is the authoritative save source.
   const sampleTodos = {
     Gelli: [
       {day:"Day 1", date:"Aug 28", tag:"Priority", items:["Finish Yunhwa"]},
@@ -1688,12 +2647,127 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   window.showAppDialog=showAppDialog;
 
   function setSyncStatus(mode){
+    const states={connecting:["● CONNECTING FIREBASE","CONNECTING TO SHARED SAVE",true],live:["● LIVE SYNC","● CO-OP SAVE ONLINE",false],offline:["● FIREBASE OFFLINE · RETRYING","FIREBASE TEMPORARILY OFFLINE",true],error:["● FIREBASE ERROR","FIREBASE SAVE ERROR",true]};
+    const normalized=states[mode]?mode:"connecting";
+    const next=states[normalized];
+    firebaseConnectionState=normalized;
+    firebaseReady=normalized==="live";
+    document.documentElement.dataset.firebaseState=normalized;
+
+    if(normalized==="live"){
+      window.__konFirebaseProblem="";
+      document.querySelectorAll(".sync-warning").forEach(warning=>warning.remove());
+    }
+
     const status=$("liveStatus"), pill=$("livePill");
     if(!status || !pill) return;
-    const states={connecting:["● CONNECTING","CONNECTING",true],live:["● LIVE SYNC","● FIREBASE LIVE",false],offline:["● OFFLINE · READ ONLY","FIREBASE OFFLINE",true],error:["● SYNC ERROR","SYNC ERROR",true]};
-    const next=states[mode]||states.connecting;
     status.textContent=next[0];pill.textContent=next[1];status.classList.toggle("offline",next[2]);
-    if(mode==="live"){status.title="Connected to the shared Konie Firebase database.";window.__konFirebaseProblem="";}
+    status.title=normalized==="live"?"Connected to the shared Konie Firebase database.":"";
+  }
+
+  // Realtime Database object keys cannot contain . # $ / [ or ]. Area names
+  // such as "Mt. Firmament" therefore need a reversible key escape. The same
+  // cleanup also removes undefined values and non-finite numbers before any
+  // write, preventing one bad field from rejecting an otherwise valid save.
+  const FIREBASE_KEY_ESCAPE={"%":"%25",".":"%2E","#":"%23","$":"%24","/":"%2F","[":"%5B","]":"%5D"};
+
+  function encodeFirebaseKey(key){
+    const raw=String(key);
+    if(raw==="") return "%EMPTY";
+    return raw.replace(/[%\.#$\/\[\]\u0000-\u001F\u007F]/g,char=>FIREBASE_KEY_ESCAPE[char]||`%${char.charCodeAt(0).toString(16).toUpperCase().padStart(2,"0")}`);
+  }
+
+  function decodeFirebaseKey(key){
+    const raw=String(key);
+    if(raw==="%EMPTY") return "";
+    return raw.replace(/%(00|0[1-9A-F]|1[0-9A-F]|23|24|25|2E|2F|5B|5D|7F)/gi,(_,code)=>String.fromCharCode(parseInt(code,16)));
+  }
+
+  function firebaseValueForWrite(value,inArray=false,seen=new WeakSet()){
+    if(value===undefined) return inArray?null:undefined;
+    if(value===null || typeof value==="string" || typeof value==="boolean") return value;
+    if(typeof value==="number") return Number.isFinite(value)?value:null;
+    if(typeof value==="bigint") return String(value);
+    if(value instanceof Date) return value.toISOString();
+    if(Array.isArray(value)) return value.map(item=>firebaseValueForWrite(item,true,seen));
+    if(typeof value!=="object") return undefined;
+    if(seen.has(value)) throw new Error("Firebase data contains a circular reference.");
+    seen.add(value);
+    const output={};
+    Object.entries(value).forEach(([key,item])=>{
+      const safe=firebaseValueForWrite(item,false,seen);
+      if(safe!==undefined) output[encodeFirebaseKey(key)]=safe;
+    });
+    seen.delete(value);
+    return output;
+  }
+
+  function firebaseValueFromRead(value){
+    if(Array.isArray(value)) return value.map(firebaseValueFromRead);
+    if(!value || typeof value!=="object") return value;
+    const output={};
+    Object.entries(value).forEach(([key,item])=>{output[decodeFirebaseKey(key)]=firebaseValueFromRead(item);});
+    return output;
+  }
+
+  function firebasePatchForWrite(patch){
+    if(!patch || typeof patch!=="object" || Array.isArray(patch)) throw new Error("Firebase patch must be an object.");
+    const output={};
+    Object.entries(patch).forEach(([path,value])=>{
+      const safePath=String(path).split("/").filter(Boolean).map(encodeFirebaseKey).join("/");
+      if(!safePath) return;
+      const safeValue=firebaseValueForWrite(value);
+      if(safeValue!==undefined) output[safePath]=safeValue;
+    });
+    return output;
+  }
+
+  function nestedFirebasePatch(safePatch){
+    const root=Object.create(null);
+    Object.entries(safePatch).forEach(([path,value])=>{
+      const parts=String(path).split("/").filter(Boolean);
+      let cursor=root;
+      parts.forEach((part,index)=>{
+        if(index===parts.length-1){cursor[part]=value;return;}
+        if(cursor[part]===undefined) cursor[part]=Object.create(null);
+        if(!cursor[part] || typeof cursor[part]!=="object" || Array.isArray(cursor[part])) throw new Error(`Conflicting Firebase update path: ${path}`);
+        cursor=cursor[part];
+      });
+    });
+    return root;
+  }
+
+  async function writeFirebaseRestFallback(safePatch){
+    if(!firebaseAuthUser) throw new Error("Firebase authentication session is unavailable.");
+    const token=await firebaseAuthUser.getIdToken(true);
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),12000);
+    try{
+      const response=await fetch(`${firebaseConfig.databaseURL}/.json?auth=${encodeURIComponent(token)}`,{
+        method:"PATCH",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(nestedFirebasePatch(safePatch)),
+        signal:controller.signal
+      });
+      const body=await response.text();
+      if(!response.ok){
+        let reason=body;
+        try{reason=JSON.parse(body)?.error||body;}catch(parseError){}
+        const error=new Error(`Firebase REST save failed: ${String(reason||response.statusText)}`);
+        error.code=`rest/${response.status}`;
+        throw error;
+      }
+      return true;
+    }finally{clearTimeout(timer);}
+  }
+
+  function firebaseTechnicalDetails(err){
+    const code=String(err?.code||"").trim();
+    const message=String(err?.message||err||"Unknown Firebase error")
+      .replace(/auth=[^&\s]+/gi,"auth=[hidden]")
+      .replace(/https?:\/\/\S+/gi,"[Firebase endpoint]")
+      .slice(0,360);
+    return [code,message].filter(Boolean).join(" · ");
   }
 
   function firebaseErrorDetails(err,context="Firebase sync"){
@@ -1705,13 +2779,40 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     if(code.includes("permission-denied")||raw.includes("permission_denied")||raw.includes("permission denied")){
       return {label:"RULES BLOCKED",message:"Firebase connected, but Realtime Database Rules rejected access. Allow authenticated users to read and write the database."};
     }
-    if(code.includes("network-request-failed")||raw.includes("network")||raw.includes("failed to fetch")){
-      return {label:"NETWORK ERROR",message:"The tracker could not reach Firebase. Check the internet connection, then reload the page."};
+    if(code.includes("unauthorized-domain")||raw.includes("unauthorized domain")||raw.includes("auth/unauthorized-domain")){
+      return {label:"AUTH DOMAIN",message:"Firebase Auth rejected this website domain. Add the exact hosted domain to Firebase Console → Authentication → Settings → Authorized domains, then reload."};
+    }
+    if(code.includes("network-request-failed")||raw.includes("network")||raw.includes("failed to fetch")||raw.includes("networkerror")){
+      return {label:"NETWORK ERROR",message:"The browser could not reach Firebase. Check the connection, ad-blocker/privacy settings, then reload."};
     }
     if(code.includes("invalid-api-key")||code.includes("project-not-found")||raw.includes("project not found")){
       return {label:"CONFIG ERROR",message:"The Firebase project configuration was rejected. Recheck the Web App configuration in Firebase Console."};
     }
-    return {label:"SYNC ERROR",message:`${context} failed. Check Anonymous Authentication and Realtime Database Rules in the “konietracker” Firebase project.`};
+    if(code.includes("invalid-argument")||raw.includes("contains undefined")||raw.includes("invalid data")||raw.includes("invalid key")||raw.includes("nan")||raw.includes("infinity")){
+      return {label:"DATA ERROR",message:"One of the client or task fields used a value Firebase cannot store. This tracker version now cleans those values automatically; reload it once and try the save again."};
+    }
+    const errorCode=err?.code?` Error code: ${String(err.code)}.`:"";
+    return {label:"SYNC ERROR",message:`${context} failed.${errorCode} Reload the tracker and try again. If it repeats, check Anonymous Authentication and Realtime Database Rules in the “konietracker” project.`};
+  }
+
+  function reportFirebaseListenerError(err,context="Firebase read"){
+    const detail=firebaseErrorDetails(err,context);
+    // A single denied/failed read must not demote the whole Firebase connection.
+    // Firebase remains the source of truth; this only surfaces which path failed.
+    window.__konFirebaseProblem=detail.message;
+    const status=$("liveStatus"),pill=$("livePill");
+    if(firebaseConnected){
+      firebaseConnectionState="live";
+      firebaseReady=true;
+      if(status){status.textContent="● LIVE SYNC";status.title=detail.message;}
+      if(pill) pill.textContent="FIREBASE READ ERROR";
+    }else{
+      setSyncStatus("offline");
+      firebaseReady = Boolean(firebaseInitialized && db && dbUpdate);
+      if(status) status.title=detail.message;
+    }
+    console.error(`${context}:`,err);
+    return detail;
   }
 
   function reportFirebaseError(err,context="Firebase sync"){
@@ -1726,23 +2827,42 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     return detail;
   }
 
+  let firebaseBootPromise = null;
+  let firebaseInitialized = false;
+  let firebaseConnected = false;
+
   async function requireFirebase(action="save this change"){
-    if(firebaseReady && db && dbUpdate) return true;
-    const reason=window.__konFirebaseProblem?`\n\n${window.__konFirebaseProblem}`:"";
-    await showAppDialog({title:"Firebase is not connected",message:`The tracker cannot ${action} yet because shared sync is offline. Nothing was saved only on this device.${reason}`,confirmText:"Okay",cancelText:null,danger:true});
+    // Firebase remains the source of truth. We only require the SDK/database
+    // objects to exist; Realtime Database itself queues writes while briefly
+    // disconnected and later sends them when the connection returns.
+    if(firebaseInitialized && db && dbUpdate) return true;
+    if(!firebaseBootPromise) firebaseBootPromise = initFirebase();
+    try{ await Promise.race([firebaseBootPromise, new Promise(resolve=>setTimeout(resolve,15000))]); }catch(e){}
+    if(firebaseInitialized && db && dbUpdate) return true;
+    const reason = window.__konFirebaseAuthProblem || window.__konFirebaseProblem || "Firebase could not initialize.";
+    toast(`${action} blocked: ${reason}`);
     return false;
   }
 
   async function writeFirebasePatch(patch,action="save this change"){
-    if(!(await requireFirebase(action))) return false;
-    try{
-      await dbUpdate(dbRef(""),patch);
-      return true;
-    }catch(err){
-      const detail=reportFirebaseError(err,"Shared Firebase save");
-      await showAppDialog({title:"Shared save failed",message:`Firebase did not accept the change, so it was not saved locally either.\n\n${detail.message}`,confirmText:"Okay",cancelText:null,danger:true});
-      return false;
+    const safePatch=firebasePatchForWrite(patch||{});
+    if(!Object.keys(safePatch).length) return true;
+    // Once Firebase is initialized, always write through Firebase. Realtime
+    // Database's SDK queues writes while the network is temporarily offline.
+    if(firebaseInitialized && db && dbUpdate){
+      try{
+        await dbUpdate(dbRef(""),safePatch);
+        return true;
+      }catch(err){
+        console.warn("Firebase save failed:",err);
+        const detail=reportFirebaseError(err,"Shared Firebase save");
+        toast(`${action} failed: ${detail.label}. ${detail.message}`);
+        return false;
+      }
     }
+    const reason = window.__konFirebaseAuthProblem || window.__konFirebaseProblem || "Firebase is not initialized.";
+    toast(`${action} failed: ${reason}`);
+    return false;
   }
 
 
@@ -1783,30 +2903,85 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   window.toggleAreaRegion = toggleAreaRegion;
 
   function filterAreaPicker(){
-    const q = ($("areaPickerSearch")?.value || "").trim().toLowerCase();
-    document.querySelectorAll(".area-picker-game").forEach(gameEl => {
-      let gameVisible = false;
-      gameEl.querySelectorAll(".area-picker-region").forEach(regionEl => {
-        let regionVisible = false;
-        regionEl.querySelectorAll(".area-picker-option").forEach(opt => {
-          const hit = !q || (opt.dataset.search || "").toLowerCase().includes(q);
-          opt.style.display = hit ? "" : "none";
-          if(hit) regionVisible = true;
+    const input=$("areaPickerSearch");
+    const q=(input?.value||"").trim().toLowerCase();
+    const host=$("areaPicker");
+    if(host) host.classList.toggle("searching",Boolean(q));
+    document.querySelectorAll(".area-picker-game").forEach(gameEl=>{
+      let gameVisible=false;
+      const gameName=(gameEl.querySelector(".area-picker-game-title")?.textContent||"").toLowerCase();
+      gameEl.querySelectorAll(".area-picker-region").forEach(regionEl=>{
+        let regionVisible=false;
+        const regionName=(regionEl.querySelector(".area-picker-region-head strong")?.textContent||"").toLowerCase();
+        regionEl.querySelectorAll(".area-picker-option").forEach(opt=>{
+          const area=(opt.dataset.search||"").toLowerCase();
+          const progressHit=true;
+          const searchHit=!q || area.includes(q) || regionName.includes(q) || gameName.includes(q);
+          const hit=progressHit && searchHit;
+          opt.style.display=hit?"":"none";
+          if(hit) regionVisible=true;
         });
-        regionEl.style.display = regionVisible ? "" : "none";
-        if(regionVisible) gameVisible = true;
+        regionEl.style.display=regionVisible?"":"none";
+        if(regionVisible) gameVisible=true;
       });
-      gameEl.style.display = gameVisible ? "" : "none";
+      gameEl.style.display=gameVisible?"":"none";
     });
   }
   window.filterAreaPicker = filterAreaPicker;
 
   let areaProgressMap = {};
   let areaGoalMap = {};
+  let areaBandMap = {}; // notStarted | below50 | at50 | complete
+
+  function normalizeAreaBand(value, fallbackProgress=0){
+    const v=String(value||"").toLowerCase();
+    if(["notstarted","not_started","0","fresh"].includes(v)) return "notStarted";
+    if(["below50","below_50","under50","under_50"].includes(v)) return "below50";
+    if(["at50","50plus","50+","above50","at_50"].includes(v)) return "at50";
+    if(["complete","100"].includes(v)) return "complete";
+    const n=Number(fallbackProgress)||0;
+    if(n>=100) return "complete";
+    if(n>=50) return "at50";
+    if(n>0) return "below50";
+    return "notStarted";
+  }
+
+  function areaBandFor(area){
+    return normalizeAreaBand(areaBandMap[area], areaProgressMap[area]??0);
+  }
+
+  function setAreaBand(area, band, rerender=true){
+    const b=normalizeAreaBand(band, areaProgressMap[area]??0);
+    areaBandMap[area]=b;
+    if(b==="notStarted") areaProgressMap[area]=0;
+    else if(b==="below50") areaProgressMap[area]=0;
+    else if(b==="at50") areaProgressMap[area]=Math.max(50, Math.min(99, Number(areaProgressMap[area])||50));
+    else if(b==="complete") areaProgressMap[area]=100;
+    if(Number(areaGoalMap[area]??100)<areaProgressMap[area]) areaGoalMap[area]=areaProgressMap[area];
+    if(rerender){
+      syncAreaTextareaFromPicker();
+      const selected=getSelectedAreaNames();
+      renderAreaPicker(selected, areaProgressMap, areaGoalMap, areaBandMap);
+    }
+  }
+  window.setAreaBand=setAreaBand;
+  function setAreaBandFromButton(area, band, button){
+    setAreaBand(area, band, false);
+    const option = button?.closest('.area-picker-option');
+    if(option){
+      option.dataset.band = band;
+      option.dataset.progress = String(areaProgressMap[area] || 0);
+      option.querySelectorAll('.area-band-btn').forEach(btn=>btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+    syncAreaTextareaFromPicker();
+  }
+  window.setAreaBandFromButton = setAreaBandFromButton;
 
   function updateAreaProgress(area, value){
     const current = Math.max(0, Math.min(100, Number(value) || 0));
     areaProgressMap[area] = current;
+    areaBandMap[area] = normalizeAreaBand(areaBandMap[area], current);
     if(Number(areaGoalMap[area] ?? 100) < current) areaGoalMap[area] = current;
   }
   window.updateAreaProgress = updateAreaProgress;
@@ -1838,9 +3013,14 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     );
   }
 
-  function renderAreaPicker(existingNames = null, existingProgress = null, existingGoals = null){
+  function getAreaBandData(){
+    return Object.fromEntries(getSelectedAreaNames().map(name => [name, areaBandFor(name)]));
+  }
+
+  function renderAreaPicker(existingNames = null, existingProgress = null, existingGoals = null, existingBands = null){
     if(existingProgress && typeof existingProgress === "object") areaProgressMap = {...existingProgress};
     if(existingGoals && typeof existingGoals === "object") areaGoalMap = {...existingGoals};
+    if(existingBands && typeof existingBands === "object") areaBandMap = {...existingBands};
     const host = $("areaPicker");
     if(!host) return;
     const games = selectedGameValues();
@@ -1851,25 +3031,32 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       if($("explorationArea")) $("explorationArea").value = "";
       return;
     }
-    let html = "";
+    let html = `<div class="area-picker-controls">
+      <div class="area-picker-control-group"><button type="button" class="area-picker-action" onclick="setAllAreaPicker(true)">Select All</button><button type="button" class="area-picker-action" onclick="setAllAreaPicker(false)">Deselect All</button></div>
+    </div>
+    <div class="area-picker-hint">Pick each area, then choose <strong>Below 50%</strong> or <strong>50%+</strong> for where you are starting.</div>`;
     games.forEach(game => {
       const regions = GAME_AREAS[game] || {};
       html += `<div class="area-picker-game"><div class="area-picker-game-title">${escapeHTML(game)}</div>`;
       Object.entries(regions).forEach(([region, areas]) => {
         const rid = `area-region-${areaKey(game)}-${areaKey(region)}`;
-        html += `<div class="area-picker-region" id="${rid}"><div class="area-picker-region-head"><strong>${escapeHTML(region)}</strong><button type="button" class="area-region-toggle" onclick="toggleAreaRegion('${escapeHTML(game).replace(/'/g,"&#039;")}','${escapeHTML(region).replace(/'/g,"&#039;")}',true)">All</button></div><div class="area-picker-list">`;
+        html += `<div class="area-picker-region" id="${rid}"><div class="area-picker-region-head"><strong>${escapeHTML(region)}</strong><button type="button" class="area-region-toggle" onclick="toggleAreaRegion('${escapeHTML(game).replace(/'/g,"&#039;")}','${escapeHTML(region).replace(/'/g,"&#039;")}',true)">Select All</button></div><div class="area-picker-list">`;
         areas.forEach(area => {
           const checked = wanted.has(area) ? " checked" : "";
           const current = Math.max(0, Math.min(100, Number(areaProgressMap[area] ?? 0) || 0));
-          const stepTarget = current < 50 ? 50 : 100;
-          const search = `${game} ${region} ${area}`;
-          const safeArea = escapeHTML(area).replace(/'/g,"&#039;");
-          html += `<div class="area-picker-option" data-search="${escapeHTML(search)}">
+          const band = areaBandFor(area);
+          const search = area;
+          const areaEsc = escapeHTML(area).replace(/'/g,"&#039;");
+          const selectedBand = band === "at50" || band === "complete" ? "at50" : "below50";
+          html += `<div class="area-picker-option" data-search="${escapeHTML(search)}" data-region="${escapeHTML(region)}" data-game="${escapeHTML(game)}" data-progress="${current}" data-band="${band}">
             <label style="display:flex;align-items:center;gap:7px;min-width:0;flex:1;margin:0">
               <input type="checkbox" name="areaPicker" value="${escapeHTML(area)}"${checked} onchange="syncAreaTextareaFromPicker()">
               <span>${escapeHTML(area)}</span>
             </label>
-            <span class="area-name-only" aria-hidden="true"></span>
+            <div class="area-band-buttons" role="group" aria-label="Starting progress for ${escapeHTML(area)}">
+              <button type="button" class="area-band-btn ${selectedBand === "below50" ? "active" : ""}" onclick="setAreaBandFromButton('${areaEsc}','below50',this)">Below 50%</button>
+              <button type="button" class="area-band-btn ${selectedBand === "at50" ? "active" : ""}" onclick="setAreaBandFromButton('${areaEsc}','at50',this)">50%+</button>
+            </div>
           </div>`;
         });
         html += `</div></div>`;
@@ -1880,6 +3067,38 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     syncAreaTextareaFromPicker();
     filterAreaPicker();
   }
+  function setAllAreaPicker(checked){
+    document.querySelectorAll('input[name="areaPicker"]').forEach(el => el.checked = Boolean(checked));
+    syncAreaTextareaFromPicker();
+  }
+  window.setAllAreaPicker = setAllAreaPicker;
+  function markAllAreaBands(mode){
+    document.querySelectorAll('.area-picker-option').forEach(opt=>{
+      const box=opt.querySelector('input[name="areaPicker"]');
+      if(box && box.checked) {
+        const area=box.value;
+        setAreaBand(area,mode,false);
+        const sel=opt.querySelector('.area-band-select');
+        if(sel) sel.value=mode;
+        opt.dataset.band=mode;
+        opt.dataset.progress=areaProgressMap[area]||0;
+      }
+    });
+    syncAreaTextareaFromPicker();
+    filterAreaPicker();
+  }
+  window.markAllAreaBands=markAllAreaBands;
+  function selectAreasByProgress(mode){
+    document.querySelectorAll('.area-picker-option').forEach(opt => {
+      const current = Number(opt.dataset.progress || 0);
+      const band = opt.dataset.band || (current>=100?"complete":current>=50?"at50":current>0?"below50":"notStarted");
+      const match = mode === 'below50' ? band === 'below50' : mode === 'at50' ? band === 'at50' : mode === 'notStarted' ? band === 'notStarted' : true;
+      const box = opt.querySelector('input[name="areaPicker"]');
+      if(box) box.checked = match;
+    });
+    syncAreaTextareaFromPicker();
+  }
+  window.selectAreasByProgress = selectAreasByProgress;
 
   function updateGameAreaPicker(){
     document.querySelectorAll(".area-progress-input").forEach(input=>{
@@ -1897,7 +3116,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const valid = current.filter(name =>
       games.some(game => Object.values(GAME_AREAS[game] || {}).flat().includes(name))
     );
-    renderAreaPicker(valid);
+    renderAreaPicker(valid, areaProgressMap, areaGoalMap, areaBandMap);
   }
   window.updateGameAreaPicker = updateGameAreaPicker;
 
@@ -1905,7 +3124,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   function updateTaskConditionalFields(){
     const selected = getCheckedValues("taskType");
     $("explorationFields").classList.toggle("open", selected.includes("Exploration"));
-    if(selected.includes("Exploration")) renderAreaPicker(getSelectedAreaNames());
+    if(selected.includes("Exploration")) renderAreaPicker(getSelectedAreaNames(), areaProgressMap, areaGoalMap, areaBandMap);
     $("questFields").classList.toggle("open", selected.includes("Quest"));
     $("eventFields").classList.toggle("open", selected.includes("Event"));
     $("pullFields").classList.toggle("open", selected.includes("Pulls"));
@@ -1952,6 +3171,8 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   function showView(id){
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     $(id).classList.add("active");
+    const shell=document.querySelector('.app-shell');
+    if(shell) shell.classList.toggle('compact-view', id !== 'homeView');
     if(id === "calendarView") renderCalendar();
     if(id === "searchView") renderClients();
     if(id === "clientView") showClientSection("choice");
@@ -2385,7 +3606,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 
   function pushNamedAreaRows(rows,{
     name, areaNames, dates, clientId, createdAt,
-    workloadMinutes, person, areaProgress={}, areaGoals={}
+    workloadMinutes, person, areaProgress={}, areaGoals={}, areaBands={}
   }){
     const list=parseAreaSelection(areaNames);
     if(!list.length || !dates.length) return;
@@ -2396,7 +3617,8 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     let dateOffset=0;
 
     list.forEach((area,areaIndex)=>{
-      const startProgress=Math.max(0,Math.min(100,Number(areaProgress[area] ?? 0)||0));
+      const band=normalizeAreaBand(areaBands?.[area], Number(areaProgress[area] ?? 0)||0);
+      const startProgress=band==="notStarted"?0:band==="below50"?Math.min(49,Math.max(1,Number(areaProgress[area] ?? 1)||1)):band==="at50"?Math.max(50,Math.min(99,Number(areaProgress[area] ?? 50)||50)):100;
       const goalProgress=Math.max(
         startProgress,
         Math.min(100,Number(areaGoals[area] ?? 100)||100)
@@ -2471,14 +3693,18 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 
     if(assignee==="Both"){
       // Hard categories are always split by the actual remaining amount.
-      const {first:exploreA,second:exploreB}=splitEvenly(remaining.exploration);
-      const {first:pullA,second:pullB}=splitEvenly(remaining.pulls);
       const gelliDates=buildScheduleDates(startDateString,deadline,"Gelli");
       const yannaDates=buildScheduleDates(startDateString,deadline,"Yanna");
-      pushCountRows(rows,{name,label:"Exploration Quests",total:exploreA,category:"exploration",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",hard:true});
-      pushCountRows(rows,{name,label:"Exploration Quests",total:exploreB,category:"exploration",dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",hard:true});
-      pushCountRows(rows,{name,label:"Pulls",total:pullA,category:"pulls",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",hard:true});
-      pushCountRows(rows,{name,label:"Pulls",total:pullB,category:"pulls",dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",hard:true});
+      const splitCountBetweenPartners=(total,label,category,hard=false)=>{
+        const n=Math.max(0,Math.floor(Number(total)||0));
+        if(!n) return;
+        const half=Math.floor(n/2);
+        pushCountRows(rows,{name,label,total:half,category,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",hard});
+        pushCountRows(rows,{name,label,total:n-half-(n%2),category,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",hard});
+        if(n%2) pushCountRows(rows,{name,label,total:1,category,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/4,person:"Both",hard,splitRole:"shared-odd"});
+      };
+      splitCountBetweenPartners(remaining.exploration,"Exploration Quests","exploration",true);
+      splitCountBetweenPartners(remaining.pulls,"Pulls","pulls",true);
       // Areas inside an Exploration task are special: Exploration is the hardest
       // work, so an odd remaining area is shared 50/50 instead of giving the
       // extra whole area to one person. Example: 9 areas -> 4 Gelli + 4 Yanna
@@ -2500,8 +3726,8 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
           const yannaNames=unique.slice(0,half);
           const gelliNames=unique.slice(half);
 
-          pushNamedAreaRows(rows,{name,areaNames:yannaNames,areaProgress,areaGoals,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
-          pushNamedAreaRows(rows,{name,areaNames:gelliNames,areaProgress,areaGoals,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
+          pushNamedAreaRows(rows,{name,areaNames:yannaNames,areaProgress,areaGoals,areaBands,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
+          pushNamedAreaRows(rows,{name,areaNames:gelliNames,areaProgress,areaGoals,areaBands,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
 
           if(shared){
             pushNamedAreaRows(rows,{
@@ -2509,6 +3735,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
               areaNames:[shared],
               areaProgress,
               areaGoals,
+              areaBands,
               dates:yannaDates,
               clientId,
               createdAt,
@@ -2520,6 +3747,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
               areaNames:[shared],
               areaProgress,
               areaGoals,
+              areaBands,
               dates:gelliDates,
               clientId,
               createdAt,
@@ -2539,38 +3767,27 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
           pushCountRows(rows,{name,label:"Areas",total:second,category:"areas",dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
         }
       }
-      if(namedQuests.length){
-        const doneCount=Math.min(namedQuests.length, Math.max(0, Math.floor(Number(questsDone)||0)));
-        const remainingNames=namedQuests.slice(doneCount);
-        const gCount=Math.ceil(remainingNames.length/2);
-        pushNamedRows(rows,{name,names:remainingNames.slice(0,gCount),dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",category:"quests"});
-        pushNamedRows(rows,{name,names:remainingNames.slice(gCount),dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",category:"quests"});
-      }
+      const splitNamedBetweenPartners=(list,doneCount,category)=>{
+        const remainingNames=list.slice(Math.min(list.length,Math.max(0,Math.floor(Number(doneCount)||0))));
+        if(!remainingNames.length) return;
+        const odd=remainingNames.length%2===1;
+        const shared=odd ? remainingNames[remainingNames.length-1] : null;
+        const unique=odd ? remainingNames.slice(0,-1) : remainingNames;
+        const half=Math.floor(unique.length/2);
+        const gelliNames=unique.slice(0,half);
+        const yannaNames=unique.slice(half);
+        pushNamedRows(rows,{name,names:gelliNames,dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",category,splitRole:"exclusive"});
+        pushNamedRows(rows,{name,names:yannaNames,dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",category,splitRole:"exclusive"});
+        if(shared){
+          pushNamedRows(rows,{name,names:[shared],dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/4,person:"Both",category,splitRole:"shared-odd"});
+        }
+      };
+      if(namedQuests.length) splitNamedBetweenPartners(namedQuests,questsDone,"quests");
+      if(namedEvents.length) splitNamedBetweenPartners(namedEvents,eventsDone,"events");
+      if(namedBuilding.length) splitNamedBetweenPartners(namedBuilding,0,"building");
 
-      if(namedEvents.length){
-        const doneCount=Math.min(namedEvents.length, Math.max(0, Math.floor(Number(eventsDone)||0)));
-        const remainingNames=namedEvents.slice(doneCount);
-        const gCount=Math.ceil(remainingNames.length/2);
-        pushNamedRows(rows,{name,names:remainingNames.slice(0,gCount),dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",category:"events"});
-        pushNamedRows(rows,{name,names:remainingNames.slice(gCount),dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",category:"events"});
-      }
-
-      if(namedBuilding.length){
-        const gCount=Math.ceil(namedBuilding.length/2);
-        pushNamedRows(rows,{name,names:namedBuilding.slice(0,gCount),dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli",category:"building"});
-        pushNamedRows(rows,{name,names:namedBuilding.slice(gCount),dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna",category:"building"});
-      }
-
-      if(!namedQuests.length && remaining.quests){
-        const {first,second}=splitEvenly(remaining.quests);
-        pushCountRows(rows,{name,label:"Quests",total:first,category:"quests",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
-        pushCountRows(rows,{name,label:"Quests",total:second,category:"quests",dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
-      }
-      if(!namedEvents.length && remaining.events){
-        const {first,second}=splitEvenly(remaining.events);
-        pushCountRows(rows,{name,label:"Event Quests",total:first,category:"events",dates:gelliDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Gelli"});
-        pushCountRows(rows,{name,label:"Event Quests",total:second,category:"events",dates:yannaDates,clientId,createdAt,workloadMinutes:workloadMinutes/2,person:"Yanna"});
-      }
+      if(!namedQuests.length && remaining.quests) splitCountBetweenPartners(remaining.quests,"Quests","quests");
+      if(!namedEvents.length && remaining.events) splitCountBetweenPartners(remaining.events,"Event Quests","events");
       if(items.length && !rows.length){
         const split=splitEvenly(items.length);
         items.slice(0,split.first).forEach((item,idx)=>rows.push(makeTodoRow({name,task:item,assignee:"Gelli",clientId,createdAt,scheduledDate:gelliDates[idx%gelliDates.length],personMinutes:workloadMinutes/2,category:"general"})))
@@ -2584,7 +3801,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       if(remaining.areas){
         if(namedAreas.length){
           const doneCount=Math.min(namedAreas.length, Math.max(0, Math.floor(Number(areasDone)||0)));
-          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),areaProgress,areaGoals,dates:pDates,clientId,createdAt,workloadMinutes,person:p});
+          pushNamedAreaRows(rows,{name,areaNames:namedAreas.slice(doneCount),areaProgress,areaGoals,areaBands,dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }else{
           pushCountRows(rows,{name,label:"Areas",total:remaining.areas,category:"areas",dates:pDates,clientId,createdAt,workloadMinutes,person:p});
         }
@@ -2615,21 +3832,27 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     // scheduled in addition to the numeric category goals above.
     if(items.length){
       if(assignee === "Both"){
-        const split=splitEvenly(items.length);
-        const gelliItems=items.slice(0,split.first);
-        const yannaItems=items.slice(split.first);
+        const odd=items.length%2===1;
+        const exclusive=odd?items.slice(0,-1):items;
+        const half=Math.floor(exclusive.length/2);
+        const gelliItems=exclusive.slice(0,half);
+        const yannaItems=exclusive.slice(half);
+        const sharedItem=odd?items[items.length-1]:null;
         const gelliDates=buildScheduleDates(startDateString,deadline,"Gelli");
         const yannaDates=buildScheduleDates(startDateString,deadline,"Yanna");
         gelliItems.forEach((item,idx)=>rows.push(makeTodoRow({
           name, task:item, assignee:"Gelli", clientId, createdAt,
           scheduledDate:gelliDates[idx % gelliDates.length],
-          workloadMinutes:0, category:"general", splitRole:"task-notes"
+          workloadMinutes:0, category:"general", splitRole:"task-notes-exclusive"
         })));
         yannaItems.forEach((item,idx)=>rows.push(makeTodoRow({
           name, task:item, assignee:"Yanna", clientId, createdAt,
           scheduledDate:yannaDates[idx % yannaDates.length],
-          workloadMinutes:0, category:"general", splitRole:"task-notes"
+          workloadMinutes:0, category:"general", splitRole:"task-notes-exclusive"
         })));
+        if(sharedItem){
+          rows.push(makeTodoRow({name,task:sharedItem,assignee:"Both",clientId,createdAt,scheduledDate:gelliDates[0],workloadMinutes:0,category:"general",splitRole:"shared-odd"}));
+        }
       }else{
         const pDates=buildScheduleDates(startDateString,deadline,assignee);
         items.forEach((item,idx)=>rows.push(makeTodoRow({
@@ -2754,6 +3977,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const areaNames = parseAreaNames(explorationArea);
     const areaProgress = getAreaProgressData();
     const areaGoals = getAreaGoalData();
+    const areaBands = getAreaBandData();
     const questNames = parseAreaNames($("questNames").value);
     const eventNames = parseAreaNames($("eventNames").value);
     const eventName = eventNames.join("\n");
@@ -2793,13 +4017,13 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     }
     if(!(await requireFirebase("add this client"))) return;
 
-    const id = dbPush(dbRef("clients")).key;
+    const id = makePushKey(dbRef("clients"),"client");
     const createdAt = Date.now();
 
     const client = {
       name, emailUser, password, additional,
       servers, games, taskTypes, questTypes,
-      explorationArea, areaNames, areaProgress, areaGoals, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
+      explorationArea, areaNames, areaProgress, areaGoals, areaBands, questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
       task, size, assignee, price,
       explorationQuests, explorationDone, areas, areasDone, quests, questsDone, events, eventsDone, currentStatus, extraTodo, mustType,
       workload: workloadMinutes,
@@ -2841,6 +4065,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       areaNames,
       areaProgress,
       areaGoals,
+      areaBands,
       questNames,
       eventNames,
       buildingTargets,
@@ -2859,7 +4084,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     });
 
     const newTodos={};
-    taskRows.forEach(t=>{ newTodos[dbPush(dbRef("todos")).key]=t; });
+    taskRows.forEach(t=>{ newTodos[makePushKey(dbRef("todos"),"todo")]=t; });
     const patch={
       [`clients/${id}`]:client,
       [`events/${id}`]:event
@@ -2932,7 +4157,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     $("clientDeadline").value = c.manuallyOverridden ? (c.deadline || "") : "";
     document.querySelector(`input[name="size"][value="${c.size || "Small"}"]`).checked = true;
     updateTaskConditionalFields();
-    renderAreaPicker(c.areaNames || [], c.areaProgress || {}, c.areaGoals || {});
+    renderAreaPicker(c.areaNames || [], c.areaProgress || {}, c.areaGoals || {}, c.areaBands || {});
     updateSizeUI();
     const addBtn = $("saveClientButton") || document.querySelector('#addClientSection .primary');
     if(addBtn) addBtn.textContent = 'Save Changes';
@@ -2958,6 +4183,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const areaNames = parseAreaNames(explorationArea);
     const areaProgress = getAreaProgressData();
     const areaGoals = getAreaGoalData();
+    const areaBands = getAreaBandData();
     const questNames = parseAreaNames($("questNames").value);
     const eventNames = parseAreaNames($("eventNames").value);
     const eventName = eventNames.join("\n");
@@ -2990,7 +4216,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
 
     const updated = {...old,
       name,emailUser,password,additional,servers,games,taskTypes,questTypes,
-      explorationArea,areaNames,areaProgress,areaGoals,questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
+      explorationArea,areaNames,areaProgress,areaGoals,areaBands,questNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
       explorationQuests,explorationDone,areas,areasDone,quests,questsDone,events,eventsDone,currentStatus,extraTodo,mustType,
       workload:workloadMinutes,workloadValue,workloadUnit,deadline,
       manuallyOverridden:Boolean($("clientDeadline").value),updatedAt:Date.now()
@@ -3019,6 +4245,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       areaNames,
       areaProgress,
       areaGoals,
+      areaBands,
       questNames,
       eventNames,
       buildingTargets,
@@ -3037,7 +4264,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     });
     const oldTodoIds=Object.entries(liveTodos).filter(([_,t])=>t&&t.clientId===id).map(([tid])=>tid);
     const newTodos={};
-    taskRows.forEach(t=>{ newTodos[dbPush(dbRef("todos")).key]=t; });
+    taskRows.forEach(t=>{ newTodos[makePushKey(dbRef("todos"),"todo")]=t; });
     const patch={
       [`clients/${id}`]:updated,
       [`events/${id}`]:updatedEvent
@@ -3118,7 +4345,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     if(!expired.length || !firebaseReady || !dbUpdate) return;
     const patch={};expired.forEach(([tid])=>patch[`todos/${tid}`]=null);
     try{
-      await dbUpdate(dbRef(""),patch);
+      await dbUpdate(dbRef(""),firebasePatchForWrite(patch));
       expired.forEach(([tid])=>delete liveTodos[tid]);
       persistLocal();renderTodos();renderCalendar();renderStats();
     }catch(err){console.error("Completed-task cleanup failed:",err);}
@@ -3262,7 +4489,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     });
     row.priority="MUST";
     if(!(await requireFirebase("add this task"))) return;
-    const id=dbPush(dbRef("todos")).key;
+    const id=makePushKey(dbRef("todos"),"todo");
     if(!(await writeFirebasePatch({[`todos/${id}`]:row},"add this task"))) return;
     liveTodos[id]=row;
     persistLocal();
@@ -3293,7 +4520,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       liveClients[clientId].dispatchState ||= {};
       liveClients[clientId].dispatchState[person]=JSON.parse(JSON.stringify(strictDispatch[`${person}::${clientId}`]));
       const c=liveClients[clientId];
-      if(db){ dbSet(dbRef(`clients/${clientId}`),c).catch(err=>{console.error('Firebase dispatch state save failed:',err);}); }
+      writeFirebasePatch({[`clients/${encodeFirebaseKey(clientId)}`]:c},"save dispatch state").catch(()=>{});
     }
   }
   function strictAreaKey(clientId,area){ return `area::${clientId}::${String(area).trim().toLowerCase()}`; }
@@ -3312,8 +4539,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   function strictUpdateClientRemote(clientId,patch){
     const c=liveClients[clientId]; if(!c) return Promise.resolve();
     Object.assign(c,patch); persistLocal(); renderClients(); renderStats();
-    if(!db) return Promise.resolve();
-    return dbSet(dbRef(`clients/${clientId}`),c).catch(err=>{console.error('Firebase client dispatch save failed:',err); toast('Saved locally; Firebase sync will retry.');});
+    return writeFirebasePatch({[`clients/${encodeFirebaseKey(clientId)}`]:c},"save client progress");
   }
   function strictCandidates(person,clientId){
     const client=liveClients[clientId]; if(!client) return [];
@@ -3389,7 +4615,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       st.steps ||= {}; st.steps[item.key] ||= {}; st.steps[item.key].targetDone=to;
     }
     item.done=checked;
-    await strictUpdateClientRemote(clientId,{areaProgress:client.areaProgress,areaLastWorked:client.areaLastWorked,pullsDone:client.pullsDone,pullLastWorked:client.pullLastWorked});
+    await strictUpdateClientRemote(clientId,{areaProgress:client.areaProgress,areaBands:client.areaBands,areaLastWorked:client.areaLastWorked,pullsDone:client.pullsDone,pullLastWorked:client.pullLastWorked});
     saveStrictDispatch(person,clientId); renderTodos(); renderCalendar(); renderStats();
   }
   window.strictCompleteStep=strictCompleteStep;
@@ -3415,7 +4641,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       if(state.pairDate!==today && pair){ state.optional=false; state.pairDate=today; saveStrictDispatch(person,clientId); }
       if(!pair || !pair.length){
         const picked=strictPickPair(cands);
-        pair=picked.map(x=>({...x,done:false,startDone:x.kind==='pulls'?Number(client.pullsDone||0):undefined}));
+        pair=picked.map(x=>x.kind==='pulls'?{...x,done:false,startDone:Number(client.pullsDone||0)}:{...x,done:false});
         state.pair=pair; state.pairDate=today; state.optional=false; saveStrictDispatch(person,clientId);
       }
       // Refresh step snapshots from current state while keeping the fixed pair for the day.
@@ -3434,7 +4660,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
         // Advance immediately to the next pair. It is OPTIONAL for the rest of today.
         cands=strictCandidates(person,clientId).filter(x=>!pair.some(p=>p.key===x.key));
         const next=strictPickPair(cands);
-        state.pair=next.map(x=>({...x,done:false,startDone:x.kind==='pulls'?Number(client.pullsDone||0):undefined}));
+        state.pair=next.map(x=>x.kind==='pulls'?{...x,done:false,startDone:Number(client.pullsDone||0)}:{...x,done:false});
         state.pairDate=today; state.optional=true; saveStrictDispatch(person,clientId);
         pair=state.pair;
       }
@@ -3446,7 +4672,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
         pair.forEach(step=>{
           if(step.kind==='todo' && step.todoId) shownTodoIds.add(step.todoId);
           if(step.done) return;
-          html+=`<div class="strict-item"><input type="checkbox" onchange="strictCompleteStep('${escapeHTML(person)}','${escapeHTML(clientId)}','${escapeHTML(step.key)}',this.checked)"><div class="strict-item-main"><div class="strict-item-title">${escapeHTML(step.title||'Task')}</div><div class="strict-item-sub">${escapeHTML(step.sub||'')}</div></div><span class="tag ${step.kind==='pulls'?'must':''}">${step.kind==='pulls'?'8 PULLS':step.kind==='area'?(step.current>=50?'100% STEP':'50% STEP'):'TASK'}</span></div>`;
+          html+=`<div class="strict-item"><input type="checkbox" onchange="strictCompleteStep('${escapeHTML(person)}','${escapeHTML(clientId)}','${escapeHTML(step.key)}',this.checked)"><div class="strict-item-main"><div class="strict-item-title">${escapeHTML(step.title||'Task')}</div><div class="strict-item-sub">${escapeHTML(step.sub||'')}</div></div><span class="tag ${step.kind==='pulls'?'must':''}">${step.kind==='pulls'?'8 PULLS':step.kind==='area'?(step.band==='notStarted'?'0→100':step.band==='below50'?'0→50':'50→100'):'TASK'}</span></div>`;
         });
         if(state.optional) html+=`<div class="strict-lock">Completed the previous pair. This pair is optional until 12:00 AM GMT+8, then it becomes MUST.</div>`;
         else html+=`<div class="strict-lock">Complete both MUST items. The next pair unlocks after completion.</div>`;
@@ -3501,7 +4727,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   window.restoreTodo = restoreTodo;
 
   /*
-    Shared daily queue v3
+    Shared daily queue v5
     - Exactly two MUST items per person whenever two tasks are available.
     - Exploration work is chosen first and advances an area by up to 50 points.
     - OPTIONAL work stays hidden until both MUST items are complete.
@@ -3537,12 +4763,13 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const all=parseAreaSelection(client.areaNames||client.explorationArea||[]);
     if(client.assignee!=="Both") return all;
     const assigned=new Set();
+    let hasExclusive=false;
     Object.values(liveTodos).forEach(t=>{
-      if(!t || t.clientId!==clientId || t.assignee!==person || t.category!=="areas") return;
+      if(!t || t.clientId!==clientId || t.category!=="areas" || t.assignee!==person) return;
       const parsed=strictParseAreaTask(t.task);
-      if(parsed?.name) assigned.add(parsed.name.toLowerCase());
+      if(parsed?.name){ assigned.add(parsed.name.toLowerCase()); hasExclusive=true; }
     });
-    return assigned.size ? all.filter(name=>assigned.has(name.toLowerCase())) : all;
+    return hasExclusive ? all.filter(name=>assigned.has(name.toLowerCase())) : all;
   }
 
   function dailyCandidates(person,date=strictToday()){
@@ -3554,16 +4781,31 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
       const progress=client.areaProgress&&typeof client.areaProgress==="object"?client.areaProgress:{};
       const goals=client.areaGoals&&typeof client.areaGoals==="object"?client.areaGoals:{};
       const lastWorked=client.areaLastWorked&&typeof client.areaLastWorked==="object"?client.areaLastWorked:{};
-      clientAreaNamesForPerson(client.id,client,person).forEach((area,areaOrder)=>{
-        const current=Math.max(0,Math.min(100,Number(progress[area]??0)||0));
+      const exclusiveAreas=new Set(clientAreaNamesForPerson(client.id,client,person).map(x=>String(x).toLowerCase()));
+      const sharedAreas=new Set();
+      Object.values(liveTodos).forEach(t=>{
+        if(!t || t.clientId!==client.id || t.category!=="areas" || t.assignee!=="Both") return;
+        const parsed=strictParseAreaTask(t.task);
+        if(parsed?.name) sharedAreas.add(parsed.name.toLowerCase());
+      });
+      const areaList=[...exclusiveAreas].concat([...sharedAreas].filter(a=>!exclusiveAreas.has(a)));
+      areaList.forEach((areaKey,areaOrder)=>{
+        const area=(client.areaNames||[]).find(x=>String(x).toLowerCase()===areaKey)||areaKey;
+        const rawCurrent=Math.max(0,Math.min(100,Number(progress[area]??0)||0));
+        const band=normalizeAreaBand(client.areaBands?.[area],rawCurrent);
+        const current = band==="notStarted" ? 0 : band==="below50" ? 0 : band==="at50" ? 50 : 100;
         const goal=Math.max(current,Math.min(100,Number(goals[area]??100)||100));
-        if(current>=goal || lastWorked[area]===date) return;
-        const target=Math.min(goal,current+50);
+        if(current>=goal || lastWorked[area]===date || band==="complete") return;
+        let target;
+        let modeLabel;
+        if(band==="notStarted"){ target=Math.min(goal,100); modeLabel="0% → 100%"; }
+        else if(current<50){ target=Math.min(goal,50); modeLabel=`${current}% → 50%`; }
+        else { target=Math.min(goal,100); modeLabel=`${current}% → 100%`; }
         candidates.push({
-          key:`area::${client.id}::${String(area).toLowerCase()}::${current}-${target}`,
+          key:`area::${client.id}::${String(area).toLowerCase()}::${band}::${current}-${target}`,
           kind:"area",rank:0,queue:clientOrder*100+areaOrder,clientId:client.id,clientName:client.name||"Client",
-          area,current,target,title:`${area}: ${current}% → ${target}%`,
-          sub:`${client.name||"Client"} · ${target-current}% progress step`,done:false
+          area,current,target,band,title:`${area}: ${modeLabel}`,
+          sub:`${client.name||"Client"} · ${band==="notStarted"?"Full clear: 0% → 100%":band==="below50"?"First step: 0% → 50%":"Final step: 50% → 100%"}`,done:false
         });
       });
 
@@ -3574,11 +4816,38 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
         candidates.push({key:`pulls::${client.id}::${pullDone}-${targetDone}`,kind:"pulls",rank:1,queue:clientOrder,clientId:client.id,clientName:client.name||"Client",startDone:pullDone,targetDone,title:`Pulls: ${targetDone-pullDone} today`,sub:`${client.name||"Client"} · ${pullTotal-pullDone} remaining`,done:false});
       }
 
-      Object.entries(liveTodos).forEach(([todoId,t],todoOrder)=>{
-        if(!t || t.clientId!==client.id || t.assignee!==person || t.done || t.category==="extra" || t.category==="areas" || t.category==="pulls") return;
-        const overdueRank=!t.scheduledDate||t.scheduledDate<=date?2:3;
-        candidates.push({key:`todo::${todoId}`,kind:"todo",rank:overdueRank,queue:Number(t.manualOrder??t.createdAt??todoOrder),clientId:client.id,clientName:client.name||"Client",todoId,title:String(t.task||"Task"),sub:`${client.name||"Client"} · ${String(t.category||"task").toUpperCase()}`,done:false});
-      });
+      if(client.assignee==="Both"){
+        // Rebuild the partner split from the client’s actual remaining task pool.
+        // This prevents stale/old rows from making both partners receive the same task.
+        const pool=[];
+        const seen=new Map();
+        Object.entries(liveTodos).forEach(([todoId,t],todoOrder)=>{
+          if(!t || t.clientId!==client.id || t.done || t.category==="extra" || t.category==="areas" || t.category==="pulls") return;
+          const taskText=String(t.task||"Task").trim();
+          const dedupe=`${String(t.category||"task").toLowerCase()}::${taskText.toLowerCase()}`;
+          if(seen.has(dedupe)){
+            seen.get(dedupe).todoIds.push(todoId);
+            return;
+          }
+          const overdueRank=!t.scheduledDate||t.scheduledDate<=date?2:3;
+          const item={key:`todo-shared-pool::${client.id}::${encodeURIComponent(dedupe)}`,kind:"todo",rank:overdueRank,queue:Number(t.manualOrder??t.createdAt??todoOrder),clientId:client.id,clientName:client.name||"Client",todoId,todoIds:[todoId],title:taskText,sub:`${client.name||"Client"} · ${String(t.category||"task").toUpperCase()}`,done:false};
+          seen.set(dedupe,item); pool.push(item);
+        });
+        pool.sort((a,b)=>a.rank-b.rank||a.queue-b.queue||String(a.title).localeCompare(String(b.title)));
+        const odd=pool.length%2===1;
+        const exclusiveCount=odd?pool.length-1:pool.length;
+        const half=exclusiveCount/2;
+        pool.forEach((item,index)=>{
+          const owner=index<half?"Gelli":index<exclusiveCount?"Yanna":"Both";
+          if(owner===person || owner==="Both") candidates.push({...item,shared:owner==="Both",key:owner==="Both"?item.key+"::shared":item.key+`::${owner}`});
+        });
+      }else{
+        Object.entries(liveTodos).forEach(([todoId,t],todoOrder)=>{
+          if(!t || t.clientId!==client.id || t.assignee!==person || t.done || t.category==="extra" || t.category==="areas" || t.category==="pulls") return;
+          const overdueRank=!t.scheduledDate||t.scheduledDate<=date?2:3;
+          candidates.push({key:`todo::${todoId}`,kind:"todo",rank:overdueRank,queue:Number(t.manualOrder??t.createdAt??todoOrder),clientId:client.id,clientName:client.name||"Client",todoId,todoIds:[todoId],title:String(t.task||"Task"),sub:`${client.name||"Client"} · ${String(t.category||"task").toUpperCase()}`,done:false});
+        });
+      }
     });
 
     Object.entries(liveTodos).forEach(([todoId,t],order)=>{
@@ -3594,8 +4863,18 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
   function pickDailyPair(candidates,excludedKeys=[]){
     const excluded=new Set(excludedKeys);
     const available=candidates.filter(item=>!excluded.has(item.key));
+    if(!available.length) return [];
+
+    const chosen=[];
+    const quests=available.filter(item=>item.kind==="todo" && ["quests","exploration"].includes(String(item.sub||"").toLowerCase()));
+    const quest=quests[0];
+    if(quest) chosen.push(quest);
+
     const areas=available.filter(item=>item.kind==="area");
-    const chosen=areas.slice(0,2);
+    for(const item of areas){
+      if(chosen.length>=2) break;
+      if(!chosen.some(x=>x.key===item.key)) chosen.push(item);
+    }
     for(const item of available){
       if(chosen.length>=2) break;
       if(!chosen.some(x=>x.key===item.key)) chosen.push(item);
@@ -3616,11 +4895,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     liveDailyDispatch[date] ||= {};
     liveDailyDispatch[date][person]=plan;
     persistLocal();
-    if(firebaseReady&&dbUpdate){
-      dbUpdate(dbRef(""),{[`dailyDispatch/${date}/${person}`]:plan}).catch(err=>{
-        reportFirebaseError(err,"Daily queue save");
-      });
-    }
+    writeFirebasePatch({[`dailyDispatch/${date}/${person}`]:plan},"save daily queue").catch(()=>{});
   }
 
   function ensureDailyPlan(person){
@@ -3630,10 +4905,10 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     let changed=false;
     const candidates=dailyCandidates(person,date);
 
-    if(!plan || plan.version!==3){
+    if(!plan || plan.version!==5){
       const promoted=previousOptionalFor(person,date).slice(0,2);
       const fill=pickDailyPair(candidates,promoted.map(x=>x.key));
-      plan={version:3,date,timeZone:"Asia/Manila",must:[...promoted,...fill].slice(0,2),optional:[],createdAt:Date.now(),updatedAt:Date.now()};
+      plan={version:5,date,timeZone:"Asia/Manila",must:[...promoted,...fill].slice(0,2),optional:[],createdAt:Date.now(),updatedAt:Date.now()};
       changed=true;
     }
 
@@ -3664,18 +4939,29 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const patch={};
 
     if(step.kind==="todo"){
-      const todo=liveTodos[step.todoId];if(!todo) return;
+      const ids=[...(step.todoIds||[]),...(step.todoId?[step.todoId]:[])].filter((v,i,a)=>v&&a.indexOf(v)===i);
+      if(!ids.length) return;
       const stamp=checked?Date.now():null;
-      patch[`todos/${step.todoId}/done`]=Boolean(checked);
-      patch[`todos/${step.todoId}/completedAt`]=stamp;
-      patch[`todos/${step.todoId}/actualMinutes`]=checked&&todo.createdAt?Math.max(0,Math.round((stamp-todo.createdAt)/60000)):null;
+      ids.forEach(todoId=>{
+        const todo=liveTodos[todoId]; if(!todo) return;
+        patch[`todos/${todoId}/done`]=Boolean(checked);
+        patch[`todos/${todoId}/completedAt`]=stamp;
+        patch[`todos/${todoId}/actualMinutes`]=checked&&todo.createdAt?Math.max(0,Math.round((stamp-todo.createdAt)/60000)):null;
+      });
     }else{
       const source=liveClients[step.clientId];if(!source) return;
       const client=JSON.parse(JSON.stringify(source));
       if(step.kind==="area"){
         client.areaProgress ||= {};client.areaLastWorked ||= {};
         client.areaProgress[step.area]=checked?Number(step.target):Number(step.current);
-        if(checked) client.areaLastWorked[step.area]=date;else delete client.areaLastWorked[step.area];
+        client.areaBands ||= {};
+        if(checked){
+          client.areaBands[step.area]=Number(step.target)>=100?"complete":"at50";
+          client.areaLastWorked[step.area]=date;
+        }else{
+          client.areaBands[step.area]=Number(step.current)>=50?"at50":Number(step.current)>0?"below50":"notStarted";
+          delete client.areaLastWorked[step.area];
+        }
       }else if(step.kind==="pulls"){
         client.pullsDone=checked?Number(step.targetDone):Number(step.startDone);
         if(checked) client.pullLastWorked=date;else delete client.pullLastWorked;
@@ -3688,17 +4974,52 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     patch[`dailyDispatch/${date}/${person}`]=plan;
     if(!(await writeFirebasePatch(patch,checked?"complete this daily item":"restore this daily item"))) return;
 
-    if(step.kind==="todo") Object.assign(liveTodos[step.todoId],{done:Boolean(checked),completedAt:patch[`todos/${step.todoId}/completedAt`],actualMinutes:patch[`todos/${step.todoId}/actualMinutes`]});
+    if(step.kind==="todo"){
+      const ids=[...(step.todoIds||[]),...(step.todoId?[step.todoId]:[])].filter((v,i,a)=>v&&a.indexOf(v)===i);
+      ids.forEach(todoId=>{ if(liveTodos[todoId]) Object.assign(liveTodos[todoId],{done:Boolean(checked),completedAt:patch[`todos/${todoId}/completedAt`],actualMinutes:patch[`todos/${todoId}/actualMinutes`]}); });
+    }
     else liveClients[step.clientId]=patch[`clients/${step.clientId}`];
     liveDailyDispatch[date] ||= {};liveDailyDispatch[date][person]=plan;
     persistLocal();renderTodos();renderClients();renderCalendar();renderStats();
     toast(checked?(section==="must"?"MUST item completed.":"Optional item completed."):"Item restored.");
+    if(checked && section==="optional"){
+      const latest=ensureDailyPlan(person);
+      const mustFinished=(latest.must||[]).length>0 && (latest.must||[]).every(step=>dailyStepDone(step,date));
+      const optionalFinished=(latest.optional||[]).length>0 && (latest.optional||[]).every(step=>dailyStepDone(step,date));
+      if(mustFinished && optionalFinished) setTimeout(()=>offerMoreOptionalTasks(person),120);
+    }
   }
   window.dailyCompleteStep=dailyCompleteStep;
 
+  async function offerMoreOptionalTasks(person){
+    const date=strictToday();
+    const plan=ensureDailyPlan(person);
+    const active=[...(plan.must||[]),...(plan.optional||[])].filter(step=>!dailyStepDone(step,date));
+    const candidates=dailyCandidates(person,date).filter(x=>!active.some(a=>a.key===x.key) && !x.done);
+    if((plan.must||[]).length===0 || !(plan.must||[]).every(step=>dailyStepDone(step,date))) return;
+    if((plan.optional||[]).length && !(plan.optional||[]).every(step=>dailyStepDone(step,date))) return;
+    if(!candidates.length) return;
+    if(plan.moreOfferDate===date) return;
+    plan.moreOfferDate=date;
+    saveDailyPlan(person,date,plan);
+    const answer=await showAppDialog({title:`${person} finished the queue`,message:'You finished today’s MUST and OPTIONAL tasks. Do you want more optional tasks?',confirmText:'Yes, give me more',cancelText:'No thanks'});
+    const latest=ensureDailyPlan(person);
+    if(answer?.confirmed){
+      const added=pickDailyPair(dailyCandidates(person,date),[...(latest.must||[]),...(latest.optional||[])].map(x=>x.key));
+      if(added.length){
+        latest.optional=[...(latest.optional||[]),...added.map(x=>({...x,done:false}))];
+        latest.moreOfferAccepted=true;latest.updatedAt=Date.now();saveDailyPlan(person,date,latest);
+        renderTodos();renderCalendar();renderStats();toast(`${person} got ${added.length} more optional task${added.length===1?'':'s'}.`);
+      }
+    }else{
+      latest.moreOfferAccepted=false;latest.updatedAt=Date.now();saveDailyPlan(person,date,latest);
+    }
+  }
+  window.offerMoreOptionalTasks=offerMoreOptionalTasks;
+
   function dailyItemHTML(step,person,section,index){
     const done=dailyStepDone(step);
-    const kindLabel=step.kind==="area"?"50% AREA STEP":step.kind==="pulls"?"PULLS":"TASK";
+    const kindLabel=step.kind==="area"?(step.band==="notStarted"?"0→100":step.current<50?"0→50":"50→100"):step.kind==="pulls"?"PULLS":"TASK";
     const currentTodo=step.kind==="todo"?liveTodos[step.todoId]:null;
     const title=currentTodo?.task||step.title||"Task";
     const sub=currentTodo?`${currentTodo.name||step.clientName||"Task"} · ${String(currentTodo.category||"task").toUpperCase()}`:(step.sub||step.clientName||"");
@@ -3713,18 +5034,25 @@ input[type="checkbox"],input[type="radio"]{accent-color:#587256 !important}
     const mustDone=must.filter(step=>dailyStepDone(step)).length;
     const optionalDone=optional.filter(step=>dailyStepDone(step)).length;
     const candidates=dailyCandidates(person);
-    let html=`<div class="todo-toolbar"><button class="primary" type="button" onclick="addQuickTodo('${person}')">＋ Add task</button><span class="hint" style="margin:0">2 MUST total · shared daily queue</span></div>`;
-    if(!firebaseReady) html+=`<div class="sync-warning">Firebase is still connecting. You can view the backup, but changes stay locked until shared sync is live.</div>`;
+    let html=`<div class="todo-toolbar"><button class="primary" type="button" onclick="addQuickTodo('${person}')">＋ Add task</button><span class="hint" style="margin:0">2 MUST · next 2 are OPTIONAL for today</span></div>`;
+    if(firebaseConnectionState!=="live"){
+      const syncMessage=firebaseConnectionState==="connecting"
+        ? "Firebase is connecting. New changes will be sent through Firebase once the connection is established."
+        : (window.__konFirebaseProblem||"Firebase is temporarily disconnected. Changes are still sent through Firebase and will sync when the connection returns.");
+      html+=`<div class="sync-warning" data-sync-warning>${escapeHTML(syncMessage)}</div>`;
+    }
     html+=`<div class="queue-summary"><div><strong>${mustDone}/${must.length||0}</strong><small>Must done</small></div><div><strong>${optionalDone}/${optional.length||0}</strong><small>Optional done</small></div><div><strong>${candidates.length}</strong><small>Queued next</small></div></div>`;
     html+=`<div class="strict-client-group"><div class="strict-client-head"><div class="strict-client-name">Today’s Focus</div><span class="strict-state must">2 MUST</span></div><div class="todo-section-label must">MUST · COMPLETE BOTH</div><div class="strict-pair">`;
-    html+=must.length?must.map((step,index)=>dailyItemHTML(step,person,"must",index)).join(""):`<div class="empty">No required work is available.</div>`;
+    const activeMust=must.map((step,index)=>({step,index})).filter(x=>!dailyStepDone(x.step));
+    html+=activeMust.length?activeMust.map(({step,index})=>dailyItemHTML(step,person,"must",index)).join(""):`<div class="empty">All MUST work is complete.</div>`;
     html+=`</div>`;
     if(must.length&&mustDone===must.length){
+      const activeOptional=optional.map((step,index)=>({step,index})).filter(x=>!dailyStepDone(x.step));
       html+=`<div class="todo-section-label optional">OPTIONAL · UNLOCKED</div><div class="strict-pair">`;
-      html+=optional.length?optional.map((step,index)=>dailyItemHTML(step,person,"optional",index)).join(""):`<div class="empty">All queued work is complete.</div>`;
+      html+=activeOptional.length?activeOptional.map(({step,index})=>dailyItemHTML(step,person,"optional",index)).join(""):`<div class="empty">All optional work is complete.</div>`;
       html+=`</div><div class="optional-gate">Both MUST items are complete. These tasks are optional until 12:00 AM GMT+8. Any unfinished optional task becomes tomorrow’s MUST.</div>`;
     }else{
-      html+=`<div class="optional-gate">Optional tasks unlock only after both MUST items above are checked. For exploration, each MUST targets up to +50% progress on one area.</div>`;
+      html+=`<div class="optional-gate">These are the next 2 tasks in your queue. They stay OPTIONAL today, then become tomorrow’s MUST if unfinished.</div>`;
     }
     html+=`</div>`;
 
@@ -3865,7 +5193,7 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
     if(end < start){ toast("End date cannot be before start date."); return; }
 
     if(!(await requireFirebase("add this calendar block"))) return;
-    const id=dbPush(dbRef("calendarBlocks")).key;
+    const id=makePushKey(dbRef("calendarBlocks"),"block");
     const block={id,startDate:start,endDate:end,type,person,note,createdAt:Date.now()};
     if(!(await writeFirebasePatch({[`calendarBlocks/${id}`]:block},"add this calendar block"))) return;
     liveCalendarBlocks[id]=block;
@@ -3915,11 +5243,9 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
       }
     }
     if(!Object.keys(patch).length) return;
-    try{
-      await dbUpdate(dbRef(""),patch);
-      Object.entries(patch).forEach(([path,newDate])=>{const tid=path.split("/")[1];if(liveTodos[tid])liveTodos[tid].scheduledDate=newDate;});
-      persistLocal();renderTodos();renderCalendar();
-    }catch(err){reportFirebaseError(err,"Shared task reschedule");}
+    await writeFirebasePatch(patch,"reschedule blocked tasks");
+    Object.entries(patch).forEach(([path,newDate])=>{const tid=path.split("/")[1];if(liveTodos[tid])liveTodos[tid].scheduledDate=newDate;});
+    persistLocal();renderTodos();renderCalendar();
   }
 
   function renderCalendarBlocks(){
@@ -4048,76 +5374,132 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
   }
 
   async function initFirebase(){
-    // Local data is only a read-only loading backup. Firebase becomes the
-    // authoritative shared source as soon as the first live snapshots arrive.
-    loadLocal();
-    renderTodos(); renderClients(); renderCalendar();
+    // Firebase is ALWAYS the source of truth. LocalStorage is only a display
+    // cache used when Firebase genuinely cannot be reached.
     setSyncStatus("connecting");
+
     const missing = firebaseConfig.apiKey.startsWith("PASTE_");
     if(missing){
-      firebaseReady=false;setSyncStatus("offline");renderTodos();
-      return;
+      firebaseInitialized=false;
+      const err=new Error("Firebase Web App configuration is missing.");
+      err.code="firebase/config-missing";
+      const detail=reportFirebaseError(err,"Firebase startup");
+      loadLocal(); renderTodos(); renderClients(); renderCalendar();
+      toast(detail.message);
+      return false;
     }
 
     try{
-      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js");
-      const { getDatabase, ref, set, push, remove, update, onValue } =
-        await import("https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js");
-      const { getAuth, signInAnonymously } =
-        await import("https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js");
+      if(!window.firebase) throw new Error("Firebase SDK did not load.");
+      if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-      const app = initializeApp(firebaseConfig);
-      const database = getDatabase(app);
-      await signInAnonymously(getAuth(app));
-
-      dbRef = path => ref(database,path);
-      dbSet = set;
-      dbPush = push;
-      dbRemove = remove;
-      dbUpdate = update;
+      const database=firebase.database();
+      // Explicitly force the Realtime Database client online. Firebase remains
+      // authoritative; its SDK handles temporary network loss and queues writes.
+      try{ database.goOnline(); }catch(e){ console.warn("Firebase goOnline failed:",e); }
+      dbRef = path => database.ref(path);
+      dbSet = (reference,value) => reference.set(value);
+      dbPush = reference => reference.push();
+      dbRemove = reference => reference.remove();
+      dbUpdate = (reference,value) => reference.update(value);
       db = database;
 
+      firebaseInitialized=true;
       firebaseReady=false;
-      setSyncStatus("connecting");
-      const hydrated={clients:false,todos:false,daily:false};
-      const finishHydration=()=>{
-        if(!hydrated.clients||!hydrated.todos||!hydrated.daily) return;
-        firebaseReady=true;setSyncStatus("live");persistLocal();renderTodos();renderClients();renderCalendar();
+      firebaseConnected=false;
+
+      // Connection status comes from Firebase itself, not from a guessed state.
+      dbRef(".info/connected").on("value",snap=>{
+        firebaseConnected = snap.val() === true;
+        if(window.__konFirebaseDebug) window.__konFirebaseDebug.connected=firebaseConnected;
+        if(firebaseConnected){
+          firebaseReady=true;
+          setSyncStatus("live");
+          renderTodos();
+        }else if(firebaseInitialized){
+          firebaseReady=true;
+          setSyncStatus("offline");
+        }
+      },err=>reportFirebaseListenerError(err,"Firebase connection status"));
+
+      // Anonymous auth is preferred, but it must NOT prevent the database from
+      // working when the hosting domain has not yet been added to Auth settings.
+      try{
+        const auth=firebase.auth();
+        try{ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(persistenceErr){}
+        const authSession=await auth.signInAnonymously();
+        firebaseAuthUser=authSession.user;
+        window.__konFirebaseAuthProblem="";
+      }catch(authErr){
+        firebaseAuthUser=null;
+        const detail=firebaseErrorDetails(authErr,"Firebase Authentication");
+        window.__konFirebaseAuthProblem=detail.message;
+        if(location.protocol === "file:" && (String(authErr?.code||"").includes("unauthorized-domain") || String(authErr?.message||"").toLowerCase().includes("domain"))){
+          window.__konFirebaseAuthProblem="This file is opened with file://. Firebase Anonymous Auth requires a web origin such as http://localhost or a hosted domain. Open this tracker through the included local server instead.";
+          setSyncStatus("error");
+        }
+        console.warn("Firebase Authentication unavailable:",authErr);
+      }
+
+      window.__konFirebaseDebug={
+        projectId:firebaseConfig.projectId,
+        databaseURL:firebaseConfig.databaseURL,
+        initialized:firebaseInitialized,
+        authenticated:Boolean(firebaseAuthUser),
+        connected:firebaseConnected,
+        rulesRequiredAuth:true
       };
 
-      onValue(dbRef("clients"), snap => {
-        liveClients=snap.val()||{};
-        hydrated.clients=true;persistLocal();renderClients();renderStats();finishHydration();
-      },err=>{reportFirebaseError(err,"Client sync listener");renderTodos();});
-      onValue(dbRef("todos"), snap => {
-        liveTodos=snap.val()||{};
-        hydrated.todos=true;persistLocal();renderCalendar();renderStats();finishHydration();
-      },err=>{reportFirebaseError(err,"Task sync listener");renderTodos();});
-      onValue(dbRef("events"), snap => {
-        liveEvents=snap.val()||{};
-        persistLocal();renderCalendar();
-      },err=>{reportFirebaseError(err,"Calendar event sync listener");});
-      onValue(dbRef("calendarBlocks"), snap => {
-        liveCalendarBlocks=snap.val()||{};
-        persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();
-      },err=>{reportFirebaseError(err,"Calendar block sync listener");});
-      onValue(dbRef("dailyDispatch"), snap => {
-        liveDailyDispatch=snap.val()||{};
-        hydrated.daily=true;persistLocal();finishHydration();
-      },err=>{reportFirebaseError(err,"Daily queue sync listener");renderTodos();});
+      dbRef("clients").on("value",snap=>{
+        liveClients=firebaseValueFromRead(snap.val()||{});
+        persistLocal();renderClients();renderStats();renderTodos();
+      },err=>{reportFirebaseListenerError(err,"Client sync listener");renderTodos();});
 
-      toast("Connected — changes sync live.");
+      dbRef("todos").on("value",snap=>{
+        liveTodos=firebaseValueFromRead(snap.val()||{});
+        persistLocal();renderCalendar();renderStats();renderTodos();
+      },err=>{reportFirebaseListenerError(err,"Task sync listener");renderTodos();});
+
+      dbRef("events").on("value",snap=>{
+        liveEvents=firebaseValueFromRead(snap.val()||{});
+        persistLocal();renderCalendar();
+      },err=>{reportFirebaseListenerError(err,"Calendar event sync listener");});
+
+      dbRef("calendarBlocks").on("value",snap=>{
+        liveCalendarBlocks=firebaseValueFromRead(snap.val()||{});
+        persistLocal();renderCalendar();renderTodos();rescheduleBlockedTodos();
+      },err=>{reportFirebaseListenerError(err,"Calendar block sync listener");});
+
+      dbRef("dailyDispatch").on("value",snap=>{
+        liveDailyDispatch=firebaseValueFromRead(snap.val()||{});
+        persistLocal();renderTodos();
+      },err=>{reportFirebaseListenerError(err,"Daily queue sync listener");renderTodos();});
+
+      // Give the SDK a moment to establish .info/connected. Do not mark this
+      // as an error merely because the connection starts in false/unknown state.
+      setTimeout(()=>{
+        if(firebaseConnected){
+          setSyncStatus("live");
+          toast("Connected — Firebase is the shared source of truth.");
+        }
+      },1200);
+
+      return true;
     }catch(err){
-      firebaseReady=false;db=null;dbUpdate=null;
+      firebaseReady=false;firebaseConnected=false;firebaseInitialized=false;
+      db=null;dbUpdate=null;firebaseAuthUser=null;
       const detail=reportFirebaseError(err,"Firebase startup");
-      loadLocal();
-      renderTodos(); renderClients(); renderCalendar();
+      // Cache is display-only while Firebase is unavailable.
+      loadLocal(); renderTodos(); renderClients(); renderCalendar();
       toast(detail.message);
+      setTimeout(()=>{
+        if(!firebaseInitialized){ firebaseBootPromise=null; initFirebase(); }
+      },15000);
+      return false;
     }
   }
 
   // Prevent accidental page reloads from Enter in the client editor.
-  document.addEventListener("submit", event => event.preventDefault());
   document.addEventListener("keydown",event=>{
     if(event.key!=="Escape") return;
     if($("appDialogBackdrop")?.classList.contains("open")){closeAppDialog(false);return;}
@@ -4131,13 +5513,15 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
     toast("Something went wrong. Shared data was not changed.");
   });
 
-  // Initialize local state before first render so add/delete buttons always work.
-  loadLocal();
+  if(location.protocol === "file:"){
+    const notice=$("fileProtocolNotice");
+    if(notice) notice.hidden=false;
+  }
+
+  // Start Firebase first. The initial cached render is display-only; any mutation
+  // still waits for Firebase because Firebase is the authoritative data source.
   updateSizeUI();
-  renderTodos();
-  renderClients();
-  renderCalendar();
-  initFirebase();
+  firebaseBootPromise = initFirebase();
   purgeExpiredCompletedTodos();
   setInterval(purgeExpiredCompletedTodos, 60 * 60 * 1000);
 </script>
