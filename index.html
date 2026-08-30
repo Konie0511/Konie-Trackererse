@@ -699,6 +699,15 @@
   }
 }
 
+/* Compact client slots toggle */
+.client-slot-bar{cursor:default}
+.client-slot-toggle{border:1px solid #CDBB9D;background:#FFFBE7;color:#5C4A35;border-radius:7px;padding:5px 9px;font-size:.66rem;font-weight:950;line-height:1;cursor:pointer}
+.client-slot-toggle:hover{background:#F2E8C7}
+#clientSlotGrid.slot-grid-hidden{display:none}
+.client-slot-bar.slot-collapsed{margin-bottom:10px}
+[data-theme="dark"] .client-slot-toggle{background:#111C27;color:#F3F7FA;border-color:#45657A}
+[data-theme="dark"] .client-slot-toggle:hover{background:#20394B}
+
 /* Final sizing pass */
 .app-shell{max-width:1380px;padding:22px}
 .view{max-width:1220px}
@@ -2589,7 +2598,13 @@ input:focus,select:focus,textarea:focus{border-color:#86A17A!important;box-shado
         <div class="section-head subsection-head"><h3>Existing Clients</h3><button class="secondary" onclick="showClientSection('choice')">← Back to Client Info</button></div>
         <div class="card">
           <h3>Client Database</h3>
-          <div id="clientSlotBar" class="client-slot-bar"><span>CLIENT SLOTS</span><span id="clientSlotCount" class="client-slot-count">0 / 15 ACTIVE</span></div>
+          <div id="clientSlotBar" class="client-slot-bar">
+            <span>CLIENT SLOTS</span>
+            <span style="display:flex;align-items:center;gap:8px">
+              <span id="clientSlotCount" class="client-slot-count">0 / 15 ACTIVE</span>
+              <button type="button" id="clientSlotToggle" class="client-slot-toggle" onclick="toggleClientSlots()" aria-expanded="true">Hide</button>
+            </span>
+          </div>
           <div id="clientSlotGrid" class="client-slot-grid" aria-label="15 client slots"></div>
           <div class="client-filter-tabs">
             <button type="button" class="client-filter-tab active" id="ongoingClientTab" onclick="setClientFilter('ongoing')">Ongoing</button>
@@ -5484,6 +5499,25 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
     }).join('');
   }
   window.renderClientSlots=renderClientSlots;
+
+  function applyClientSlotVisibility(){
+    const grid=$("clientSlotGrid");
+    const bar=$("clientSlotBar");
+    const btn=$("clientSlotToggle");
+    if(!grid || !btn) return;
+    const hidden=localStorage.getItem("konie_hide_client_slots")==="1";
+    grid.classList.toggle("slot-grid-hidden", hidden);
+    if(bar) bar.classList.toggle("slot-collapsed", hidden);
+    btn.textContent=hidden ? "Show" : "Hide";
+    btn.setAttribute("aria-expanded", hidden ? "false" : "true");
+  }
+
+  function toggleClientSlots(){
+    const hidden=localStorage.getItem("konie_hide_client_slots")==="1";
+    localStorage.setItem("konie_hide_client_slots", hidden ? "0" : "1");
+    applyClientSlotVisibility();
+  }
+  window.toggleClientSlots=toggleClientSlots;
 
   function renderClients(){
     const list = allClients();
