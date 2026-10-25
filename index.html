@@ -3165,6 +3165,12 @@ input:focus,select:focus,textarea:focus{
 @media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.client-slot-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.home-actions{grid-template-rows:none!important}}
 @media(max-width:430px){.stats-grid{grid-template-columns:1fr!important}.section-head{flex-wrap:wrap}.calendar-nav{gap:3px}.month-label{min-width:120px}}
 </style>
+<style id="public-board-controls">
+.public-board-panel{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:20px 0;padding:18px 20px;border:1px solid #cddbc7;border-radius:15px;background:#f1f5eb;color:#466345}
+.public-board-panel strong{display:block;font:22px Georgia,serif;margin-bottom:6px}.public-board-panel p{margin:0;font-size:11px;line-height:1.7;color:#839178}.public-board-panel .board-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}.board-actions a{font-size:11px;color:#54794d;text-decoration:none;padding:10px 12px;border:1px solid #c9d7c1;border-radius:8px;background:#fffdf7}.board-actions button{font-size:11px;padding:10px 12px}.public-board-sync-status{font-size:10px;color:#8a9d7c;display:block;margin-top:8px}.public-board-fieldset{border:1px solid #d5dfce;border-radius:12px;padding:16px;background:#f5f7ef;margin:4px 0}.public-board-fieldset legend{padding:0 6px;font-size:13px;font-weight:700;color:#627e58}.public-board-fieldset .public-visibility{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:12px}.public-board-fieldset input[type=checkbox]{width:auto}.public-board-fieldset .field{margin:10px 0}.public-board-indicator{margin-top:9px!important;padding:8px 10px;border:1px solid #dbe4d3;border-radius:7px;font-size:11px!important;color:#829371!important;background:#f4f7ed}
+[data-theme="dark"] .public-board-panel,[data-theme="dark"] .public-board-fieldset,[data-theme="dark"] .public-board-indicator{background:#283a30;color:#d8e7d1;border-color:#52654c}[data-theme="dark"] .board-actions a{background:#344537;color:#d0e1c8;border-color:#62765a}
+@media(max-width:620px){.public-board-panel{flex-direction:column;align-items:flex-start;padding:17px}.public-board-panel .board-actions{justify-content:flex-start}}
+</style>
 </head>
 <body>
 
@@ -3225,6 +3231,10 @@ input:focus,select:focus,textarea:focus{
 
 
     <section id="clientView" class="view">
+<div class="public-board-panel">
+  <div><strong>Your public commission board</strong><p>View-only for clients · no login needed. Updates sync from your Client Journal.</p><span id="publicBoardStatus" class="public-board-sync-status" role="status">Waiting for your live client records…</span></div>
+  <div class="board-actions"><a href="https://kon-commission-board.haruka7465.chatgpt.site" target="_blank" rel="noopener noreferrer">Open client board ↗</a><button class="secondary" type="button" onclick="copyPublicBoardLink()">Copy link</button><button class="primary" type="button" onclick="syncPublicBoard(true)">Sync now</button></div>
+</div>
       <div class="section-head"><h2>Client Journal</h2><button class="back" onclick="goHome()">← Home</button></div>
 
       <div id="clientChoiceView" class="client-choice-view">
@@ -3282,6 +3292,13 @@ input:focus,select:focus,textarea:focus{
             <textarea id="clientAdditional" placeholder="Anything else we should know?"></textarea>
           </div>
 
+<fieldset class="field full public-board-fieldset">
+  <legend>Public commission board</legend>
+  <label class="public-visibility"><input id="clientPublicVisible" type="checkbox" checked> Show this commission on the client board</label>
+  <div class="field"><label for="clientPublicAlias">Public nickname (optional)</label><input id="clientPublicAlias" maxlength="60" placeholder="A nickname your client can search for"><p class="hint">Blank uses an anonymous commission code. Your private client name stays private.</p></div>
+  <div class="field"><label for="clientPublicNote">Public progress update (optional)</label><textarea id="clientPublicNote" maxlength="500" placeholder="e.g. Natlan exploration is almost done — working on the last area!"></textarea></div>
+  <p class="hint">The board shows services, recorded progress, and start / finish dates. Account credentials, prices, calendar details, and private notes stay in Konie.</p>
+</fieldset>
           <div class="field">
             <label>What game?</label>
             <div class="check-grid">
@@ -3548,6 +3565,7 @@ input:focus,select:focus,textarea:focus{
 
 
 <script type="module">
+  import {projectClients, commissionCode} from "/commission-projection.mjs";
   /*
     ============================================================
     FIREBASE SETUP
@@ -4174,6 +4192,9 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
   window.updateAutomaticDeadline = updateAutomaticDeadline;
 
   function clearForm(){
+    $("clientPublicVisible").checked = true;
+    $("clientPublicAlias").value = "";
+    $("clientPublicNote").value = "";
     editingClientId = null;
     $("addClientSection")?.classList.remove("edit-client-modal");
     document.body.classList.remove("dialog-open");
@@ -4389,6 +4410,9 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
     const emailUser = $("clientEmail").value.trim();
     const password = $("clientPassword").value;
     const additional = $("clientAdditional").value.trim();
+    const publicVisible = $("clientPublicVisible").checked;
+    const publicAlias = $("clientPublicAlias").value.trim();
+    const publicNote = $("clientPublicNote").value.trim();
     const servers = getCheckedValues("server");
     const games = getCheckedValues("game");
     const taskTypes = getCheckedValues("taskType");
@@ -4438,7 +4462,7 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
     const createdAt = Date.now();
 
     const client = {
-      name, emailUser, password, additional,
+      name, emailUser, password, additional, publicVisible, publicAlias, publicNote,
       servers, games, taskTypes, questTypes,
       explorationArea, areaNames, areaProgress, areaGoals, areaBands: getAreaBandData(), questNames, eventNames, eventName, pullCount, pullsDone, buildingTargets, buildingTarget,
       task, size, assignee, price,
@@ -4506,6 +4530,9 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
     $("clientEmail").value = c.emailUser || "";
     $("clientPassword").value = c.password || "";
     $("clientAdditional").value = c.additional || "";
+    $("clientPublicVisible").checked = c.publicVisible !== false;
+    $("clientPublicAlias").value = c.publicAlias || "";
+    $("clientPublicNote").value = c.publicNote || "";
     setFormCheckboxes("server", c.servers);
     setFormCheckboxes("game", c.games);
     setFormCheckboxes("taskType", c.taskTypes);
@@ -4557,6 +4584,9 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
     const emailUser = $("clientEmail").value.trim();
     const password = $("clientPassword").value;
     const additional = $("clientAdditional").value.trim();
+    const publicVisible = $("clientPublicVisible").checked;
+    const publicAlias = $("clientPublicAlias").value.trim();
+    const publicNote = $("clientPublicNote").value.trim();
     const servers = getCheckedValues("server"), games = getCheckedValues("game");
     const taskTypes = getCheckedValues("taskType"), questTypes = getCheckedValues("questType");
     const explorationArea = $("explorationArea").value.trim();
@@ -4595,7 +4625,7 @@ function setAllAreaPicker(checked){document.querySelectorAll('#areaPicker input[
     if(!validClientDates(startDateString,deadline,completionDate))return;
     if(paymentType==="paid"&&(!Number.isFinite(price)||price<=0)){toast("Enter a paid commission price greater than zero.");return;}
     const updated = {...old,
-      name,emailUser,password,additional,servers,games,taskTypes,questTypes,
+      name,emailUser,password,additional,publicVisible,publicAlias,publicNote,servers,games,taskTypes,questTypes,
       explorationArea,areaNames,areaProgress,areaGoals,areaBands:getAreaBandData(),questNames,eventNames,eventName,pullCount,pullsDone,buildingTargets,buildingTarget,task,size,assignee,price,
       explorationQuests,explorationDone,areas,areasDone,quests,questsDone,events,eventsDone,currentStatus,extraTodo,mustType,
       paymentType,workload:0,deadline,
@@ -4732,6 +4762,7 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
         · ${c.manuallyOverridden ? "Manual deadline" : "Automatic deadline"}
       </div>
       ${c.completed?`<div class="client-meta">Completed ${escapeHTML(prettyDate(c.completionDate||c.completedAt))}${completionDays(c)!==null?` · ${completionDays(c)} day${completionDays(c)===1?'':'s'}`:''}</div>`:''}
+      <div class="client-meta public-board-indicator">${c.publicVisible === false ? "Hidden from client board" : `Client board: ${escapeHTML(c.publicAlias || commissionCode(c.id))} · ${commissionCode(c.id)}`}</div>
       <div class="client-actions">
         <button class="${c.completed ? "secondary" : "primary"}" onclick="toggleClientComplete('${escapeHTML(c.id)}', ${c.completed ? "false" : "true"})">
           ${c.completed ? "✓ Completed — Mark Active" : "Mark Complete"}
@@ -5109,7 +5140,7 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
       const hydrated={clients:false,events:false,blocks:false};
       const finishHydration=()=>{
         if(!hydrated.clients||!hydrated.events||!hydrated.blocks) return;
-        setSyncStatus("live");persistLocal();renderClients();renderCalendar();void cleanupExpiredBlocks();
+        setSyncStatus("live");persistLocal();renderClients();renderCalendar();void cleanupExpiredBlocks();schedulePublicBoardSync();
       };
 
       onValue(dbRef("clients"), snap => {
@@ -5213,6 +5244,44 @@ ${(c.explorationQuests || c.areas || c.quests || c.events) ? `<div class="client
   renderClients();
   renderCalendar();
   // Never leave the UI stuck on "LOADING SAVE" indefinitely.
+
+  let boardSyncTimer=null,boardRetryTimer=null,boardSyncRunning=false,boardLastPayload=null,boardSyncPending=false;
+  function setPublicBoardStatus(message){const el=$("publicBoardStatus");if(el)el.textContent=message;}
+  function schedulePublicBoardSync(){
+    clearTimeout(boardSyncTimer);
+    boardSyncTimer=setTimeout(()=>void syncPublicBoard(),700);
+  }
+  async function syncPublicBoard(force=false){
+    if(!firebaseReady){setPublicBoardStatus("Waiting for live sync — open this page while online to publish your commissions.");if(force)toast("Wait for LIVE SYNC before publishing to your client board.");return;}
+    if(boardSyncRunning){boardSyncPending=true;return;}
+    const commissions=projectClients(liveClients);
+    const payload=JSON.stringify({commissions});
+    if(!force&&payload===boardLastPayload)return;
+    boardSyncRunning=true;setPublicBoardStatus("Updating the client board…");
+    clearTimeout(boardRetryTimer);
+    try{
+      const response=await fetch("/api/public-board/sync",{method:"POST",headers:{"Content-Type":"application/json"},body:payload,signal:AbortSignal.timeout(20000)});
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(result.error||"Could not update the board. Try Sync now again.");
+      boardLastPayload=payload;
+      setPublicBoardStatus(`Client board synced · ${commissions.length} commission${commissions.length===1?"":"s"} · ${new Date().toLocaleTimeString("en-PH",{hour:"numeric",minute:"2-digit"})}`);
+      if(force)toast("Client board updated.");
+    }catch(err){
+      setPublicBoardStatus("Client board needs a refresh. Your commissions are still saved in Konie. Retrying shortly…");
+      if(force)toast(err.message||"Could not update the board.");
+      boardRetryTimer=setTimeout(()=>void syncPublicBoard(),15000);
+    }finally{
+      boardSyncRunning=false;
+      if(boardSyncPending){boardSyncPending=false;schedulePublicBoardSync();}
+    }
+  }
+  async function copyPublicBoardLink(){
+    try{await navigator.clipboard.writeText("https://kon-commission-board.haruka7465.chatgpt.site");toast("Client board link copied.");}
+    catch{await showAppDialog({title:"Client board link",message:"https://kon-commission-board.haruka7465.chatgpt.site",confirmText:"Okay",cancelText:null});}
+  }
+  window.syncPublicBoard=syncPublicBoard;window.copyPublicBoardLink=copyPublicBoardLink;
+  window.addEventListener("online",()=>{if(firebaseReady)schedulePublicBoardSync();});
+
   const firebaseStartupWatchdog=setTimeout(()=>{
     if(firebaseConnectionState==="connecting"){
       firebaseReady=false;
